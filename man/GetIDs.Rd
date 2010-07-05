@@ -1,0 +1,92 @@
+\name{GetIDs}
+\Rdversion{1.1}
+\alias{GetIDs}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+Obtain Entrez ID numbers
+}
+\description{
+Obtain Entrez ID numbers from a search string.
+}
+\usage{
+GetIDs(term, org = "human", strict = TRUE, cg = TRUE, db = "gene", MaxRet = 30000, showurl = FALSE, sme = FALSE, smt = FALSE)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{term}{
+The search term that you'd do at NCBI website for EntrezGenes.
+}
+  \item{org}{
+The organism that you want the IDs for. The default is human.
+}
+  \item{strict}{
+Full match only with searches on genesymbols.
+}
+  \item{cg}{
+If set to true, data will return only current genes, otherwise discontinued genes will also be returned.
+}
+  \item{db}{
+The database to use "snp" or "gene".
+}
+  \item{MaxRet}{
+The maximum number of items to return from the query.
+}
+  \item{showurl}{
+Enables the user to see the URL of the NCBI request. 
+}
+  \item{sme}{
+These two arguments are for checking that your requests are being understood correctly by NCBI. If set to true, these will show all translations of your request (smt), and any errors that were obtained in the query (sme).
+}
+  \item{smt}{
+These two arguments are for checking that your requests are being understood correctly by NCBI. If set to true, these will show all translations of your request (smt), and any errors that were obtained in the query (sme).
+}
+}
+\details{
+This list of LocusIDs can then be used to obtain more information about the genes, or used as a list of candidates for ScanForGenes.
+You can use this function within other queries as shown below.
+
+Each object within NCBI gets a unique identifier - different for each database.
+Most of the NCBI2R function
+
+}
+\value{
+A vector of ID numbers specific to the database you queried.
+}
+\references{
+For more information about filters and limits
+
+Fields, filters, and properties in Entrez Genes
+
+http://www.ncbi.nlm.nih.gov/books/bv.fcgi?highlight=filter&rid=helpgene.table.EntrezGene.T3
+
+Filter sets
+
+http://www.ncbi.nlm.nih.gov/books/bv.fcgi?highlight=filter&rid=helpgene.table.EntrezGene.T4
+
+
+}
+\author{
+Scott Melville
+}
+
+\section{Warning}{
+These functions use NCBI's eutils, and come with the same user requirements - if
+performing many queries, you must run the scripts during certain hours when the
+NCBI servers are not in high demand. Please see the package website for more details
+
+http://drop.io/NCBI2R_package
+
+Violation of the terms described there, and the terms on the eutils website may
+result in losing access to NCBI for your group. But remember, the average user should have no problems at all. NCBI2R inserts delays most of the times - it's only going to be if you are performing large numbers of queries in a short space of time.
+}
+
+\examples{
+GetIDs("bone")  #Get all genes that have anything to do with bone (#def=?)
+GetIDs("bone[DIS]")  #Get all genes that have anything to do with bone disease
+GetIDs("CLN5[sym]", org="dog")
+GetIDs("Cdc42 protein signal transduction[go]")
+
+s<-GetIDs("Cdc42[go]")
+t<-GetGeneInfo(s)
+
+}

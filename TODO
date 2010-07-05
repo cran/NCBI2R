@@ -1,0 +1,11 @@
+After version 1.3 release things to do
+
+-improve GetUniSTSFromName to work with multiple matches
+-allow GetSNPProxyInfo & GetSNPPosHapmap to work with multiple matches
+-Test with OpenOffice as an alternative to Microsoft Excel
+-create additional tutorials, expand the FAQ, more examples.
+-improve the code of some commands, eg GetGeneInfo, which will increase the speed.
+
+known bugs/issues
+- GetPubMed - papers are saved, but the address within the dataframe may sometimes not be correct.
+- SplitGenes - fxn_class not divided properly.
