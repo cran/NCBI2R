@@ -26,7 +26,7 @@ One of more of the variants that you wish to translate. See description below.
    The function will automatically detect input (allelic variation codes or IUPAC codes) and output the other form. The function will look for a slash symbol and if it finds the symbol anywhere in the code it will assume all of them are variants. The string must be all alleles or all IUPAC codes.
 
    Use this to convert easily between single letter codes (eg R or W) and what you might have in other documents (A/G or A/T).
-   
+   The allele pairs (eg A/G or A/T) must be in alphabetical order. G/A or T/A will not be recognised. Future versions will fix this.
 }
 \value{
 vector

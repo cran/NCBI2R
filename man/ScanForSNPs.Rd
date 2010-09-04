@@ -52,5 +52,5 @@ Scott Melville
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{ScanForGenes}}
+For a similar function for genes, please see \code{\link{ScanForGenes}}
 }

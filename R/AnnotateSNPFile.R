@@ -1,9 +1,11 @@
 AnnotateSNPFile <-
 function(snpfile,filename="output.html",hyper="HYPERLINK",xldiv=",",quiet=TRUE,smt=FALSE,sme=FALSE,keeplocusIDs=FALSE,keepNS=FALSE,kp=TRUE,div="---",neigh=TRUE,showurl=FALSE)  
-   {
-   snplist<-scan(snpfile, what="character", sep="\n")
+   {     
+   snplist<-get.file(snpfile, showurl = showurl, clean = FALSE)
    if(substr(snplist[1],1,2)!="rs")
       {
+      if(substr(snplist[2],1,2)!="rs")
+         stop("NCBI2R error: This was not a list of rs identifiers.")
       print("first item in snplist was not an rs identifier so it was removed. Assumed to be a header. Will continue")
       snplist<-snplist[2:length(snplist)]
       }

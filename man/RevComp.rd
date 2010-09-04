@@ -14,10 +14,10 @@ RevComp(anytext,ACGT=TRUE)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{anytext}{
-A single line of DNA sequence that you wish to find the reverse complement sequence for. All non ACGT letters will remain in the string unchanged.
+A single line of DNA sequence that you wish to find the reverse complement sequence for.
 }
  \item{ACGT}{
-Set to TRUE (default) to remove all non ACGT characters. 
+Set to TRUE (default) to remove all non ACGT characters. If FALSE, the will remain in the string unchanged.
 }
 }
 \details{
@@ -31,7 +31,7 @@ Scott Melville
 }
 
 \seealso{
-\code{\link{Comp}},\code{\link{Rev}}.
+\code{\link{Comp}}, \code{\link{Rev}}.
 }
 \examples{
 Comp("AAAAGGGGTTTTCCA")

@@ -2,7 +2,10 @@ make.local.HTML <-function(sourcefilename,folder,CellLimit=30000)
    {
     BigDescription<-""
    set.create.dir(folder,setdir=TRUE)
-   sourcefile<-scan(sourcefilename, what="character", sep="\n",quiet=TRUE)
+   sourcefile <- get.file(sourcefilename, showurl = FALSE, clean = FALSE)
+   print("BOOOOO")
+   print(sourcefilename)
+   print(head(sourcefile))
    TD_Row<-0
    findthis<-"  <title>"
    while(substr(sourcefile[TD_Row+1],1,nchar(findthis))!=findthis)

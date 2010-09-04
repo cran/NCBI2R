@@ -17,8 +17,8 @@ NatureJobs(keywords, outputfileprefix = "Jobs", savedescriptions = TRUE,
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{keywords}{
-an array of search terms to be used against NatureJobs. Each search term
-will illicit a separate request on the website.
+an array of keywords to be used against NatureJobs. All keywords will be joined
+together in a single request on the website.
 }
   \item{outputfileprefix}{
 Creates a folder with this name which will hold all the job
@@ -88,7 +88,7 @@ I was after.
 The search method works the same as on the website, which in cases
 will return some strange results based on keywords. If you get a strange
 result from a query, perform the same query on the website and compare
-the results - please email me (see http://drop.io/NCBI2R_package) if
+the results - please email me (see http://NCBI2R.wordpress.com) if
 there are differences.
 
 Using the desired country name in a search may not help, and may exclude 
@@ -139,8 +139,7 @@ Scott Melville
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 
-
 \examples{
-keywords<-c("nurse","england") #this is one search, composed of two keywords
-nj<-NatureJobs(keywords,"MYFOLDERNAME",days=9)
+keywords<-c("scientist","genetic") #this is one search, composed of two keywords
+nj<-NatureJobs(keywords,"MYFILE_A_",days=81)
 }

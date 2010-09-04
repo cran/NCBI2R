@@ -1,5 +1,6 @@
-GetGeneInfo<-function(locusID,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showurl=FALSE,quiet=TRUE,sme=FALSE,smt=FALSE,div="---",html=FALSE)
+GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showurl=FALSE,quiet=TRUE,sme=FALSE,smt=FALSE,div="---",html=FALSE)
    {
+   locusID<-locusIDs
    if(missing(locusID))                                       
       stop("no locusID provided")
    if(class(locusID)=="data.frame")
@@ -10,22 +11,23 @@ GetGeneInfo<-function(locusID,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showurl
       return()
    if(class(locusID)=="numerical")
       locusID<-as.character(locusID[locusID!=0])
-
-  if(length(locusID)>0)
-    {
-    if(length(grep(",",locusID))==1)
-      locusID<-unlist(strsplit(locusID,","))
-    }
-    
+   if(length(locusID[substr(locusID,1,2)=="rs"])!=0)
+     stop("NCBI2R error: You appear to have used a list of SNPs instead of Entrez locus identifiers.")
+   if(length(locusID)>0)
+     {
+     if(length(grep(",",locusID))>1) 
+       locusID<-unlist(strsplit(locusID,","))
+     }
    locusID<-unique(locusID)
-   locusID<-locusID[locusID!=""]
+   locusID<-locusID[locusID!=""] 
    if(quiet==FALSE)
       print(paste("Unique genes:",length(locusID)))
    URLdef<-URLdefinitions()
    Num<-length(locusID)
    genedf<-data.frame(org_ref_taxname=rep("",length(locusID)),org_ref_commonname="",OMIM="",synonyms="", genesummary="", genename="",phenotypes="", phenotypes.html="", pathways="",pathways.html="", GeneLowPoint=0,GeneHighPoint=0,ori="",chr="",genesymbol="",Int.GeneIDs="",Int.genesymbols.html="",GOfunc="",GOcomp="",GOproc="",GOfunc.html="",GOcomp.html="",GOproc.html="", build=0, cyto="",approx=0,stringsAsFactors=FALSE)  
    genedf<-as.data.frame(cbind(locusID,genedf))     
-   for(BatchLoop in 1:ceiling(length(locusID)/batchsize))
+   TotalBatches<-ceiling(length(locusID)/batchsize)
+   for(BatchLoop in 1:TotalBatches)
       {
       BatchOffset<-((BatchLoop-1)*batchsize)
       CountOfThisBatch<-0
@@ -39,15 +41,11 @@ GetGeneInfo<-function(locusID,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showurl
       webget<-get.file(getURL,quiet=quiet,showurl=showurl,clean=TRUE)
       BatchItemNum<-0
       LC<-1
-      if(quiet & length(locusID)>1)
-          {
-          print(paste("parsing batch of genes",BatchLoop,"of",ceiling(length(locusID)/batchsize)))
-          pb<-txtProgressBar(min=0,max=length(webget),style=3)
-          }
       while(LC<=length(webget))
          {
-         if(quiet==TRUE & length(locusID)>1)
-         setTxtProgressBar(pb,LC)
+         remain_pc<-floor(100*(length(webget)-LC)/length(webget))
+         cat(paste("\r NCBI2R GetGeneInfo Batch ",BatchLoop," of ",TotalBatches," of max size ", batchsize," ",remain_pc,"%     ",sep=""))
+         flush.console()
          if(webget[LC] =="<Entrezgene>")
             BatchItemNum<-BatchItemNum+1
          if(substr(webget[LC],1,35)=="There is no record in DB for GeneID")
@@ -61,7 +59,12 @@ GetGeneInfo<-function(locusID,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showurl
             genedf$org_ref_commonname[BatchItemNum+BatchOffset]<-substr(webget[LC+2],17,nchar(webget[LC+2])-17)
             }
          if(substr(webget[LC],1,25)=="<SubSource_subtype value=")
-            genedf$chr[BatchItemNum+BatchOffset]<-substr(webget[LC+1],17,nchar(webget[LC+1])-17)
+            {
+            if(genedf$chr[BatchItemNum+BatchOffset]=="")
+               genedf$chr[BatchItemNum+BatchOffset]<-substr(webget[LC+1],17,nchar(webget[LC+1])-17)
+            else
+               genedf$chr[BatchItemNum+BatchOffset]<-paste(genedf$chr[BatchItemNum+BatchOffset],substr(webget[LC+1],17,nchar(webget[LC+1])-17),sep="")
+            }
          if(substr(webget[LC],1,13)=="<Dbtag_db>MIM")
             genedf$OMIM[BatchItemNum+BatchOffset]<-substr(webget[LC+3],15,nchar(webget[LC+3])-15)
          if(substr(webget[LC],1,17)=="<Gene-ref_maploc>")
@@ -76,15 +79,11 @@ GetGeneInfo<-function(locusID,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showurl
             genedf$approx[BatchItemNum+BatchOffset]<-1
             }
          if(substr(webget[LC],1,41)=="<Gene-commentary_label>Official Full Name")
-            {
             genedf$genename[BatchItemNum+BatchOffset]<-substr(webget[LC+1],23,nchar(webget[LC+1])-23)
-            if(quiet==FALSE){print(paste("In This Batch",BatchItemNum+BatchOffset,substr(webget[LC+1],23,nchar(webget[LC+1])-23)))}
-            }
          if(substr(webget[LC],1,40)=="<Gene-commentary_label>Interim Full Name")
             {
             genedf$genename[BatchItemNum+BatchOffset]<-substr(webget[LC+1],23,nchar(webget[LC+1])-23)
             genedf$approx[BatchItemNum+BatchOffset]<-1
-            if(quiet==FALSE){print(paste("In This Batch",BatchItemNum+BatchOffset,substr(webget[LC+1],23,nchar(webget[LC+1])-23)))                   }
             }
          if(substr(webget[LC],1,14)=="<Gene-ref_syn>")
               {
@@ -154,8 +153,9 @@ GetGeneInfo<-function(locusID,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showurl
                }
             LC<-LC+1
          }
-      if(quiet & length(locusID)>1){close(pb)}
       }
+  cat("\r                                                           ")
+  cat("\n")
    if(go==FALSE)
       {
       genedf$GOfunc<-NULL;       genedf$GOcomp<-NULL
@@ -184,6 +184,5 @@ GetGeneInfo<-function(locusID,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showurl
             }
          }
       }
-      
    return(genedf)
    }

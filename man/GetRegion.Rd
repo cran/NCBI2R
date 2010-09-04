@@ -83,7 +83,7 @@ Scott Melville
 }
 
 \section{Warning}{
-chr is defined as a character
+chr is defined as a character, because of X, Y, XY, mt values.
 
 If both boundaries are fully inside a gene, that locusID will not be returned. The code for genes looks for gene boundaries within these two points, not if a gene is situated there.
 
@@ -91,7 +91,7 @@ These functions use NCBI's eutils, and come with the same user requirements - if
 performing many queries, you must run the scripts during certain hours when the
 NCBI servers are not in high demand. Please see the package website for more details
 
-http://drop.io/NCBI2R_package
+http://NCBI2R.wordpress.com
 
 Violation of the terms described there, and the terms on the eutils website may
 result in losing access to NCBI for your group. But remember, the average light user should have no problems at all. NCBI2R inserts small delays into most of the code - it's should only be if you are performing many queries in a short space of time.

@@ -54,7 +54,7 @@ gene stop position.
 }
 
 \seealso{
-\code{\link{GetSNPInfo}},
+\code{\link{GetSNPInfo}}.
 }
 \examples{
 idnumber<-GetIDs("CLN5[SYM] human") 

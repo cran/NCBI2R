@@ -65,6 +65,8 @@ the NCBI ID numbers for the genes in that region. You can then use
 another function such as GetGeneInfo to return information about them.
 
 I've noticed some cases that if you specify a region, and the gene starts and stops outside that region, it will not be included.
+
+Each use of this function represent a single query of NCBI.
 }
 \value{
 All the NCBI Entrez ID numbers of the genes that have gene boundaries in the region.
@@ -80,13 +82,13 @@ These functions use NCBI's eutils, and come with the same user requirements - if
 performing many queries, you must run the scripts during certain hours when the
 NCBI servers are not in high demand. Please see the package website for more details
 
-http://drop.io/NCBI2R_package
+NCBI2R.wordpress.com
 
 Violation of the terms described there, and the terms on the eutils website may
 result in losing access to NCBI for your group.
 }
 \seealso{
-\code{\link{GetRegion}}, \code{\link{GetSNPsInRegion}}
+\code{\link{GetRegion}}, \code{\link{GetSNPsInRegion}}.
 }
 \examples{
 GetGenesInRegion("3",1,1000000) 

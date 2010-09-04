@@ -90,7 +90,7 @@ NatureJobs <- function(keywords,outputfileprefix="Jobs",savedescriptions=TRUE,da
    
     if(BJFlag==TRUE)
       {
-      BadJobTitles<-scan(BadJobs, what="character", sep="\n",quiet=TRUE)
+      BadJobTitles <- get.file(BadJobs, showurl = showurl, clean = FALSE)
       print("NatureJobs Filter: Jobs that will be cut - perhaps you should look through manually") 
       print(unique(AllJobs[AllJobs$Title %in% BadJobTitles,"Title"]))
       print("----")

@@ -31,7 +31,7 @@ Scott Melville
 }
 
 \seealso{
-\code{\link{Comp}},\code{\link{RevComp}}.
+\code{\link{Comp}}, \code{\link{RevComp}}.
 }
 \examples{
 Comp("AAAAGGGGTTTTCCA")

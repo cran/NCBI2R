@@ -1,24 +1,27 @@
-\name{GetSNPsInGene}
+\name{GetSNPsInGenes}
 \Rdversion{1.1}
-\alias{GetSNPsInGene}
+\alias{GetSNPsInGenes}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 This function returns a vector of all the SNPs within the boundary of
-the specified gene.
+a gene or genes.
 }
 \description{
 This function returns a vector of all the SNPs within the boundary of
-the user specified gene.
-}
+a gene or genes.}
 \usage{
-GetSNPsInGene(locusID, MaxRet = 30000, showurl = FALSE, quiet = TRUE,
+GetSNPsInGenes(locusIDs, batchsize=200, MaxRet = 30000, showurl = FALSE, quiet = TRUE,
              smt = FALSE, sme = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{locusID}{
-An Entrez locus ID.
+  \item{locusIDs}{
+One or more Entrez locus IDs.
 }
+  \item{batchsize}{
+The number of ids that are sent to NCBI for processing in each batch. Faster
+results may be achieved by changing this number depending on internet/CPU speeds.  
+}  
   \item{MaxRet}{
 The maximum number of items to return.
 }
@@ -46,6 +49,8 @@ This is quite literal - it defines the edges of the genes from NCBI, and
 obtains all the SNPs from within that boundary. It does not obtain
 nearby SNPs. To do this, you could use GetRegion (with db set to "set")
 and use the regions as defined by AdjustRangeAroundGene.
+
+
 }
 \value{
 vector
@@ -60,7 +65,7 @@ These functions use NCBI's eutils, and come with the same user requirements - if
 performing many queries, you must run the scripts during certain hours when the
 NCBI servers are not in high demand. Please see the package website for more details
 
-http://drop.io/NCBI2R_package
+http://NCBI2R.wordpress.com
 
 Violation of the terms described there, and the terms on the eutils website may
 result in losing access to NCBI for your group.
@@ -71,8 +76,8 @@ result in losing access to NCBI for your group.
 \examples{
 SingleGene<-GetIDs("CLN5[sym]")    #returns a value of 1203
                                    #default of GetIDs is human
-listSNPs<-GetSNPsInGene(SingleGene) #obtains the list
+listSNPs<-GetSNPsInGenes(SingleGene) #obtains the list
 SomeGenes<-GetIDs("CLN5")  #any gene (human as default species)
                            #that contains CLN5 within the gene report.
-LotsOfSNPs<-GetSNPsInGene(SomeGenes) #obtains the list
+LotsOfSNPs<-GetSNPsInGenes(SomeGenes) #obtains the list
 }

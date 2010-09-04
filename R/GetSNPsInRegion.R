@@ -2,6 +2,7 @@ GetSNPsInRegion <-
 function(chr,LowPoint,HighPoint,MaxRet=30000,showurl=FALSE,org="human",quiet=TRUE,sme=FALSE,smt=FALSE)
    {
    URLdef<-URLdefinitions()
+   org<-gsub(" ","+",org)
    LowPoint<-as.numeric(LowPoint)
    HighPoint<-as.numeric(HighPoint)
    if(LowPoint<0)

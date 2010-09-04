@@ -1,5 +1,7 @@
 GetSNPInfo<-function(listofSNPs,batchsize=200,showurl=FALSE,pbar=TRUE)
   {
+  if(class(batchsize)=="character")
+     stop("Incorrect input. you have possibly entered a SNP name where the batchsize should be")
   if(length(listofSNPs)==1)
      pbar<-FALSE
   URLdef<-URLdefinitions()
@@ -7,20 +9,21 @@ GetSNPInfo<-function(listofSNPs,batchsize=200,showurl=FALSE,pbar=TRUE)
   if(length(test)!=1 | test[1]!="rs")
      stop("Incorrect input. Each item must begin with rs")
   trimmedSNPnames<-substr(as.character(listofSNPs),3,nchar(as.character(listofSNPs)))
-  NumberOfBatchesInTotal<-ceiling(length(trimmedSNPnames)/batchsize)
+  TotalBatches<-ceiling(length(trimmedSNPnames)/batchsize)
+  if(TotalBatches==1)
+      pbar<-FALSE
   if(pbar==TRUE)
-    pb<-txtProgressBar(min=0,max=NumberOfBatchesInTotal,style=3)
-  remainingSNPs<-trimmedSNPnames
-   
-  for(BatchCounter in 1:NumberOfBatchesInTotal)
+    pb<-txtProgressBar(min=0,max=TotalBatches,style=3)
+  remainingItems<-trimmedSNPnames
+  for(BatchCounter in 1:TotalBatches)
     {
   if(pbar==TRUE)
     setTxtProgressBar(pb,BatchCounter)
-  thisbatchSNPs<-remainingSNPs[1:batchsize]                       
-  thisbatchSNPs<-thisbatchSNPs[!(is.na(thisbatchSNPs))]
-  remainingSNPs<-remainingSNPs[!(remainingSNPs %in% thisbatchSNPs)]
-  remainingSNPs<-remainingSNPs[!(is.na(remainingSNPs))]
-  url_piece<-paste(thisbatchSNPs,collapse=",")
+  thisbatchItems<-remainingItems[1:batchsize]                       
+  thisbatchItems<-thisbatchItems[!(is.na(thisbatchItems))]
+  remainingItems<-remainingItems[!(remainingItems %in% thisbatchItems)]
+  remainingItems<-remainingItems[!(is.na(remainingItems))]
+  url_piece<-paste(thisbatchItems,collapse=",")
   getURL<-paste(URLdef$front,"efetch.fcgi?db=snp&id=",url_piece,"&report=DocSet",URLdef$back,sep="")
   webget<-get.file(getURL,showurl,clean=FALSE)
   LineRecords<-grep("^[[:digit:]]+:[[:space:]]",webget)
@@ -83,7 +86,6 @@ GetSNPInfo<-function(listofSNPs,batchsize=200,showurl=FALSE,pbar=TRUE)
       {              
       dbl_text<-substr(webget[dbl_lines],26,nchar(webget[dbl_lines]))   
       ThisPageSNPs$dupl_loc<-AlignsData(dbl_lines,dbl_text,LineRecords)
-
       webget[dbl_lines]<-gsub("(\\|[[:alnum:]]+:+[[:digit:]]+)*$","",webget[dbl_lines])
       }
 
@@ -114,7 +116,6 @@ GetSNPInfo<-function(listofSNPs,batchsize=200,showurl=FALSE,pbar=TRUE)
   TotalSNPData$fxn_class<-CleanNAs(TotalSNPData$fxn_class)
   TotalSNPData$species<-CleanNAs(TotalSNPData$species)
   TotalSNPData$dupl_loc<-CleanNAs(TotalSNPData$dupl_loc)
-
    myvalue_lines<-grep(",",TotalSNPData$locusID)
   if(length(myvalue_lines)!=0)
      {
@@ -129,10 +130,11 @@ GetSNPInfo<-function(listofSNPs,batchsize=200,showurl=FALSE,pbar=TRUE)
          }
      }    
   if(nrow(TotalSNPData[TotalSNPData$chrpos==0,])>0)
-     print("Note: Some SNPs were not found. The have a chrpos of zero.")
+     writeLines("Note: Some SNPs were not found. They have a chrpos of zero.")
   if(nrow(TotalSNPData[TotalSNPData$dupl_loc!="",])>0)
-     print("Note: Some SNPs were found in more than one location.")
+     writeLines("Note: Some SNPs were found in more than one location.")
   return(TotalSNPData)
 }   
+
 
 

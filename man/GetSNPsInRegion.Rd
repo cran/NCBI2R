@@ -61,15 +61,15 @@ because the latter is all the SNPs that are within the gene itself,
 without considering flanking regions. So you might want to use
 AdjustRangeAroundGene first, and consider the flanking regions.
 
-eg step A use GetGeneInfo on a gene, eg GetGeneInfo(1203)
+eg step A use GetGeneInfo on a gene, eg GetGeneInfo(1203) - one query of NCBI
 
-eg step B AdjustRangeAroundGene on those start and stop positions
+eg step B AdjustRangeAroundGene on those start and stop positions - no query
 
-eg step C GetRegion(adjusted boundaries from step B)
+eg step C GetRegion(adjusted boundaries from step B) - one query of NCBI
 
 }
 \value{
-The matching SNPs (if any).
+vector of the matching SNPs (if any).
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -87,13 +87,13 @@ These functions use NCBI's eutils, and come with the same user requirements - if
 performing many queries, you must run the scripts during certain hours when the
 NCBI servers are not in high demand. Please see the package website for more details
 
-http://drop.io/NCBI2R_package
+http://NCBI2R.wordpress.com
 
 Violation of the terms described there, and the terms on the eutils website may
 result in losing access to NCBI for your group.
 }
 \seealso{
-\code{\link{GetRegion}}, \code{\link{GetGenesInRegion}}
+\code{\link{GetRegion}}, \code{\link{GetGenesInRegion}}.
 }
 \examples{
 GetSNPsInRegion("13",123456789,167222333) #same as following line

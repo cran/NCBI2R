@@ -5,8 +5,11 @@ function()
    tool<-"NCBI2R"
    email<-"ncbi2r@gmail.com"
    tailurl<-paste("&tool=",tool,"&email=",email,sep="")
-   buildversion<-1.3
-   package.web<-"http://drop.io/NCBI2R_package"
+   #mylocation<-system.file("DESCRIPTION",package="NCBI2R")
+   #ncbi2rdescription<-scan(mylocation,what="character",sep="\n",quiet=TRUE)
+   #buildversion<-gsub("Version: ","",ncbi2rdescription[grep("Version: ",ncbi2rdescription)])
+   buildversion<-"1.3.1"
+   package.web<-"http://NCBI2R.wordpress.com"
    return(list(front = baseurl,back=tailurl,buildversion=buildversion,package.web=package.web))
    }
 

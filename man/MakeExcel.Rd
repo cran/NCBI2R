@@ -11,9 +11,9 @@ and make a document for Microsoft Excel. This could be from
 results/annotation or from a GetPubMed search.
 }
 \usage{
-MakeExcel(anydf, filename, xldiv = ";", linktext = "Link", hyper = "HYPERLINK",
+MakeExcel(anydf, filename, xldiv = ";", linktext = "link", hyper = "HYPERLINK",
          markercolumn = "marker", positioncolumn = "chrpos", absize= 32000,
-         keeplocusIDs = FALSE, keepNS = FALSE, kp = TRUE)
+         keeplocusIDs = FALSE, keepNS = FALSE, kp = TRUE, myColumns="short")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -58,6 +58,14 @@ string for each marker, separated by a comma.
 When kp is set to TRUE, the words "KEGG PATHWAY" will be shortened to "KP"
 to create an easier to read output file.
 }
+
+  \item{myColumns}{
+Values are short and long. If short, only a few selected columns ("DP","TI", "AU", "AB", "JT", "VI", "IP", "PG", "SO") will be kept.
+If long is specified - all columns will be kept.         
+
+}
+
+
 }
 \details{
 It converts weblinks to Excel format (where possible) and it turns the
@@ -101,7 +109,7 @@ Scott Melville
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{MakeHTML}}
+\code{\link{MakeHTML}}.
 
 }
 \examples{

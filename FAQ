@@ -1,19 +1,16 @@
-Q. What's the website?
-A. http://drop.io/NCBI2R_package
+Q. What's the website
+A. It's now ncbi2r.wordpress.com   The old website had to be replaced suddenly.
 
 Q. Are there restrictions on the use?
-A. Sadly yes, but you won't notice most of them. if you're going to do large amounts of queries, if you don't pay attention to the usage warnings, you might find you and your institute getting blocked from NCBI. More information below at the end of the FAQ. Remember there are disclaimers as well (see below).
+A. Sadly yes, but you won't notice most of them. This package is designed to handle most of the restrictions NCBI places on the use of this method - by putting tiny delays (<0.5 second) into the requests. If you're going to do large amounts of queries, you should perform these on weekends, or between 9am and 5 am USA Eastern Time. If you don't pay attention to the usage warnings, you might find you and your institute getting blocked from NCBI. More information below at the end of the FAQ. Remember there are disclaimers as well (see below).
 
 Q. Why did I create the package?
 A. Because I couldn't find easy to use functions in R that worked with NCBI.
    I am a biologist who wrote this for other biologists who don't want to
    install lots of other packages.
 
-Q. What other packages does it need?
-A. Nothing - I wrote stand alone functions.
-
 Q. Are there disclaimers?
-A. Naturally ;) I've done my best but information may not be presented correctly due to anything from bad code on my part, to NCBI changing their infrastructure. Also, please note that NCBI have their own disclaimers about the information presented. Essentially this means if you get a result that isn't correct, it's not anyone's fault - the NCBI2R writers or NCBI.
+A. Naturally ;) I've done my best but information may not be presented correctly due to anything from bad code on my part, to NCBI changing their infrastructure, or NCBI having incorrect information. Also, please note that NCBI have their own disclaimers about the information presented. Essentially this means if you get a result that isn't correct, it's not anyone's fault - the NCBI2R writers or NCBI.
 
 Q. Can you send me suggestions?
 A. Sure. If you've got the time to help me write the code, that's even better.
@@ -30,7 +27,7 @@ A. Yes. But you can't automate those easily to run immediately after perform
    after your GWA and keep it conveniently in the R format.
 
 Q. Why would I want to use NCBI compared to UCSC or Ensembl?
-A. That's up to you. I'd recommend looking at all of them. And no I have no scripts for those databases, and I'm not planning on it :)
+A. That's up to you. I'd recommend looking at all of them. I have scripts for UcSC but they won't be released.
 
 Q. Can you make the functions work with other databases, such as UCSC?
 A. No. NCBI2R works for NCBI only. There are other R scripts out there and any of them quite good. I make no recommendations.
@@ -43,10 +40,10 @@ Q. Does the code work for any species?
 A. Most functions will work on any species that are available within NCBI. The most testing has been performed with human so if you find something odd, please let me know.
 
 Q. Which build is queried?
-A. Always the current build. The same as if you were using the website. Please note that the Hapmap build isn't always the same build so the hapmap functions, in some cases, cannot be used with the other functions.
+A. Always the current build. The same as if you were using the website. Please note that the Hapmap build isn't always the same build as the rest of the NCBI build, so the hapmap functions, in some cases, cannot be used directly with the other functions - the physical position on the genome will be different.
 
 Q. Can I query an old build with NCBI2R?
-A. At this stage no, but I have plans which may or may not happen. Feel free
+A. At this stage no, and I might write code for it. Feel free
    to contact me to see if I'm working on it, but it's not a priority for me.
    I think people should always work with the latest build, but I understand
    sometimes it's just easier to keep all the data with old positions, but 
@@ -54,21 +51,16 @@ A. At this stage no, but I have plans which may or may not happen. Feel free
 
 Q. How can I update my genetic information to the latest build?
 A. There are tools around but I always prefer going back to the primary data.
-   If you've got the data in terms of markers (microsats, SNPs or genes)
+   If you've got the data in terms of marker names (microsats, SNPs or genes)
    you can use NCBI2R to find the positions in the current NCBI build.
-
-Q. Why use drop.io for the website, and not sourceforge or something else?
-A. drop.io has a few nice features such as chat and presentation modes so
-   I can (if available) run online tutorials. Also, users can leave 
-   comments on the site.
 
 Q. I found a bug or have a question that's not covered in either the 
    tutorials, FAQ or manual?
-A. Please send me an email at ncbi2r@gmail.com  
-   Please repeat the command a couple of times to see if the error repeats. Perhaps it is just a short-lasting problem with the NCBI website. Remember to include as much detail as possible in your email, including copying and pasting the command you entered, and use the showurl=TRUE argument to display on screen the exact URL of the query - then I can replicate the exact query. 
+A. Please send me an email at ncbi2r@gmail.com but please follow these steps first.
+   Please repeat the command a couple of times to see if the error repeats. Perhaps it is just a short-lasting problem with the NCBI website. Remember to include as much detail as possible in your email, including copying and pasting the command you entered, and use the showurl=TRUE argument to display on screen the exact URL of the query - then I can replicate the exact query. lease tell me if you've used the same command before.
 
 Q. Where can I find the latest build of the NCBI2R package?
-A. CRAN will always have the current version, but on my website, I'll post messages about known bugs or upcoming release dates.
+A. CRAN will always have the current version, but on my website, I'll post messages about upcoming release dates.
 
 Q. I used the argument showurl on the commands to see the URL query.
    Why is there an email address in the URL?
@@ -76,10 +68,11 @@ A. The email address is included along with the name of the tool/package
    so NCBI can contact me if there are problems with the scripts. It
    does not send any personal information. Using the showurl command
    allows you to see how the query is constructed if you wish to design
-   your own eutils command not convered by NCBI2R.
+   your own eutils command not convered by NCBI2R. Your requests ARE NOT sent
+   to the email address.
 
 Q. I wish to run analysis on millions of SNPs with NCBI2R?
-A. Well you could BUT it will be slow and you'll need to break up the work into tiny pieces so as to comply with NCBI's own usage guidelines. It can be done but consider asking someone if they have a local file and a programmer to do it for you. Sorry, but don't ask me.
+A. Well you could BUT it will be slow and you'll need to break up the work into tiny pieces so as to comply with NCBI's own usage guidelines. It can be done but consider asking someone if they have a local file and a programmer to do it for you - there are faster ways and easier ways than this R package. Sorry, but don't ask me.
 
 Q. What are these usage guidelines you keep talking about?
 A. They are outlines by NCBI on this page:
@@ -98,4 +91,4 @@ Q. I don't like Microsoft Excel. Can I use Open Office?
 A. The MakeExcel function formats a few things in a particular way for excel, but some of the code is just exporting a csv file from the dataframe. I haven't tested it out yet. It may work already.
 
 Q. How can I make a Manhattan plot?
-A. Ask around. People have some nice scripts. I'm working on one but haven't had time yet.
+A. Ask around. People have some nice scripts. I have one too, and it will likely make it's way in here one day. Sometime.

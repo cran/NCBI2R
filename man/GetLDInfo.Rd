@@ -9,7 +9,7 @@ Obtain Linkage Disequilibrium (LD) information from Hapmap for a given genomic r
 Obtain Linkage Disequilibrium (LD) information from Hapmap for a given genomic region.
 }
 \usage{
-GetLDInfo(chr,pos1,pos2,showurl=FALSE,filter="",build="27_B36")
+GetLDInfo(chr,pos1,pos2,showurl=FALSE,filter="",build="27_B36",pop="CEU", quiet=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -33,12 +33,19 @@ The build to query. Two options available that define the build/release.
 3r2_B36 - PhaseIII/Rel 2 February 2009 on NCBI B36 assembly, dbSNP b126
 27_B36 - Release 27 Phase II+III February 2009 on NCBI B36 assembly, dbSNP b126
 }  
+  \item{pop}{
+The population to be queried. Defaul is CEU
+  }
+
+   \item{quiet}{
+Displays a message to say that the LD information has been downloaded when set to FALSE (default)   
+   
+   }
+
 
 }
 \details{
 The use of this function will obtain the LD information for a given genomic region. Please understand that the position relates to the queried Hapmap build which may not match to the NCBI build.
-
-At this time, only CEU population is supported, but other populations will be available shortly.
 
 }
 \value{
@@ -54,7 +61,7 @@ Scott Melville
 }
 
 \section{Warning}{
-the Hapmap website does not always have the same positions as the NCBI builds. Therefore, taking a value from one function, and submitting it to another function must be performed carefully.
+The Hapmap website does not always have the same positions as the NCBI builds. Therefore, taking a value from one function, and submitting it to another function must be performed carefully.
 }
 \seealso{
 \code{\link{GetGeneInfo}}.

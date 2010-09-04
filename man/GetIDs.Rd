@@ -43,11 +43,11 @@ These two arguments are for checking that your requests are being understood cor
 }
 \details{
 This list of LocusIDs can then be used to obtain more information about the genes, or used as a list of candidates for ScanForGenes.
-You can use this function within other queries as shown below.
+You can use this function within other queries as shown below in the example.
 
 Each object within NCBI gets a unique identifier - different for each database.
-Most of the NCBI2R function
 
+Each use of this function represents a single query of NCBI.
 }
 \value{
 A vector of ID numbers specific to the database you queried.
@@ -74,7 +74,7 @@ These functions use NCBI's eutils, and come with the same user requirements - if
 performing many queries, you must run the scripts during certain hours when the
 NCBI servers are not in high demand. Please see the package website for more details
 
-http://drop.io/NCBI2R_package
+http://NCBI2R.wordpress.com
 
 Violation of the terms described there, and the terms on the eutils website may
 result in losing access to NCBI for your group. But remember, the average user should have no problems at all. NCBI2R inserts delays most of the times - it's only going to be if you are performing large numbers of queries in a short space of time.

@@ -1,29 +1,36 @@
 GetTableWithComments<-function(myfile,columnnames,sep=" ",filter="")
    {
    errorcount<-0
-   mytext<-scan(myfile,sep="\n",what="character",quiet=TRUE)
+   mytext <- get.file(myfile, showurl = FALSE, clean = FALSE)
    NCBI2R.TimeStampA<-Sys.time()
    while(mytext[1]=="<!DOCTYPE html")
        {
        errorcount<-errorcount+1
-       print(paste("hapmap download gave unexpected file structure. NCBI2R will retry. Error:",errorcount))
+       retrying<-"problem"
+       cat(paste("\r NCBI2R: retrying hapmap. RetryCount:",errorcount))
        flush.console()
-       mytext<-scan(myfile,sep="\n",what="character",quiet=TRUE)
+       mytext <- get.file(myfile, showurl = FALSE, clean = FALSE)
        }
-   mystuff<-mytext[grep("#",mytext,invert=TRUE)] 
-  colnum<-length(unlist(strsplit(mystuff[1],sep)))
-  newdf<-data.frame(rbind(1:colnum))
-
-  if(filter!="")
+   if(exists("retrying"))
+      cat(paste("\r NCBI2R: retrying hapmap. RetryCount:",errorcount,"....CHECKED: OK."))
+   cat("\n")   
+   my_table_text<-mytext[grep("#",mytext,invert=TRUE)] 
+   if(length(my_table_text)==0)
+      return("No information available")
+   else   
      {
-     mystuff<-mystuff[grep(filter,mystuff)]
-     if(length(mystuff)==0)
-        stop("The filter term, ",filter,", was not found inside the downloaded LD information. Perhaps there is no LD information for the specified SNP")
+     colnum<-length(unlist(strsplit(my_table_text[1],sep)))
+     newdf<-data.frame(rbind(1:colnum))
+     if(filter!="")
+         {
+         my_table_text<-my_table_text[grep(filter,my_table_text)]
+         if(length(my_table_text)==0)
+            stop("The filter term, ",filter,", was not found inside the downloaded LD information. Perhaps there is no LD information for the specified SNP")
+         }
+     newdf<-as.data.frame(1:length(my_table_text))    
+     for(i in 1:colnum)
+         newdf[,i]<-do.call(cbind,strsplit(my_table_text,sep))[i,]
+     colnames(newdf)<-columnnames
+     return(newdf)
      }
-
-  newdf<-as.data.frame(1:length(mystuff))    
-  for(i in 1:colnum)
-     newdf[,i]<-do.call(cbind,strsplit(mystuff,sep))[i,]
-  colnames(newdf)<-columnnames
-  return(newdf)
    }

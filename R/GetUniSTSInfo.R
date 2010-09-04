@@ -1,7 +1,8 @@
 GetUniSTSInfo <-
 function(stsid,taxid=9606,showurl=FALSE,quiet=TRUE)
    {
-   print(paste("running GetUniSTSInfo",stsid))
+   if(quiet==FALSE)
+      print(paste("running GetUniSTSInfo",stsid))
    if(length(stsid)>1)
       stop("only one id number at a time for the function GetUniSTSInfo. sorry.")
    getURL<-paste("http://www.ncbi.nlm.nih.gov/genome/sts/sts.cgi?uid=",stsid,sep="")
@@ -14,14 +15,11 @@ function(stsid,taxid=9606,showurl=FALSE,quiet=TRUE)
    warn<-grep("<font color=\"#FF0066\">Warning!",webget)
    warningstring<-"None"
    if(length(warn)!=0)   {
-     print("warnings we have problems")
+     print("NCBI2R - UniSTS - warnings have been indentified")
    
      places<-grep("<td colspan =\"2\" class =\"H2\" bgcolor =CCCCFF>&nbsp;<a name = taxid",webget)  
-     print(places)    
-     print(StartLine) 
-     print(warn) 
      if(length(warn)>1)
-        warningstring<-"More than warning found. Check the NCBI webpage. too many warnings - EXPAND ON THIS or fix it"
+        warningstring<-"More than warning found. Check the NCBI webpage."
      if(length(warn==1))
        {
        if(warn<StartLine)   {
@@ -75,11 +73,7 @@ function(stsid,taxid=9606,showurl=FALSE,quiet=TRUE)
          if(CrossRef[i,1]=="&nbsp;" & lastheading=="UniGene")
             CrossRef[i,1]<-lastheading
          if(is.na(pmatch(CrossRef[i,1],ExpectedResponses))==TRUE)
-            {
-            print("damn thing shoudl stop")
-            stop("this Item in Cross References has not been catered for.")
-            }
-
+            stop("NCBI2R error: GetUniSTSInfo error 4 - bad parse of record")
          if(CrossRef[i,1]=="Gene")
             {
             toprow<-i
@@ -106,13 +100,7 @@ function(stsid,taxid=9606,showurl=FALSE,quiet=TRUE)
      CrossRef$V2<-NULL    
      CrossRef$V3<-NULL
 
-     print(CrossRef)
-     print("YYYY")
-     
-
-     substr(CrossRef$Description,1,1)<-toupper(substr(CrossRef$Description,1,1))
-      CrossRef<-CrossRef[order(CrossRef$Description,decreasing=TRUE),]     
-             print("GG3") 
+     CrossRef<-CrossRef[order(CrossRef$Description,decreasing=TRUE),]     
 
      if((length(unique(CrossRef$Description))!=length(CrossRef$Description)) & (nrow(CrossRef)>1))
        {
@@ -133,8 +121,7 @@ function(stsid,taxid=9606,showurl=FALSE,quiet=TRUE)
      CrossRef<-CrossRef[order(CrossRef$Symbol),]
      
      }
-   print(CrossRef)
-   
+
    MappingError<-"None"
    StartMapping<-grep("<!--- Mapping data --->",webget)
    StartMapping<-StartMapping[StartMapping>StartLine][1]
@@ -193,6 +180,7 @@ function(stsid,taxid=9606,showurl=FALSE,quiet=TRUE)
      if(length(unique(MappingDF[,r]))==1)
         MappingDF[,r]<-NULL
      }
+
    MappingDF[,4]<-NULL 
    colnames(MappingDF)<-c("name","map","chr_source")
    MappingDF<-as.data.frame(cbind(MappingDF,chr="",PosLow="",PosHigh="",units="",Reference_Interval="",Lod_score="",stringsAsFactors=FALSE))
@@ -210,16 +198,13 @@ function(stsid,taxid=9606,showurl=FALSE,quiet=TRUE)
        
    MappingDF<-MappingDF[MappingDF[,"map"]!="",]
    rows<-0
+
    for(i in 1:nrow(MappingDF))     {
       if(MappingDF[i,1]=="&nbsp;")          {
          rows<-rows+1
-         print("Selecting from")
-         print(MappingDF[i,"map"])
          KeyWord<-splitfirst(MappingDF[i, "map"], ":")[1]   
-         print(paste("keyWord:",KeyWord))
          MappingDF[i-1,KeyWord]<-MappingDF[i,3]
          MappingDF[i,1]<-"a" 
-         print(MappingDF)
          }
      }
 
@@ -231,13 +216,18 @@ function(stsid,taxid=9606,showurl=FALSE,quiet=TRUE)
    MappingDF[MappingDF$map=="Sequence","PosLow"]<-do.call(rbind,strsplit(MappingDF[MappingDF$map=="Sequence","Position"],"-"))[,1]
    MappingDF[MappingDF$map=="Sequence","PosHigh"]<-do.call(rbind,strsplit(MappingDF[MappingDF$map=="Sequence","Position"],"-"))[,2]
    MappingDF[MappingDF$map=="Sequence","Position"<-"processed"]
-    
+ 
+  
    sup_maps<-c("MARC","deCODE","Marshfield","Whitehead-YAC","RH", "Stanford-G3", "Whitehead-RH", "GeneMap99-GB4","Genethon","NCBI RH","TNG","GeneMap99-G3")
    MappingDF[MappingDF$map %in% sup_maps,"PosLow"]<-do.call(rbind,strsplit(MappingDF[MappingDF$map %in% sup_maps,"Position"]," \\("))[,1]
-   MappingDF[MappingDF$map %in% sup_maps,"PosHigh"]<-do.call(rbind,strsplit(MappingDF[MappingDF$map %in% sup_maps,"Position"]," \\("))[,1]
-   MappingDF[MappingDF$map %in% sup_maps,"Position"]<-"processed" 
-    MappingDF[MappingDF$map=="Sequence" & grep("\\|",MappingDF$chr_source,invert=TRUE),"chr_source"]<-paste(MappingDF[MappingDF$map=="Sequence" & grep("\\|",MappingDF$chr_source,invert=TRUE),"chr_source"],"|NCBI")
 
+   MappingDF[MappingDF$map %in% sup_maps,"PosHigh"]<-do.call(rbind,strsplit(MappingDF[MappingDF$map %in% sup_maps,"Position"]," \\("))[,1]
+
+   MappingDF[MappingDF$map %in% sup_maps,"Position"]<-"processed" 
+
+    MappingDF[MappingDF$map=="Sequence" & grep("\\|",MappingDF$chr_source,invert=TRUE),"chr_source"]<-paste(MappingDF[MappingDF$map=="Sequence" & grep("\\|",MappingDF$chr_source,invert=TRUE),"chr_source"],"|NCBI")
+   
+          
       MappingDF[grep("\\|",MappingDF$chr_source),"source"]<-do.call(rbind,strsplit(MappingDF[grep("\\|",MappingDF$chr_source),"chr_source"],"\\|"))[,2]
       MappingDF[grep("\\|",MappingDF$chr_source),"chr"]<-do.call(rbind,strsplit(MappingDF[grep("\\|",MappingDF$chr_source),"chr_source"],"\\|"))[,1]
       MappingDF[grep("\\|",MappingDF$chr_source,invert=TRUE),"chr"]<-MappingDF[grep("\\|",MappingDF$chr_source,invert=TRUE),"chr_source"]
@@ -245,7 +235,7 @@ function(stsid,taxid=9606,showurl=FALSE,quiet=TRUE)
     MappingDF$source<-RemoveSpaces(MappingDF$source)
    MappingDF$Position<-NULL 
    MappingDF$chr_source<-NULL
-
+   MappingDF$units<-gsub("\\(|\\)","",MappingDF$units)
    if(!is.na(pmatch("source",colnames(MappingDF))))
       MappingDF[!is.na(MappingDF$source),"map"]<-paste(MappingDF[!is.na(MappingDF$source),"source"],"-",MappingDF[!is.na(MappingDF$source),"map"],sep="") 
    MappingDF$source<-NULL
@@ -261,4 +251,5 @@ function(stsid,taxid=9606,showurl=FALSE,quiet=TRUE)
    if(CrossRefError!="None" & MappingError=="None")
       return(list(CrossRefs=CrossRefError,Maps=MappingDF,WarningString=warningstring))
  }
+
 

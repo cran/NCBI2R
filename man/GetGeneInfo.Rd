@@ -9,13 +9,13 @@ Obtains information about genes from NCBI
 Obtains information from user specified genes from NCBI's Entrez database.
 }
 \usage{
-GetGeneInfo(locusID, batchsize = 200, xldiv = ";", int = FALSE, go = FALSE,
+GetGeneInfo(locusIDs, batchsize = 200, xldiv = ";", int = FALSE, go = FALSE,
             showurl = FALSE, quiet = TRUE, sme = FALSE, smt = FALSE,
             div = "---",html=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{locusID}{
+  \item{locusIDs}{
 vector of one of more locusIDs. These are numerical identifiers that NCBI calls EntrezID. Eg the human gene CLN5 is 1203.
 }
   \item{batchsize}{
@@ -55,6 +55,8 @@ Input a locusID or several locusIDs and retrieve information about the gene. Suc
 Depending on what information you wish to obtain, it might be better to use GetGeneNames as it is faster and returns some similar items (eg genesymbol), but also returns different information.
 
 The approx column that is included in the dataframe, details any approximations that were made while obtaining the results. A value of 1 means that the gene symbol is defined as interim; a value of 2 means that no gene symbol was available, and what is provided comes from one of the synonyms. A value of 3 is both of these messages.
+
+Each batch of this function represents a single query of NCBI
 }
 \value{
 A dataframe.
@@ -66,14 +68,15 @@ Scott Melville
 
 \section{Warning}{
 
-Some genes that lie on both X and Y chromosomes may give odd results. This is because the gene info can only return one item in the chr column, and it will choose. The cyto band will show both X and Y.
+There are some genes that lie on both X and Y chromosomes and thees will contain "XY" as the chr value and also have two cytobands.
 
-If yopu're manually exploring your data one or two lines of code at a time, you will not have any issue with the NCBI user limits. NCBI2R inserts appropriate pauses most of the time so you can only submit three queries per second. 
+
+If you're manually exploring your data one or two lines of code at a time, you will not have any issue with the NCBI user limits. NCBI2R inserts appropriate pauses most of the time so you can only submit three queries per second. 
 If you start running many scripts using NCBI2R, you'll have to pay attention to the limits carefully. These functions use NCBI's eutils, and come with the same user requirements - if
 performing many queries, you must run the scripts during certain hours when the
 NCBI servers are not in high demand. Please see the package website for more details
 
-http://drop.io/NCBI2R_package
+http://NCBI2R.wordpress.com
 
 Violation of the terms described there, and the terms on the eutils website may
 result in losing access to NCBI for your group.

@@ -1,74 +1,112 @@
 GetGeneTable <-
-function(locusID,showurl=FALSE)
+function(locusIDs,batchsize=200,showurl=FALSE,pbar=TRUE,TrueBP=FALSE)
    {
-   URLdef<-URLdefinitions()
-   getURL<-paste(URLdef$front,"efetch.fcgi?db=gene&id=",locusID,"&rettype=gene_Table",URLdef$back,sep="")
-   webget<-get.file(getURL,showurl,clean=FALSE)   
-   CurrentRow<-1
-   dummy<-0
-   ExonSet<-0
-   ExonInfo<-data.frame(Where=rep("",30000),Start=0,Stop=0,Size=0,Set=0,stringsAsFactors=FALSE)
-   ACC.DNA<-data.frame(Identifier=rep("",200),Length=0,Exons=0,stringsAsFactors=FALSE)
-   ACC.Prot<-ACC.DNA   
-   while(webget[CurrentRow]!="mRNA   bp   exons   Protein   aa   exons" & CurrentRow<length(webget))
-      CurrentRow<-CurrentRow+1
-   if(CurrentRow<length(webget)) {
-      TotalExonSets<-0
-      CurrentRow<-CurrentRow+1
-      while(webget[CurrentRow]!="Exon information:")
-         {
-         CurrentRow<-CurrentRow+1
-         TotalExonSets<-TotalExonSets+1
-         }
-      WriteHere<-0
-      for(i in 1:TotalExonSets)
-         {
-         ACC.DNA$Identifier[i]<-splitfirst(webget[CurrentRow+1])[1]
-         rem<-splitfirst(splitfirst(webget[CurrentRow+1])[2])[2]
-         ACC.DNA$Length[i]<-as.numeric(splitfirst(rem)[1])
-         ACC.DNA$Exons[i]<-as.numeric(splitfirst(rem,": ")[2])
-         ACC.Prot$Identifier[i]<-splitfirst(webget[CurrentRow+2])[1]
-         rem<-splitfirst(splitfirst(webget[CurrentRow+2])[2])[2]
-         ACC.Prot$Length[i]<-as.numeric(splitfirst(rem)[1])
-         ACC.Prot$Exons[i]<-as.numeric(splitfirst(rem,": ")[2])
-         CurrentRow<-CurrentRow+4    
-        while(substr(webget[CurrentRow+1],nchar(webget[CurrentRow+1])-1,nchar(webget[CurrentRow+1]))=="bp" & CurrentRow<length(webget))
-            {
-            startposition<-1
-            currentposition<-1
-            CurrentRow<-CurrentRow+1
-            TL<-webget[CurrentRow]
-            a<-0
-            ExonSet<-ExonSet+1
-            while(currentposition<nchar(TL))
-               {
-               a<-a+1
-               WriteHere<-WriteHere+1
-               while(substr(TL,currentposition,currentposition)!= "-")
-                  currentposition<-currentposition+1
-               ExonInfo$Start[WriteHere]<-(substr(TL,startposition,currentposition-2))
-               startposition<-currentposition
-               while(substr(TL,currentposition,currentposition+2)!= "   ")
-                  currentposition<-currentposition+1
-               ExonInfo$Stop[WriteHere]<-(substr(TL,startposition+2,currentposition-1))
-               startposition<-currentposition
-               while(substr(TL,currentposition,currentposition+2)!= " bp")
-                  currentposition<-currentposition+1
-               ExonInfo$Size[WriteHere]<-(substr(TL,startposition+3,currentposition-1))
-               currentposition<-currentposition+5
-               startposition<-currentposition
-               if(a==1)
-                  ExonInfo$Where[WriteHere]<-"Exon"
-               if(a==2)
-                  ExonInfo$Where[WriteHere]<-"CodExon"
-               if(a==3)
-                  ExonInfo$Where[WriteHere]<-"Intron"
-               ExonInfo$Set[WriteHere]<-i
-               } 
-            } 
-         } 
-     return(list(ExonInfo=ExonInfo[ExonInfo$Where!="",],ACC.DNA=ACC.DNA[ACC.DNA$Identifier!="",],ACC.Prot=ACC.Prot[ACC.Prot$Identifier!="",]))
+   URLdef<-URLdefinitions() 
+   if(missing(locusIDs))                                       
+      stop("no locusIDs provided")
+
+   oldlocusIDs<-locusIDs
+   locusIDs<-unique(oldlocusIDs)
+   if(length(oldlocusIDs)!=length(locusIDs))
+      print("NCBI2R GetGeneTable message - duplicate locusIDs were removed")
+   TotalBatches<-ceiling(length(locusIDs)/batchsize)
+   if(TotalBatches==1)
+      pbar<-FALSE
+   if(pbar==TRUE)
+     pb<-txtProgressBar(min=0,max=TotalBatches,style=3)
+  remainingItems<-locusIDs
+  BatchCounter<-1
+  while(BatchCounter <= TotalBatches)
+    {
+    if(pbar==TRUE)
+       setTxtProgressBar(pb,BatchCounter)
+    thisbatchItems<-remainingItems[1:batchsize]                       
+    thisbatchItems<-thisbatchItems[!(is.na(thisbatchItems))]
+    remainingItems<-remainingItems[!(remainingItems %in% thisbatchItems)]
+    remainingItems<-remainingItems[!(is.na(remainingItems))]
+    url_piece<-paste(thisbatchItems,collapse=",")
+    getURL<-paste(URLdef$front,"efetch.fcgi?db=gene&id=",url_piece,"&rettype=gene_Table",URLdef$back,sep="")
+    webget<-get.file(getURL,showurl,clean=FALSE) 
+    a<-1                                          
+   
+    
+    doublelines<-grep("There is no record in DB for GeneID = [:digit:]+ There is not",webget)
+
+   
+    startlines<-grep("^[[:digit:]]+:[[:space:]]",webget)
+    if(length(startlines)>1)
+       stoplines<-c(startlines[2:length(startlines)]-1,length(webget))
+    if(length(startlines)==1)
+       stoplines<-length(webget)
+ 
+      
+    norecords<-grep("There is no record in DB for GeneID = ",webget)
+    additional_startlines<-0
+    additional_stoplines<-0
+    for(i in 1:length(norecords))
+       {
+       w1<-unlist(strsplit(webget[norecords[i]],"There is no record in DB for GeneID = ") )
+       w1<-w1[w1!=""]
+       additional_startlines<-c(additional_startlines,rep(norecords[i],length(w1)))
+       additional_stoplines<-c(additional_stoplines,rep(norecords[i],length(w1)))
+       }
+    additional_startlines<-additional_startlines[additional_startlines!=0]
+    additional_stoplines<-additional_stoplines[additional_stoplines!=0]
+ 
+    if(length(additional_startlines)!=0)
+      {
+      startlines<-sort(c(startlines,additional_startlines))
+      stoplines<-sort(c(stoplines,additional_stoplines))
+      }
+
+    if(length(startlines)!=length(thisbatchItems) | length(stoplines)!=length(startlines))
+       {
+       
+       print(cat("\n"))
+       print("NCBI2R error: variable dumps are:")
+       print(thisbatchItems)
+       print(length(thisbatchItems))
+       print(startlines)
+       print(stoplines)
+       print("hh")
+       print(length(webget))
+       stop("NCBI2R GetGeneTable message - not matching")
+       }
+    
+    for(this.item.in.batch in 1:length(thisbatchItems))
+      {
+      if(startlines[this.item.in.batch]==stoplines[this.item.in.batch])
+         gt<-"No information available"
+      else   
+         gt<-process.gene.table.int(webget[startlines[this.item.in.batch]:stoplines[this.item.in.batch]])
+      if(class(gt)!="character")
+        {    
+        gt$ExonInfo<-as.data.frame(cbind(locusID=thisbatchItems[this.item.in.batch],gt$ExonInfo),stringsAsFactors=FALSE)    
+        gt$ACC.DNA<-as.data.frame(cbind(locusID=thisbatchItems[this.item.in.batch],gt$ACC.DNA),stringsAsFactors=FALSE)      
+        gt$ACC.Prot<-as.data.frame(cbind(locusID=thisbatchItems[this.item.in.batch],gt$ACC.Prot),stringsAsFactors=FALSE)  
+
+        if(exists("total"))
+           {
+           total$ExonInfo<-as.data.frame(rbind(total$ExonInfo,gt$ExonInfo),stringsAsFactors=FALSE)
+           total$ACC.DNA<-as.data.frame(rbind(total$ACC.DNA,gt$ACC.DNA),stringsAsFactors=FALSE)
+           total$ACC.Prot<-as.data.frame(rbind(total$ACC.Prot,gt$ACC.Prot),stringsAsFactors=FALSE)
+           total$RecordInfo<-as.data.frame(rbind(total$RecordInfo,gt$RecordInfo),stringsAsFactors=FALSE)
+           } else {
+           total<-gt
+           }
+        }
+     } 
+   BatchCounter<-BatchCounter+1  
+  } 
+ if(pbar==TRUE)
+    setTxtProgressBar(pb,BatchCounter)
+  if(exists("total")) 
+     {
+     if(TrueBP==TRUE)
+        total<-AdjustGeneTable(total)
+     return(total)
       } else {
-      return("No information available") 
+   return("No information available") 
       }
    }  
+  

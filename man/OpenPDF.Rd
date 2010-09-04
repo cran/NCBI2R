@@ -61,12 +61,13 @@ Will work only if you have a web browser set up.
 }
 \examples{
 
+
+examplepaper<-GetPubMed("South Tyrol MICROS")
 #Note: will run only if web browser set up on operating system
-#examplepaper<-GetPubMed("South Tyrol MICROS")
 #OpenPDF(examplepaper$PMID)
 
-#mypaper<-GetPubMed("border collie CLN5")
 # will not open PDF because item not available on PubMed Central
+mypaper<-GetPubMed("border collie CLN5")
 #OpenPDF(mypaper$PMID)
 
 #OpenPDF(20436961)

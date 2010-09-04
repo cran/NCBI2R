@@ -1,25 +1,40 @@
 MakeExcel <-
-function(anydf,filename,xldiv=";",linktext="Link",hyper="HYPERLINK",markercolumn="marker",positioncolumn="chrpos",absize=32000,keeplocusIDs=FALSE,keepNS=FALSE,kp=TRUE) 
+function(anydf,filename,xldiv=";",linktext="link",hyper="HYPERLINK",markercolumn="marker",positioncolumn="chrpos",absize=32000,keeplocusIDs=FALSE,keepNS=FALSE,kp=TRUE,myColumns="short") 
   {
    if(missing(anydf))
       stop("NCBI2R MakeExcel error: no data frame provided")  
    if(class(anydf)!="data.frame")
        stop("NCBI2R MakeExcel error: no data frame provided")
-   if(colnames(anydf)[1]=="PMID") {
-      anydf$DP<-substr(anydf$DP,1,4) 
+   convert<-FALSE
+   if(names(anydf)[1]=="PubMed_Unique_Identifier")
+      {
+      anydf<-ConvertPubMedHeadings(anydf,reverse=TRUE)    
+      convert<-TRUE
+      }
+   if(names(anydf)[1]=="PMID") {
+      if(myColumns!="short" & myColumns!="long")
+        stop("NCBI2R error: invalid value for myColumns")
+
+      if(myColumns=="short")
+         Sel.Cols<-c("DP","TI", "AU", "AB", "JT", "VI", "IP", "PG", "SO")
+         
+      if(myColumns=="long")
+         Sel.Cols<-names(anydf)
+      Sel.Cols<-unique(c("PMID",linktext,Sel.Cols)) 
+      anydf$DP<-substr(anydf$DP,1,4)  
       anydf$JT<-gsub("&amp;","&",anydf$JT) 
       anydf$AB<-substr(anydf$AB,1,absize)
       anydf$link<-paste("http://www.ncbi.nlm.nih.gov/pubmed/",anydf$PMID,sep="")
-  
       if("localcopy" %in% colnames(anydf)) {
-          anydf<-anydf[,c("DP","TI", "AU", "AB", "JT", "VI", "IP", "PG", "SO","link","localcopy")]
+          anydf<-anydf[,c(Sel.Cols,"localcopy")]
           anydf$localcopy[anydf$localcopy!=""]<-ConvertURLToExcel(anydf[anydf$localcopy!="","localcopy"],"Local",xldiv=xldiv,hyper=hyper) 
           } else {
-          anydf<-anydf[,c("DP","TI", "AU", "AB", "JT", "VI", "IP", "PG", "SO","link")]
+          anydf<-anydf[,Sel.Cols]
           }
-         
       anydf$link<-ConvertURLToExcel(link=anydf$link,linktext=linktext,xldiv=xldiv,hyper=hyper)
       anydf$PG<-paste("'",anydf$PG,sep="")
+      if(convert)
+         anydf<-ConvertPubMedHeadings(anydf)
       write.table(anydf,file=filename,sep="\t",row.names=FALSE,quote=FALSE)
       print("file was created")
       }  else {

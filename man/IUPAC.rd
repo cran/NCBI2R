@@ -9,9 +9,15 @@
   Produces a dataframe of the IUPAC SNP variation allele ambiguity abbreviation codes for looking up
 }
 \usage{
-IUPAC()
+IUPAC(duplicates=FALSE)
 }
-%- maybe also 'usage' for other objects documented here.
+
+\arguments{
+  \item{duplicates}{
+If set to FALSE (default), the alleles displayed will be in alphabetical order, eg A/T, but if set to TRUE, rows with A/T and also T/A will also be returned, making it easier to match.
+}
+}
+
 \details{
    The IUPAC codes are a way to show DNA SNP variation using only one letter. This function produces a dataframe to enable conversion between the two.
    For example, R represents that both A and G alleles (denoted as A/G) may occur in that position.

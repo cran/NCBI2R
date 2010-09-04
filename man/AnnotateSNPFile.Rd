@@ -60,6 +60,7 @@ Useful for learning how NCBI2R functions work. It will show the url of the reque
 Input a locusID or several locusIDs and retrieve information about the gene. Such as pathways, phenotypes, gene names, symbol.
 Depending on what information you wish to obtain, it might be better to use GetGeneNames as it is faster and returns some similar items (eg genesymbol), but also returns different information.
 
+The list of neighbouring genes will include all genes around the SNP in question, and will therefore include any gene that the SNP is located in.
 }
 \value{
 A dataframe
@@ -73,13 +74,13 @@ These functions use NCBI's eutils, and come with the same user requirements - if
 performing many queries, you must run the scripts during certain hours when the
 NCBI servers are not in high demand. Please see the package website for more details
 
-http://drop.io/NCBI2R_package
+http://NCBI2R.wordpress.com
 
 Violation of the terms described there, and the terms on the eutils website may
 result in losing access to NCBI for your group.
 }
 \seealso{
-\code{\link{AnnotateSNPList}},\code{\link{AnnotateDataframe}}.
+\code{\link{AnnotateSNPList}}, \code{\link{AnnotateDataframe}}.
 }
 \examples{
 #resultsdf<-AnnotateSNPFile("markers.txt","scottsoutput.html")

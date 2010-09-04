@@ -64,7 +64,7 @@ Show progress bar or not. Default is TRUE.
 \details{
 Obtains a list of nearby genes from a given genome position.
 
-It is not just the closest genes, but any nearby genes within the specified location. 
+The list of neighbouring genes will include all genes around the SNP in question, and will therefore include any gene that the SNP is located in.
 
 Works on any species mapped on NCBI, like most of the functions in NCBI2R.
 Instead of chromosome and position, you can now specify a dataframe and the function will look for columns called "chr" and "chrpos", and GetNeighbours will work on all items.
@@ -85,7 +85,7 @@ These functions use NCBI's eutils, and come with the same user requirements - if
 performing many queries, you must run the scripts during certain hours when the
 NCBI servers are not in high demand. Please see the package website for more details
 
-http://drop.io/NCBI2R_package
+http://NCBI2R.wordpress.com
 
 Violation of the terms described there, and the terms on the eutils website may
 result in losing access to NCBI for your group.

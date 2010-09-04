@@ -22,6 +22,8 @@ The separator you wish to divide the string by.
 }
 \details{
 This makes it easy to convert a string of locusIDs into a vector of each individual item.
+
+This function is extremely similar to the R command strsplit but outputs a vector not a list.
 }
 \value{
 vector

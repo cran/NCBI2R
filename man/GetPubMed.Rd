@@ -11,7 +11,7 @@ Obtains references from NCBI's PubMed database
 \usage{
 GetPubMed(searchterm, file = "", download = FALSE, showurl = FALSE, xldiv =
           ";", hyper = "HYPERLINK", MaxRet = 30000, sme = FALSE, smt = FALSE,
-          quiet = TRUE, batchsize=500)
+          quiet = TRUE, batchsize=500,descHead=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -58,10 +58,14 @@ processed.
 Controls how many MEDLINE entries it obtains as one query of the NCBI database.
 }
 
+  \item{descHead}{
+Convert headings from Medline abbreviations to more descriptive titles.
+}
 
 }
 \details{
-This function is a literature search in one simple R command. This function 
+
+This function performs a literature search for you in one simple R command. This function 
 obtains the MEDLINE entries for the papers that match the search
 term specified. The MEDLINE entry contains paper title, PubMedID (PMID), 
 abstract, journal, date of publication etc. A dataframe of this information
@@ -73,8 +77,8 @@ that will work in Microsoft Excel so that you can click on some cells and
 (depending on operating system) will open up links to webbrowser for a more
 graphical repesentation on the NCBI website.
 
-Any papers available in PubMedCentral will be downloaded if you want to. Simply
-set the download argument to TRUE, and a directory will be created from the 
+Any papers available in PubMedCentral will be downloaded if you want to, but please see warnings below.
+Simply set the download argument to TRUE, and a directory will be created from the 
 search term inside your working directory, and then all the papers will be saved
 inside. If a filename already exists with that name, it will not be overwritten.
 This allows you to rerun the same search later, and update your reference 
@@ -96,10 +100,12 @@ the query term. It does this in one query of NCBI. The second step is to obtain
 the MEDLINE information for all the papers. If you have one hundred papers, and
 the batchsize is set to 500, only one query of NCBI will get you all of the 
 MEDLINE data from those papers - all the data is joined together. But if you 
-have 4000 papers, a batch size of 500, will mean, 8 queries will be performed.
-The data is then parsed and a dataframe is created. The file step is if you set
+have 4000 papers, a batch size of 500, will mean, 8 queries will be performed, after the initial stage of obtaining all the PMIDs.
+The data is then parsed and a dataframe is created. If you set
 download to be TRUE - each paper that is found on PubMedCentral will be 
 downloaded. If it fails, it's likely the paper is embargoed at the present time.
+
+Downloading too many articles may get you blocked by NCBI.
 
 }
 \value{
@@ -112,11 +118,13 @@ Scott Melville
 }
 
 \section{Warning}{
+Downloading too many articles may get you blocked by NCBI.
+
 These functions use NCBI's eutils, and come with the same user requirements - if
 performing many queries, you must run the scripts during certain hours when the
 NCBI servers are not in high demand. Please see the package website for more details
 
-http://drop.io/NCBI2R_package
+NCBI2R.wordpress.com
 
 Violation of the terms described there, and the terms on the eutils website may
 result in losing access to NCBI for your group.

@@ -10,7 +10,7 @@ Obtain proxy SNP information for a given SNP that is in close LD with your reque
 }
 \usage{
 GetSNPProxyInfo(singlesnpname, include = "", exclude = "", FlankingDistance = 1e+05, 
-    showurl = FALSE, method = "r2", keepmode = 1)  
+    showurl = FALSE, method = "r2", keepmode = 1, build="27_B36", pop="CEU")
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -35,11 +35,17 @@ Enables the user to see the URL of the NCBI request.
 Specify the method of choosing the best proxy. Dprime, distance or r2 are the available answers.
 }
   \item{keepmode}{
-Controls how many proxy SNPs to be returned. See more through description below.
+Controls how many proxy SNPs to be returned. See more thorough description below.
 }
+  \item{build}{
+The build to query. Two options available that define the build/release.
+3r2_B36 - PhaseIII/Rel 2 February 2009 on NCBI B36 assembly, dbSNP b126
+27_B36 - Release 27 Phase II+III February 2009 on NCBI B36 assembly, dbSNP b126
+}  
 
-
-
+  \item{pop}{
+The population to be queried. Defaul is CEU
+  }
 
 }
 \details{

@@ -4,7 +4,7 @@ function(locusID,AssociationResults,fiveprime = 100000,threeprime = 2000,filepre
    largeresponse<-data.frame("","","","","","",stringsAsFactors=FALSE)
    dees<-GetGeneInfo(locusID)
    response<-data.frame(genename=dees$genename,genesymbol=dees$genesymbol,locusID=dees$locusID,chr=dees$chr,GeneLowPoint=dees$GeneLowPoint,GeneHighPoint=dees$GeneHighPoint,ori=dees$ori,StartFlank=rep(0,nrow(dees)),StopFlank=0,bestSNP="",bestP=0,nSNPs=0,stringsAsFactors=FALSE)
-   print("<<SFG.Find")
+   print("---SFG.Find")
    for(i in 1:nrow(response))
       {
       if(response$GeneLowPoint[i]!=0)

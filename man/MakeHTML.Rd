@@ -80,7 +80,7 @@ Scott Melville
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{MakeExcel}} 
+\code{\link{MakeExcel}}.
 }
 \examples{
 snplist<-c("rs1234567","rs333","rs848484")

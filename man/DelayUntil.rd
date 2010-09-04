@@ -62,6 +62,8 @@ time today has already happened, it will not place any delay.
 }
 
 \examples{
-DelayUntil(hours=1,minutes=05) #Delays until 1:05 AM of the current day - which may have already passed.
-DelayUntil(1,05,day=1,month=1) #Delays until 1:05 of January 1 this year - which may have already passed.
+
+##Not run:
+##DelayUntil(hours=1,minutes=05) #Delays until 1:05 AM of the current day - which may have already passed.
+##DelayUntil(1,05,day=1,month=1) #Delays until 1:05 of January 1 this year - which may have already passed.
 }

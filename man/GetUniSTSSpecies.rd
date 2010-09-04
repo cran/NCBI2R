@@ -46,13 +46,13 @@ These functions use NCBI's eutils, and come with the same user requirements - if
 performing many queries, you must run the scripts during certain hours when the
 NCBI servers are not in high demand. Please see the package website for more details
 
-http://drop.io/NCBI2R_package
+http://NCBI2R.wordpress.com
 
 Violation of the terms described there, and the terms on the eutils website may
 result in losing access to NCBI for your group.
 }
 \seealso{
-\code{\link{GetIDs}},\code{\link{GetUniSTSInfo}},\code{\link{GetUniSTSFromName}},\code{\link{GetTax}}
+\code{\link{GetIDs}}, \code{\link{GetUniSTSInfo}}, \code{\link{GetUniSTSFromName}}, \code{\link{GetTax}}.
 }
 
 

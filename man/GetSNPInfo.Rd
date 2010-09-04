@@ -9,7 +9,7 @@ Obtains NCBI information about one or more SNPs
 Obtains NCBI information about one or more SNPs.
 }
 \usage{
-GetSNPInfo(listofSNPs, batchsize = 200, showurl = FALSE,pbar=TRUE)
+GetSNPInfo(listofSNPs, batchsize = 200, showurl = FALSE, pbar=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -40,6 +40,8 @@ the gene.
 
 If all items do not start with "rs", the program will stop and a
 warning message will be generated.
+
+Each batch of this function represents a single query of NCBI.
 }
 \value{
   dataframe
@@ -65,7 +67,7 @@ These functions use NCBI's eutils, and come with the same user requirements - if
 performing many queries, you must run the scripts during certain hours when the
 NCBI servers are not in high demand. Please see the package website for more details
 
-http://drop.io/NCBI2R_package
+http://NCBI2R.wordpress.com
 
 Violation of the terms described there, and the terms on the eutils website may
 result in losing access to NCBI for your group.

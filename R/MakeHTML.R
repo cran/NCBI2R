@@ -1,7 +1,7 @@
 MakeHTML <-
 function(anydf,filename,compress=TRUE,markercolumn="marker",keeplocusIDs=FALSE,keepNS=FALSE,kp=TRUE)
    {                                                                                              
-    URLdef<-URLdefinitions()
+   URLdef<-URLdefinitions()
    if(missing(anydf))
       stop("no data frame was provided to create the HTML file")
    if(!missing(anydf))
@@ -15,20 +15,14 @@ function(anydf,filename,compress=TRUE,markercolumn="marker",keeplocusIDs=FALSE,k
      
    if(colnames(anydf)[1]=="PMID")
      deletesome<-TRUE
-   for(jk in 1:ncol(anydf)) 
-      {
-      if(colnames(anydf)[jk]=="Neigh.web")
-         {
-         for(ui in 1:nrow(anydf)) 
-            {
-             anydf$Neigh.web[ui]<-ConvertURLToHTML(anydf$Neigh.web[ui],anydf$chrpos[ui])
-             anydf$chrpos[ui]<-gsub("&thmb=on\"",paste("&thmb=on&query=",anydf[ui,markercolumn],"\"",anydf$chrpos[ui],sep=""),anydf$Neigh.web[ui])
-            }
-         }
-      }
-   anydf$Neigh.web<-NULL
-   
+            
+   if("Neigh.web" %in% colnames(anydf))
+        {
+        for(ui in 1:nrow(anydf))  
+           anydf$chrpos[ui]<-gsub("&thmb=on\"",paste("&thmb=on&query=",anydf[ui,markercolumn],"\"",anydf$chrpos[ui],sep=""),ConvertURLToHTML(anydf$Neigh.web[ui],anydf$chrpos[ui]))
+        }
 
+   anydf$Neigh.web<-NULL
    if(exists("anydf$GeneLowPoint")==TRUE)
       {
       anydf$GeneLowPoint<-as.character(anydf$GeneLowPoint)
@@ -49,7 +43,6 @@ function(anydf,filename,compress=TRUE,markercolumn="marker",keeplocusIDs=FALSE,k
       anydf$genelink<-anydf$gene.HTML.web 
       anydf$gene.HTML.web<-NULL
       }
-      
    anydf$genename[anydf$locusID!=""]<-paste("<a href=\"http://www.ncbi.nlm.nih.gov/portal/query.fcgi?p$site=entrez&db=gene&cmd=Display&dopt=gene_pubmed&from_uid=",anydf$locusID[anydf$locusID!=""],"\">",anydf$genename[anydf$locusID!=""],"</a>",sep="")
    anydf$genesymbol[anydf$locusID!=""]<-paste("<a href=\"http://www.ncbi.nlm.nih.gov/sites/entrez?db=gene&term=",anydf$locusID[anydf$locusID!=""],"\">",anydf$genesymbol[anydf$locusID!=""],"</a>",sep="")
    
@@ -109,6 +102,9 @@ function(anydf,filename,compress=TRUE,markercolumn="marker",keeplocusIDs=FALSE,k
       anydf<-compress.df(anydf,"phenotypes") 
       anydf<-compress.df(anydf,"Neigh",markercolumn) 
       anydf<-compress.df(anydf,"Neigh")    
+      anydf<-compress.df(anydf,"Neigh")    
+      anydf<-compress.df(anydf,"Neigh")    
+      anydf<-compress.df(anydf,"Neigh")          
        }                         
    if(!(markercolumn %in% names(anydf)==TRUE))
       {anydf<-move.column(anydf,"genesymbol",1)      
@@ -125,22 +121,50 @@ function(anydf,filename,compress=TRUE,markercolumn="marker",keeplocusIDs=FALSE,k
      anydf$GeneLowPoint<-NULL
      anydf$GeneHighPoint<-NULL
      }
-   
-   HTMLpageoutput<-paste("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/transitional.dtd\"><HTML><HEAD><TITLE>NCBI2R - ",Sys.time(),"(",URLdef$buildversion,")</TITLE></HEAD><BODY><TABLE border=\"1\">",sep="")
+  HyperlinkNeighbours<-TRUE
+  if("N.locusID" %in% names(anydf) & HyperlinkNeighbours==TRUE)
+     {
+     for(kl in 1:nrow(anydf))
+        {
+        all_locusID<-unlist(strsplit(anydf$N.locusID[kl],","))             
+        all_genesymbols<-unlist(strsplit(anydf$N.genesymbol[kl],","))
+        TheseURLs<-paste("http://www.ncbi.nlm.nih.gov/sites/entrez?db=gene&term=",all_locusID,sep="")
+        FullURLs<-ConvertURLToHTML(TheseURLs,all_genesymbols)
+        anydf$N.genesymbol[kl]<-paste(FullURLs,collapse=", ")
+        all_genename<-unlist(strsplit(anydf$N.genename[kl],","))
+        if(length(all_locusID)!=length(all_genename))
+           all_genename<-GetGeneNames(all_locusID)$genename
+        TheseURLs<-paste("http://www.ncbi.nlm.nih.gov/sites/entrez?db=gene&term=",all_locusID,sep="")
+        FullURLs<-ConvertURLToHTML(TheseURLs,all_genename)
+        anydf$N.genename[kl]<-paste(FullURLs,collapse=", ") 
+       }
+    if(keeplocusIDs==FALSE)
+      anydf$N.locusID<-NULL
+    ks1<-grep("CHR=&MAPS",anydf$chrpos)
+    if(length(ks1)>0)
+      anydf$chrpos[ks1]<-"" 
+     }  
+   HTMLpageoutput<-paste("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/transitional.dtd\"><HTML><HEAD><TITLE>NCBI2R (",URLdef$buildversion,") ",Sys.time(),"</TITLE></HEAD><BODY><TABLE border=\"1\">",sep="")
    HTMLpageoutput<-c(HTMLpageoutput,"<tr>") 
    column.width.df<-data.frame(colnames=rep("",10),pixels=rep(100,10),stringsAsFactors=FALSE)
-   column.width.df[1,]<-c("Int.GeneIDs",200)
+   column.width.df[1,]<-c("Int.GeneIDs",200)       
    column.width.df[2,]<-c("Int.genesymbols.HTML",20)
+   column.width.df[3,]<-c("locusID",20)   
+   column.width.df[4,]<-c("genesymbol",10)    
    column.width.df<-column.width.df[column.width.df$colnames!="",] 
-   for(i in 1:length(colnames(anydf)))
+   improve_these_columns<-c("locusID","genesymbol","genename","N.genename","N.genesymbol","N.locusID") 
+   for(i in 1:ncol(anydf))
       {
       if(colnames(anydf)[i] %in% column.width.df$colnames) {
-         HTMLpageoutput<-c(HTMLpageoutput,paste("<td width=\"",column.width.df[which(colnames(anydf)[i]==column.width.df$colnames),"pixels"],"\">",colnames(anydf)[i],"</td>",sep=""))
+         HTMLpageoutput<-c(HTMLpageoutput,paste("<td width=",column.width.df[which(colnames(anydf)[i]==column.width.df$colnames),"pixels"],">",colnames(anydf)[i],"</td>",sep=""))
          } else { 
          HTMLpageoutput<-c(HTMLpageoutput,paste("<td>",colnames(anydf)[i],"</td>",sep=""))
          }
+      if(names(anydf)[i] %in% improve_these_columns)
+           anydf[,i]<-gsub(",",", ",anydf[,i]) 
       }
    HTMLpageoutput<-c(HTMLpageoutput,"</tr>") 
+    
    for(j in 1:nrow(anydf)) 
       {
       for(i in 1:length(colnames(anydf)))   
@@ -174,7 +198,7 @@ function(anydf,filename,compress=TRUE,markercolumn="marker",keeplocusIDs=FALSE,k
       } 
    HTMLpageoutput<-c(HTMLpageoutput,"</table></body></html>")
    write.table(HTMLpageoutput,file=filename,row.names=FALSE, col.names=FALSE, quote=FALSE)
-   a<-paste("HTML file was written at ",getwd(),"/",filename,sep="")
-   return(a=a) 
+   a<-writeLines(paste("HTML file was written at ",getwd(),"/",filename,sep=""))
+
    }
     
