@@ -13,7 +13,7 @@ GetUniSTSSpecies(stsid, showurl = FALSE)
 }
 \arguments{
   \item{stsid}{
-   The id number of the UniSTS record. Found by using GetIDs.
+   The ID number of the UniSTS record. Found by using GetIDs.
 }
   \item{showurl}{
    Enables the user to see the URL of the NCBI request.

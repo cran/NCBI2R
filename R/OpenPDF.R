@@ -9,7 +9,7 @@ function(PMID,safety=10,OpenURL=TRUE,download=FALSE)
   for(i in 1:limit)
   {
     getURL<-paste("http://www.pubmedcentral.nih.gov/articlerender.fcgi?tool=pubmed&pubmedid=",PMID[i],sep="")
-    webget<-try(suppressWarnings(TryScan(getURL)) )
+    webget<-try(suppressWarnings(tryScan(getURL)) )
     if(class(webget)=="try-error")
         {
         print("The PDF for the requested paper is not available")
@@ -28,8 +28,8 @@ function(PMID,safety=10,OpenURL=TRUE,download=FALSE)
      {
      if(download==TRUE)
         {
-        thisPMC_1<-substr(pdfurl[j],Excel.FIND("articles",pdfurl[j])+9,nchar(pdfurl[j]))
-        thisPMC_2<-substr(thisPMC_1,1,Excel.FIND("/",thisPMC_1)-1)
+        thisPMC_1<-substr(pdfurl[j],excel.FIND("articles",pdfurl[j])+9,nchar(pdfurl[j]))
+        thisPMC_2<-substr(thisPMC_1,1,excel.FIND("/",thisPMC_1)-1)
         download.file(pdfurl[j],destfile=paste(thisPMC_2,".pdf",sep=""),mode="wb",quiet=TRUE) 
         }
    } 

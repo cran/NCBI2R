@@ -14,7 +14,7 @@ GetTax(org, showurl = FALSE, smt = FALSE, sme = FALSE)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{org}{
-The organism you are searching for , eg "human", "homo sapiens".
+The organism you are searching for, e.g., "human", "homo sapiens".
 }
   \item{showurl}{
 Enables the user to see the URL of the NCBI request.
@@ -33,13 +33,12 @@ the query (sme).
 }
 }
 \details{
-Returns the id number of a species. May be required for some NCBI2R functions.
-
+Returns the ID number of a species. Required for some NCBI2R functions.
 
 Also used internally by some NCBI2R functions.
 }
 \value{
-An vector of ID numbers.
+A vector of ID numbers.
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -47,7 +46,7 @@ Taxonomy website:
 
 http://www.ncbi.nlm.nih.gov/sites/entrez?db=Taxonomy
 
-This function, like most of the NCBI2R tools uses the eutils feature of NCBI
+This function, like most of the NCBI2R tools, uses the eutils feature of NCBI
 
 http://eutils.ncbi.nlm.nih.gov/entrez/query/static/eutils_help.html
 
@@ -58,9 +57,10 @@ Scott Melville
 }
 
 \section{Warning}{
-These functions use NCBI's eutils, and come with the same user requirements - if
+These functions use NCBI's eutils, and come with the same user requirements. If
 performing many queries, you must run the scripts during certain hours when the
-NCBI servers are not in high demand. Please see the package website for more details
+NCBI servers are not in high demand. Please see the package website for more
+details.
 
 http://NCBI2R.wordpress.com
 

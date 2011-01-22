@@ -1,4 +1,4 @@
-Excel.FIND<-function(find_text,within_text,startnum=1)
+excel.FIND<-function(find_text,within_text,startnum=1)
       {
       i<-startnum
       answer<-(-1)

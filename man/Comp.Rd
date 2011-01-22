@@ -6,7 +6,7 @@
   Produces a complementary DNA sequence
 }
 \description{
-  Produces a complementary DNA sequence
+  Produces a complementary DNA sequence.
 }
 \usage{
 Comp(DNAseq,ACGT=TRUE)

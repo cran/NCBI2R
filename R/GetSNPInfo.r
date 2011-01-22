@@ -4,7 +4,7 @@ GetSNPInfo<-function(listofSNPs,batchsize=200,showurl=FALSE,pbar=TRUE)
      stop("Incorrect input. you have possibly entered a SNP name where the batchsize should be")
   if(length(listofSNPs)==1)
      pbar<-FALSE
-  URLdef<-URLdefinitions()
+  URLdef<-ncbi2r.options()
   test<-unique(substr(listofSNPs,1,2)) 
   if(length(test)!=1 | test[1]!="rs")
      stop("Incorrect input. Each item must begin with rs")
@@ -32,7 +32,7 @@ GetSNPInfo<-function(listofSNPs,batchsize=200,showurl=FALSE,pbar=TRUE)
   if(length(Species_lines!=0))
       {
       Species_text<-strsplitdbl(webget[Species_lines]," \\[","\\] ")
-      ThisPageSNPs$species<-AlignsData(Species_lines,Species_text,LineRecords) 
+      ThisPageSNPs$species<-alignsData(Species_lines,Species_text,LineRecords) 
       }
    
   SNPID_B_lines<-grep("cannot get document summary",webget)
@@ -42,8 +42,8 @@ GetSNPInfo<-function(listofSNPs,batchsize=200,showurl=FALSE,pbar=TRUE)
     {
     SNPID_A_text<-strsplitdbl(webget[SNPID_A_lines],": "," \\[")
     SNPID_B_text<-paste("rs",strsplitdbl(webget[SNPID_B_lines],"id: "," Error occurred"),sep="")   
-    ThisPageSNPs$SNPID_A<-as.character(AlignsData(SNPID_A_lines,SNPID_A_text,LineRecords))            
-    ThisPageSNPs$SNPID_B<-as.character(AlignsData(SNPID_B_lines,SNPID_B_text,LineRecords))
+    ThisPageSNPs$SNPID_A<-as.character(alignsData(SNPID_A_lines,SNPID_A_text,LineRecords))            
+    ThisPageSNPs$SNPID_B<-as.character(alignsData(SNPID_B_lines,SNPID_B_text,LineRecords))
     ThisPageSNPs$marker[is.na(ThisPageSNPs$SNPID_A)]<-ThisPageSNPs$SNPID_B[is.na(ThisPageSNPs$SNPID_A)]
     ThisPageSNPs$marker[is.na(ThisPageSNPs$SNPID_B)]<-ThisPageSNPs$SNPID_A[is.na(ThisPageSNPs$SNPID_B)]
     ThisPageSNPs$SNPID_A<-NULL            
@@ -73,19 +73,19 @@ GetSNPInfo<-function(listofSNPs,batchsize=200,showurl=FALSE,pbar=TRUE)
     LOCUSID_text<-substr(webget[LOCUSID_lines],10,nchar(webget[LOCUSID_lines])) 
     if(length(LOCUSID_lines)!=0)
       {
-      ThisPageSNPs$genesymbol<-AlignsData(GENE_lines,GENE_text,LineRecords)
-      ThisPageSNPs$locusID<-AlignsData(LOCUSID_lines,LOCUSID_text,LineRecords)           
+      ThisPageSNPs$genesymbol<-alignsData(GENE_lines,GENE_text,LineRecords)
+      ThisPageSNPs$locusID<-alignsData(LOCUSID_lines,LOCUSID_text,LineRecords)           
       }
     FXNCLASS_lines<-grep("^FXN_CLASS=",webget)
     FXNCLASS_text<-substr(webget[FXNCLASS_lines],11,nchar(webget[FXNCLASS_lines]))
     if(length(FXNCLASS_lines)!=0)
-      ThisPageSNPs$fxn_class<-AlignsData(FXNCLASS_lines,FXNCLASS_text,LineRecords)
+      ThisPageSNPs$fxn_class<-alignsData(FXNCLASS_lines,FXNCLASS_text,LineRecords)
     CHRPOS_lines<-grep("^CHROMOSOME BASE POSITION=",webget)
     dbl_lines<-grep("^CHROMOSOME BASE POSITION=+[[:alnum:]]+:[[:digit:]]+\\|",webget)
     if(length(dbl_lines)!=0)
       {              
       dbl_text<-substr(webget[dbl_lines],26,nchar(webget[dbl_lines]))   
-      ThisPageSNPs$dupl_loc<-AlignsData(dbl_lines,dbl_text,LineRecords)
+      ThisPageSNPs$dupl_loc<-alignsData(dbl_lines,dbl_text,LineRecords)
       webget[dbl_lines]<-gsub("(\\|[[:alnum:]]+:+[[:digit:]]+)*$","",webget[dbl_lines])
       }
 
@@ -94,9 +94,9 @@ GetSNPInfo<-function(listofSNPs,batchsize=200,showurl=FALSE,pbar=TRUE)
 
     if(length(CHRPOS_lines)!=0)
        {
-       ThisPageSNPs$chr<-AlignsData(CHRPOS_lines,CHR_text,LineRecords)
+       ThisPageSNPs$chr<-alignsData(CHRPOS_lines,CHR_text,LineRecords)
        BP_text<-as.numeric(do.call(cbind,strsplit(CHRPOS_text,":"))[2,])
-       ThisPageSNPs$chrpos<-AlignsData(CHRPOS_lines,BP_text,LineRecords)
+       ThisPageSNPs$chrpos<-alignsData(CHRPOS_lines,BP_text,LineRecords)
        }
 
     ThisPageSNPs$LineRecords<-NULL 
@@ -108,21 +108,20 @@ GetSNPInfo<-function(listofSNPs,batchsize=200,showurl=FALSE,pbar=TRUE)
     } 
   if(pbar==TRUE)    
    close(pb) 
-    
-  TotalSNPData$genesymbol<-CleanNAs(TotalSNPData$genesymbol)
-  TotalSNPData$locusID<-CleanNAs(TotalSNPData$locusID)
-  TotalSNPData$chr<-CleanNAs(TotalSNPData$chr)
-  TotalSNPData$chrpos<-CleanNAs(TotalSNPData$chrpos)
-  TotalSNPData$fxn_class<-CleanNAs(TotalSNPData$fxn_class)
-  TotalSNPData$species<-CleanNAs(TotalSNPData$species)
-  TotalSNPData$dupl_loc<-CleanNAs(TotalSNPData$dupl_loc)
+  TotalSNPData$genesymbol<-clean.NAs(TotalSNPData$genesymbol)
+  TotalSNPData$locusID<-clean.NAs(TotalSNPData$locusID)
+  TotalSNPData$chr<-clean.NAs(TotalSNPData$chr)
+  TotalSNPData$chrpos<-clean.NAs(TotalSNPData$chrpos)
+  TotalSNPData$fxn_class<-clean.NAs(TotalSNPData$fxn_class)
+  TotalSNPData$species<-clean.NAs(TotalSNPData$species)
+  TotalSNPData$dupl_loc<-clean.NAs(TotalSNPData$dupl_loc)
    myvalue_lines<-grep(",",TotalSNPData$locusID)
   if(length(myvalue_lines)!=0)
      {
       myvalues<-grep(",",TotalSNPData$locusID,value=TRUE) 
       myvalues_string<-paste(myvalues,collapse=",")   
       myvalues<-unique(unlist(strsplit(myvalues_string,",")))
-      mydata<-GetGeneName(myvalues)[,c("locusID","genesymbol")]
+      mydata<-GetGeneNames(myvalues)[,c("locusID","genesymbol")]
       for(i in myvalue_lines)
          {
          locusIDsToChange<-unlist(strsplit(TotalSNPData$locusID[i],","))

@@ -1,7 +1,7 @@
 Comp<-function(DNAseq,ACGT=TRUE)
    {
    if(ACGT==TRUE)
-      DNAseq<-CleanACGT(DNAseq)
+      DNAseq<-cleanACGT(DNAseq)
   DNAseq<-gsub("A","1",DNAseq)
   DNAseq<-gsub("C","2",DNAseq)
   DNAseq<-gsub("G","3",DNAseq)

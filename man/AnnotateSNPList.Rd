@@ -11,8 +11,8 @@ Annotates a list of SNPs using NCBI.
 \usage{
 AnnotateSNPList(snplist, filename = "", hyper = "HYPERLINK", xldiv = ";",
                smt = FALSE, sme = FALSE, div = "---", keeplocusIDs = FALSE,
-               keepNS = FALSE, kp = TRUE, quiet = TRUE, neigh = TRUE,
-               showurl = FALSE)
+               keepNS = FALSE,FlankingDistance=100000, kp = TRUE, quiet = TRUE,
+               neigh = TRUE,showurl = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -43,6 +43,9 @@ Do you want to keep a list of the locusIDs?
   \item{keepNS}{
 Do you want to keep the NeighbourString? This is the locusID numbers for the Neighbouring Genes.
 }
+  \item{FlankingDistance}{
+The distance on either side of the specified position for finding NeighGenes.
+}
   \item{kp}{
 Replaces all mentions of "Kegg Pathway" with "KP" to save space inside the pathways column.
 }
@@ -64,7 +67,7 @@ The list of neighbouring genes will include all genes around the SNP in question
 
 It works the same as AnnotateSNPFile but this function works with an existing R object of SNPs.
 
-To open a URL from Microsoft Excel uses a specific command, depending on which language the software is in. In English language, the command in Microsoft Excel is "HYPERLINK" and in Italian it is "COLLEG.IPERTESTUALE". This command should be specified at the hyper argument for this command
+The command used to open a URL from Microsoft Excel differs depending on which language the software is in. In English language, the command in Microsoft Excel is "HYPERLINK" and in Italian it is "COLLEG.IPERTESTUALE". This command should be specified at the hyper argument for this command
 
 
 }

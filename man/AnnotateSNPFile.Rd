@@ -6,13 +6,13 @@
   Annotates SNPs from a file
 }
 \description{
-  Performs Annotation on a list of SNPs from a file
+  Performs annotation on a list of SNPs from a file.
 }
 \usage{
 AnnotateSNPFile(snpfile, filename = "output.html", hyper = "HYPERLINK",
                xldiv = ",", quiet = TRUE, smt = FALSE, sme = FALSE,
-               keeplocusIDs = FALSE, keepNS = FALSE, kp = TRUE, div = "---",
-               neigh = TRUE, showurl = FALSE)
+               keeplocusIDs = FALSE, keepNS = FALSE, FlankingDistance=100000,
+               kp = TRUE, div = "---",    neigh = TRUE, showurl = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -43,6 +43,9 @@ Do you want to keep a list of the locusIDs?
   \item{keepNS}{
 Do you want to keep a string of the Neighbouring Genes.
 }
+  \item{FlankingDistance}{
+The distance on either side of the specified position for finding NeighGenes.
+}
   \item{kp}{
 Replaces all mentions of "Kegg Pathway" with "KP" to save space inside the pathways.
 }
@@ -57,10 +60,9 @@ Useful for learning how NCBI2R functions work. It will show the url of the reque
 }
 }
 \details{
-Input a locusID or several locusIDs and retrieve information about the gene. Such as pathways, phenotypes, gene names, symbol.
-Depending on what information you wish to obtain, it might be better to use GetGeneNames as it is faster and returns some similar items (eg genesymbol), but also returns different information.
 
 The list of neighbouring genes will include all genes around the SNP in question, and will therefore include any gene that the SNP is located in.
+
 }
 \value{
 A dataframe

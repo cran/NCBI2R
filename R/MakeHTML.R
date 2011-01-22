@@ -1,7 +1,7 @@
 MakeHTML <-
 function(anydf,filename,compress=TRUE,markercolumn="marker",keeplocusIDs=FALSE,keepNS=FALSE,kp=TRUE)
    {                                                                                              
-   URLdef<-URLdefinitions()
+ URLdef<-ncbi2r.options()
    if(missing(anydf))
       stop("no data frame was provided to create the HTML file")
    if(!missing(anydf))
@@ -10,7 +10,7 @@ function(anydf,filename,compress=TRUE,markercolumn="marker",keeplocusIDs=FALSE,k
    if(missing(filename))
       stop("please provide an output file name")
    
-   anydf<-ColumnStripper(anydf,".xl")
+   anydf<-columnStripper(anydf,".xl")
    deletesome<-FALSE
      
    if(colnames(anydf)[1]=="PMID")

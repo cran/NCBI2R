@@ -2,7 +2,7 @@ GetTableWithComments<-function(myfile,columnnames,sep=" ",filter="")
    {
    errorcount<-0
    mytext <- get.file(myfile, showurl = FALSE, clean = FALSE)
-   NCBI2R.TimeStampA<-Sys.time()
+   .ncbi2r.options$TimeStampA<<-Sys.time()
    while(mytext[1]=="<!DOCTYPE html")
        {
        errorcount<-errorcount+1

@@ -22,7 +22,7 @@ Enables the user to see the URL of the NCBI request.
 }
 }
 \details{
-Works on a single EntrezID (locusID) number and provides a dataframe of results of the sources of information, the other gene name, other gene locusID number and other items, such as sequence accession identifiers (eg NP_000518.1).
+Works on a single EntrezID (locusID) number and provides a dataframe of results of the sources of information, the other gene name, other gene locusID number and additional items, such as sequence accession identifiers (eg NP_000518.1).
 
 Each use of this function represents a single query of NCBI.
 }

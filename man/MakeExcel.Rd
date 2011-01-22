@@ -6,9 +6,7 @@
 Creates an Excel spreadsheet from genetic information.
 }
 \description{
-Takes the dataframe (from GetPubMed or from any of the snp/gene items
-and make a document for Microsoft Excel. This could be from
-results/annotation or from a GetPubMed search.
+Takes the dataframe (from most NCBI2R functions) and prepares a document for Microsoft Excel.
 }
 \usage{
 MakeExcel(anydf, filename, xldiv = ";", linktext = "link", hyper = "HYPERLINK",
@@ -18,10 +16,10 @@ MakeExcel(anydf, filename, xldiv = ";", linktext = "link", hyper = "HYPERLINK",
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{anydf}{
-The dataframe of results
+The dataframe of results.
 }
   \item{filename}{
-The output filename
+The output filename.
 }
   \item{xldiv}{
 The division symbol (comma or semicomma) that goes between items in a
@@ -30,16 +28,16 @@ Regional settings of the computer/Excel program.
 }
   \item{linktext}{
 The text that will appear visibly in Microsoft Excel that you will click
-on to open a URL
+on to open a URL.
 }
   \item{hyper}{
-The name of the Microsoft Excel command to link to a URL
+The name of the Microsoft Excel command to link to a URL.
 }
   \item{markercolumn}{
-The name of the column that contains the markers
+The name of the column that contains the markers.
 }
   \item{positioncolumn}{
-The name of the column that contains the genome position
+The name of the column that contains the genome position.
 }
   \item{absize}{
 The maximum size of an abstract that will be displayed in a single
@@ -68,38 +66,41 @@ If long is specified - all columns will be kept.
 
 }
 \details{
-It converts weblinks to Excel format (where possible) and it turns the
-dataframe into a nice format for Excel. The file (with weblinks) has the
-advantage that the user can sort by a particular column, but Microsoft
-Excel will not allow multiple weblinks in a single cell and the weblinks
-will not be available. Using the HTML version overcomes this, and the
-user can sort the table before exporting.
 
-To open a URL from Microsoft Excel uses a specific command, depending on
-which language the software is in. In English language, the command in
-Microsoft Excel is "HYPERLINK" and in Italian it is
-"COLLEG.IPERTESTUALE". This command should be specified at the hyper
-argument for this command.
+The function converts the dataframe into something that can be read into Excel,
+and will convert URL addresses into hyperlinks.
 
-Abstract Size - Used only for GetPubMed functions. You might not want the 
-complete abstract to be saved, or the form of Microsoft Excel you have may 
-not be able to store more than a certain number, about 32000 characters.
+Microsoft Excel will not allow multiple weblinks in a single cell, and
+hyperlinks will not be available. Using a different function MakeHTML will
+overcome this, and the user can sort the table before exporting.
 
+The command used to open a URL from Microsoft Excel differs by language. In
+English, the command is "HYPERLINK" and in Italian, it is "COLLEG.IPERTESTUALE".
+The command should be specified at the hyper argument of the MakeExcel command.
+
+Abstract Size is used only for GetPubMed functions. This is helpful if you do
+not want the complete abstract saved, or if your version of Microsoft Excel can
+only store a limited number of characters.
 
 }
 \value{
 A spreadsheet for Microsoft Excel is produced.
 }
 \references{
-%% ~put references to the literature/web site here ~
-2003 cell size limits:
+
+The number of characters in each cell of Microsoft Excel differs by version
+
+2003
 
 http://office.microsoft.com/en-us/excel/HP051992911033.aspx
 
-2007 cell size limits:
+2007
 
-http://office.microsoft.com/en-us/excel/HP100738491033.aspx?pid=CH101030621033
+http://office.microsoft.com/en-us/excel/HP100738491033.aspx
 
+2010
+
+http://office.microsoft.com/en-us/excel/HP010342495.aspx
 }
 \author{
 Scott Melville

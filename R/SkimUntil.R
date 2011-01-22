@@ -1,4 +1,4 @@
-SkimUntil <-
+skimUntil <-
 function(texttofind,dataset,ln) 
    {
    while(substr(dataset[ln],1,nchar(texttofind))!=texttofind & ln<=length(dataset))

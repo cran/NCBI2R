@@ -3,7 +3,7 @@ function(webget,LC=1,div=",")
    {                                                                                 
    Interactions<-data.frame(RefNo=rep(0,10000),GeneComm="",Refs="",Source_db="",Source_obj_id="",Source_gct="",Source_obj_str="",Source_osa="",Product_db="",Product_obj_id="",Product_gct="",Product_osa="",OtherGene_gct="",OtherGene_osa="",OtherGene_obj_id="",OtherGene_db="",Interactant_db="",Interactant_obj_id="",Interactant_gct="",Interactant_osa="",stringsAsFactors=FALSE)
    joinedtags<-rep("",100000)
-   LC<-SkimUntil("<Gene-commentary_heading>Interactions<",webget,LC)
+   LC<-skimUntil("<Gene-commentary_heading>Interactions<",webget,LC)
    if(is.na(webget[LC]))
       stop("no interactions found")
    GoAgain<-TRUE
@@ -54,7 +54,7 @@ function(webget,LC=1,div=",")
       Interactions_j<-Interactions_j+1
       Interactions$RefNo[Interactions_j]<-substr(InteractionText[LineNumber_i],9,nchar(InteractionText[LineNumber_i]))
       LineNumber_i<-LineNumber_i+1 
-      Checker<-Finder("<Gene-commentary_text>","<PubMedId>",InteractionText,LineNumber_i)
+      Checker<-finder("<Gene-commentary_text>","<PubMedId>",InteractionText,LineNumber_i)
       LineNumber_i<-Checker$RowNumber
       if(Checker$Object==1)
          {

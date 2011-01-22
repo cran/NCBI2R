@@ -1,19 +1,19 @@
 get.phenotypes.int <-
 function(webget,LC=1)
    {
-   LC<-SkimUntil("<Gene-commentary_heading>Phenotypes</Gene-commentary_heading>",webget,LC)
+   LC<-skimUntil("<Gene-commentary_heading>Phenotypes</Gene-commentary_heading>",webget,LC)
    if(is.na(webget[LC]))
       return("NCBI2R: no Phenotypes found") 
    else
       {
        Phenotypes<-data.frame(name=rep("",5000),web="",stringsAsFactors=FALSE)
        i<-0
-       Checker<-Finder("<Gene-commentary_text>","</Gene-commentary_comment>",webget,LC)
+       Checker<-finder("<Gene-commentary_text>","</Gene-commentary_comment>",webget,LC)
        while(Checker$Object==1)
           {
           i<-i+1                                         
           Phenotypes$name[i]<-substr(webget[Checker$RowNumber],23,nchar(webget[Checker$RowNumber])-23)
-          Checker<-Finder("<Dbtag_db>","</Gene-commentary>",webget,Checker$RowNumber+1)
+          Checker<-finder("<Dbtag_db>","</Gene-commentary>",webget,Checker$RowNumber+1)
           
           if(Checker$Object==1)
              {      
@@ -27,7 +27,7 @@ function(webget,LC=1)
              if(dbtag!="MIM" & dbtag!="MGI") 
                   Phenotypes$web[i]<-substr(webget[Checker$RowNumber+1],19,nchar(webget[Checker$RowNumber+1])-19)
              } 
-          Checker<-Finder("<Gene-commentary_text>","</Gene-commentary_comment>",webget,Checker$RowNumber+1)
+          Checker<-finder("<Gene-commentary_text>","</Gene-commentary_comment>",webget,Checker$RowNumber+1)
       
           }
         LC<-Checker$RowNumber

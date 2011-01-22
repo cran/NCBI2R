@@ -1,0 +1,5 @@
+genelist<-c(1203,348)
+ggi<-GetGeneInfo(genelist)
+print(ggi)
+print(class(ggi))
+print(names(ggi))

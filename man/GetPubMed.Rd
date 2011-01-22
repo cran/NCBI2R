@@ -6,7 +6,7 @@
 Obtains references from NCBI's PubMed database
 }
 \description{
-Obtains references from NCBI's PubMed database
+Obtains references from NCBI's PubMed database.
 }
 \usage{
 GetPubMed(searchterm, file = "", download = FALSE, showurl = FALSE, xldiv =
@@ -59,7 +59,7 @@ Controls how many MEDLINE entries it obtains as one query of the NCBI database.
 }
 
   \item{descHead}{
-Convert headings from Medline abbreviations to more descriptive titles.
+Converts headings from Medline abbreviations to more descriptive titles.
 }
 
 }
@@ -90,19 +90,21 @@ symbols removed.
 Future plans will include similar options for OpenOffice.
 
 To open a URL from Microsoft Excel uses a specific command, depending on
-which language the software is in. In English language, the command in
+which language the software is in. In the English language, the command in
 Microsoft Excel is "HYPERLINK" and in Italian it is
 "COLLEG.IPERTESTUALE". This command should be specified at the hyper
 argument for this command.
 
-Mechanism: This function works in three steps, first it obtains all the PMIDs for
-the query term. It does this in one query of NCBI. The second step is to obtain
+Mechanism: This function works in three steps. First it obtains all the PMIDs for
+the query term. It does this in one query of NCBI. The second step obtains
 the MEDLINE information for all the papers. If you have one hundred papers, and
 the batchsize is set to 500, only one query of NCBI will get you all of the 
-MEDLINE data from those papers - all the data is joined together. But if you 
-have 4000 papers, a batch size of 500, will mean, 8 queries will be performed, after the initial stage of obtaining all the PMIDs.
+MEDLINE data from those papers as all the data is joined together. But if you
+have 4000 papers and a batch size of 500, 8 queries will be performed. Please
+note that these 8 queries will occur after the initial single query to get the
+PMIDs.
 The data is then parsed and a dataframe is created. If you set
-download to be TRUE - each paper that is found on PubMedCentral will be 
+download to be TRUE, each paper that is found on PubMedCentral will be
 downloaded. If it fails, it's likely the paper is embargoed at the present time.
 
 Downloading too many articles may get you blocked by NCBI.

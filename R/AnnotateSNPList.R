@@ -1,13 +1,16 @@
 AnnotateSNPList <-
-function(snplist,filename="",hyper="HYPERLINK",xldiv=";",smt=FALSE,sme=FALSE,div="---",keeplocusIDs=FALSE,keepNS=FALSE,kp=TRUE,quiet=TRUE,neigh=TRUE,showurl=FALSE)
+function(snplist,filename="",hyper="HYPERLINK",xldiv=";",smt=FALSE,sme=FALSE,div="---",keeplocusIDs=FALSE,keepNS=FALSE,FlankingDistance=100000,kp=TRUE,quiet=TRUE,neigh=TRUE,showurl=FALSE)
    {                          
    snps<-GetSNPInfo(snplist,showurl=showurl)
+   snps<-SplitGenes(snps)
+   
    writeLines("GetSNPInfo has been performed and now information for identified genes will now be found.")
    if(length(unique(snps$species[snps$species!=""]))!=1)  
       stop("more than one species was found in the SNPs dataframe.")
    flush.console()   
    org<-unique(snps$species[snps$species!=""])
-   snps$species<-NULL                    
+   snps$species<-NULL 
+               
    genes<-GetGeneInfo(snps$locusID,div=div,quiet=quiet,showurl=showurl)
    genes$org_ref_taxname<-NULL
    genes$org_ref_commonname<-NULL
@@ -24,7 +27,7 @@ function(snplist,filename="",hyper="HYPERLINK",xldiv=";",smt=FALSE,sme=FALSE,div
       newsnps<-MergeSNPsGenes(snps,genes,quiet=TRUE)  
       }
    if(neigh){
-     Nei<-GetNeighGenes(newsnps$chr,newsnps$chrpos,org=org,sme=sme,smt=smt,div=div,showurl=showurl)
+     Nei<-GetNeighGenes(newsnps$chr,newsnps$chrpos,org=org,sme=sme,smt=smt,div=div,showurl=showurl,FlankingDistance=FlankingDistance)
      Nei$chr<-NULL 
      names(Nei)[1:5]<-paste("N.",names(Nei)[1:5],sep="")       
      flush.console()

@@ -1,4 +1,4 @@
- ParseSNPIDLine<-function(textvector)
+parseSNPIDLine<-function(textvector)
    {
    queryID<-do.call(rbind,strsplit(textvector,":"))[,1]
    rsID<-strsplitdbl(textvector,": "," \\[")  

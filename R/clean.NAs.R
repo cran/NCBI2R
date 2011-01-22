@@ -1,13 +1,20 @@
 clean.NAs <-
-function(anydf)
-  {
-  for(c in 1:ncol(anydf))
+function(dataobj)
+   {
+   if(class(dataobj)=="data.frame")
+      {
+      for(c in 1:ncol(dataobj))
          {
-         if(class(anydf[,c])=="character")
-             anydf[,c][is.na(anydf[,c])]<-""
-         if(class(anydf[,c])=="numeric")
-             anydf[,c][is.na(anydf[,c])]<-0
+         if(class(dataobj[,c])=="character")
+             dataobj[,c][is.na(dataobj[,c])]<-""
+         if(class(dataobj[,c])=="numeric")
+             dataobj[,c][is.na(dataobj[,c])]<-0
          }
-   return(anydf=anydf)   
+      }
+   if(class(dataobj)=="character")
+     dataobj[is.na(dataobj)]<-""
+   if(class(dataobj)=="numeric")
+     dataobj[is.na(dataobj)]<-0
+  return(dataobj=dataobj)   
   }  
 

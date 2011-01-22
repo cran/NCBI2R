@@ -1,4 +1,4 @@
-GetListFromXML <-
+getListFromXML <-
 function(webget,smt=FALSE,sme=FALSE,MaxRet=30000)
    {
    webget<-gsub("\t","",webget)
@@ -15,7 +15,7 @@ function(webget,smt=FALSE,sme=FALSE,MaxRet=30000)
       RowCounter<-RowCounter+1
       }
    if(smt==TRUE | sme==TRUE)
-      ShowMessages(webget,smt=smt,sme=sme)
+      showMessages(webget,smt=smt,sme=sme)
    if(length(ListItems[ListItems!=""])==MaxRet)
       print("Warning: Number of items was greater than expected. PARTIAL RESULTS USED [MaxRet need increasing]")
    ListItems<-ListItems[ListItems!=""]

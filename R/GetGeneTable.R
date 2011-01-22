@@ -1,7 +1,7 @@
 GetGeneTable <-
 function(locusIDs,batchsize=200,showurl=FALSE,pbar=TRUE,TrueBP=FALSE)
    {
-   URLdef<-URLdefinitions() 
+   URLdef<-ncbi2r.options()
    if(missing(locusIDs))                                       
       stop("no locusIDs provided")
 
@@ -95,6 +95,7 @@ function(locusIDs,batchsize=200,showurl=FALSE,pbar=TRUE,TrueBP=FALSE)
            total<-gt
            }
         }
+
      } 
    BatchCounter<-BatchCounter+1  
   } 

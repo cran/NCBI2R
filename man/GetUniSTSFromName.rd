@@ -6,7 +6,7 @@
 Find information about UniSTS from NCBI
 }
 \description{
-Find information about UniSTS from NCBI by entering a search term
+Find information about UniSTS from NCBI by entering a search term.
 }
 
 \usage{

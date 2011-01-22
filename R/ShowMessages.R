@@ -1,8 +1,8 @@
-ShowMessages <-
+showMessages <-
 function(webget,smt=FALSE,sme=FALSE)
    {
    cleanedset<-parse.items(webget)
-   QT<-Cutter(cleanedset[length(cleanedset)],"QueryTranslation")
+   QT<-cutter(cleanedset[length(cleanedset)],"QueryTranslation")
    if(smt==TRUE)
       print(paste("QueryTranslation was:",QT$answer))
    if(substr(QT$rem,1,11)=="<ErrorList>")
@@ -12,7 +12,7 @@ function(webget,smt=FALSE,sme=FALSE)
       tti<-ErrorList
       while(nchar(tti)>0)
          {
-         f<-Cutter(tti,tagtofind)
+         f<-cutter(tti,tagtofind)
          if(sme==TRUE)
             print(paste("Error on Query (",tagtofind,"): ",f$answer,sep=""))
          tti<-f$rem

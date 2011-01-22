@@ -6,7 +6,7 @@
   Produces a dataframe of the Medline abbreviations
 }
 \description{
-  Produces a dataframe of the Medline abbreviations for looking up
+  Produces a dataframe of the Medline abbreviations for querying.
 }
 \usage{
 MedlineAbbreviations()
@@ -15,7 +15,7 @@ MedlineAbbreviations()
 \details{
     The Medline abbreviations are used by PubMed.
     
-    These are included as reference and are also used to convert headings by the
+    These are included as a reference and are also used to convert headings by the
     ConvertPubMedHeadings function included as part of NCBI2R.
 }
 \value{

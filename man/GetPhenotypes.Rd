@@ -6,7 +6,7 @@
 Obtains pathways from NCBI for a given set of genes
 }
 \description{
-Obtains pathways for any multiple Entrez locusIDs using NCBI
+Obtains pathways for any multiple Entrez locusIDs using NCBI.
 }
 \usage{
 GetPhenotypes(locusIDs, showurl = FALSE,silent=TRUE)
@@ -25,7 +25,7 @@ Display a message on screen if a locusID has no information. Default is no.
 }
 }
 \details{
-This function internally works just the same as GetGeneInfo, and will take a similar amount of time, and return only the pathway information. It may be faster obtaining all of the information by using GetGeneInfo, however the function was included here for those that want to customize workflow.
+This function works internally just like as GetGeneInfo, and takes a similar amount of time, but it returns only the pathway information. It may be faster obtaining all of the gene information by using GetGeneInfo, however the function was included here for those that want to customize workflow.
 
 For each gene listed, there will be one query of NCBI.
 }

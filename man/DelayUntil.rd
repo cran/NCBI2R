@@ -6,7 +6,7 @@
 Pauses the code until a specified time
 }
 \description{
-Pauses the code until a specified time
+Pauses the code until a specified time.
 }
 \usage{
 DelayUntil(hours, minutes=0,seconds=0,day=as.numeric(format(Sys.time(),"\%d")),
@@ -25,16 +25,16 @@ DelayUntil(hours, minutes=0,seconds=0,day=as.numeric(format(Sys.time(),"\%d")),
 }
   \item{day}{
    The day that you want the code to restart. Not the day of the
-   week, but the number, eg 1 for the first day of the month.
+   week, but the number, e.g., 1 for the first day of the month.
    Default is current day.
 }
   \item{month}{
-   The month that you want the code to restart, as a number, eg 
+   The month that you want the code to restart, as a number, e.g.,
    8 for August. Default is current month.
 }
   \item{year}{
    The year that you want the code to restart, with four digits.
-   Default is current year, obviously. 
+   Default is current year.
 }
 
 }
@@ -64,6 +64,8 @@ time today has already happened, it will not place any delay.
 \examples{
 
 ##Not run:
-##DelayUntil(hours=1,minutes=05) #Delays until 1:05 AM of the current day - which may have already passed.
-##DelayUntil(1,05,day=1,month=1) #Delays until 1:05 of January 1 this year - which may have already passed.
+###     Delays until 1:05 AM of the current day - which may have already passed.
+##DelayUntil(hours=1,minutes=05)
+###    Delays until 1:05 of January 1 this year - which may have already passed.
+##DelayUntil(1,05,day=1,month=1)
 }

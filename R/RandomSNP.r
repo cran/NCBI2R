@@ -1,4 +1,4 @@
-RandomSNP <-
+randomSNP <-
 function(number,org="")
    {
    snplist<-""

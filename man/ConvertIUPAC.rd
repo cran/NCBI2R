@@ -1,15 +1,15 @@
-\name{TranslateIUPAC}
+\name{ConvertIUPAC}
 \Rdversion{1.2}
-\alias{TranslateIUPAC}
+\alias{ConvertIUPAC}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Convert IUPAC allele ambiguity abbreviation codes
 }
 \description{
-    Convert IUPAC allele ambiguity abbreviation codes into DNA variation and vice versa
+    Convert IUPAC allele ambiguity abbreviation codes into DNA variation and vice versa.
 }
 \usage{
-TranslateIUPAC(variants)
+ConvertIUPAC(variants)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -36,7 +36,7 @@ Scott Melville
 }
 
 \section{Warning}{
- When using TranslateIUPAC and providing alleles (for example A/T) as input, the alleles must be in alphabetical order. In other words, do not enter T/A as that is not defined in the IUPAC() table.
+ When using ConvertIUPAC and providing alleles (for example A/T) as input, the alleles must be in alphabetical order. In other words, do not enter T/A as that is not defined in the IUPAC() table.
  Also the allele code to represent any nucleotide base is A/C/G/T. The letter N is only used in the IUPAC code.
 }
 
@@ -47,6 +47,6 @@ Scott Melville
 
 \examples{
 VariationChart<-IUPAC()
-TranslateIUPAC(c("T","K","R","W"))
-TranslateIUPAC(c("A/C","A/G","A/C/G/T"))
+ConvertIUPAC(c("T","K","R","W"))
+ConvertIUPAC(c("A/C","A/G","A/C/G/T"))
 }

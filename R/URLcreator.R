@@ -1,4 +1,4 @@
-URLcreator <-
+urlCreator <-
 function(term,db,org="human",cg=TRUE)
    {
    pe=FALSE

@@ -1,7 +1,5 @@
 NatureJobs <- function(keywords,outputfileprefix="Jobs",savedescriptions=TRUE,days=0,BadJobs="",WriteDirectory="NJ",celllimit=30000,hyper="HYPERLINK",xldiv=";",quiet=FALSE,showurl=FALSE,LocalLink=TRUE)
    {
-   #not flexible about structure.
-   #split into sub functions perhaps, and wrap things in a try command
    BJFlag<-FALSE
    if(!file.exists(BadJobs) & BadJobs!="")
       print("The file you specified for the unwanted jobs was not found")
@@ -71,8 +69,7 @@ NatureJobs <- function(keywords,outputfileprefix="Jobs",savedescriptions=TRUE,da
 
       }
    close(pb)
-#   print("stage B")
-   AllJobs$Title<-gsub(",",";",AllJobs$Title)  
+   AllJobs$Title<-gsub(",",";",AllJobs$Title)
    AllJobs$location<-gsub(",",";",AllJobs$location)
    AllJobs$employer<-gsub(",",";",AllJobs$employer)
    AllJobs$description<-gsub(",",";",AllJobs$description)
@@ -83,15 +80,12 @@ NatureJobs <- function(keywords,outputfileprefix="Jobs",savedescriptions=TRUE,da
       AllJobs<-AllJobs[AllJobs$DaysAgo<=as.numeric(days),]
       print(paste("NatureJobs Filter: days(",days,") Old Job Count:",oldjobcount," New Job Count:",nrow(AllJobs),sep=""))
       }       
-#   print("stage C")
    if(nrow(AllJobs)==0)
       {
       stop("No jobs left with after applying the days filter. Try the same search without the filter, or increase the number of days")
       } else {
-      print("stage C1a")
       if(BJFlag==TRUE)
          {
-         print("stage C1")
          BadJobTitles <- get.file(BadJobs, showurl = showurl, clean = FALSE)
          print("NatureJobs Filter: Jobs that will be cut - perhaps you should look through manually")
          print(unique(AllJobs[AllJobs$Title %in% BadJobTitles,"Title"]))
@@ -100,10 +94,8 @@ NatureJobs <- function(keywords,outputfileprefix="Jobs",savedescriptions=TRUE,da
          AllJobs<-AllJobs[!(AllJobs$Title %in% BadJobTitles),]
          print(paste("Old Job Count:",oldcount,"  New Job Count:",nrow(AllJobs)))
          }
-   #   print("stage C2a")
       if (savedescriptions == TRUE)
          {
-         print("stage C2")
          print(paste("Will save descriptions inside folder:",WriteDirectory))
          pb <- txtProgressBar(min = 0, max = nrow(AllJobs), style = 3)
          for (i in 1:nrow(AllJobs))
@@ -112,7 +104,7 @@ NatureJobs <- function(keywords,outputfileprefix="Jobs",savedescriptions=TRUE,da
             writeLines(paste("Trying to process AllJobs",i,"of",nrow(AllJobs)))
             webget <- get.file(AllJobs$description.xlweb[i])
             a <- try(make.local.HTML(AllJobs$description.xlweb[i], WriteDirectory,30000))
-            if(class(a)!="try-error")  #but work out WHY
+            if(class(a)!="try-error") 
                {
                AllJobs$BigDescription[i] <- unlist(strsplit(a[[2]],"txt-ed-job-desc\">"))[2]
                AllJobs$ExpDate[i] <- paste("'", as.character(strptime(a[[1]],format = "%B %d, %Y")))
@@ -120,29 +112,25 @@ NatureJobs <- function(keywords,outputfileprefix="Jobs",savedescriptions=TRUE,da
             if(class(a)=="try-error")
               {
               print("NCBI2R ERROR. NatureJobs. unable to parse HTML from this job")
-              print(AllJobs$description.xlweb[i])  #should do something more here about informing
-              stop("Program has stopped") #what if it returns a value instead of an error?
+              print(AllJobs$description.xlweb[i]) 
+              stop("Program has stopped") 
               }
                
             }
          close(pb)
          }
-    #  print("stage C3")
       AllJobs$BigDescription<-RemoveSpaces(AllJobs$BigDescription)
       AllJobs$BigDescription<-gsub("\t","<p>",AllJobs$BigDescription)
-      print("stage C4")
       if("outputfileprefix" %in% ls())
          {
          if(LocalLink==TRUE & savedescriptions==TRUE)
             {
-     #       print("stage C5")
             olddirectory<-getwd()
-            setwd(WriteDirectory) #is it worth changing directory each time - why not just make the full description.
+            setwd(WriteDirectory) 
             thisdir<-getwd()
             setwd(olddirectory)
             AllJobs$LocalLink<-ConvertURLToExcel(paste(thisdir,"/",substr(AllJobs$description.xlweb,47,nchar(AllJobs$description.xlweb)),".html",sep=""),xldiv=xldiv,hyper=hyper)
             }
-   #     print("stage C6")
         AllJobs<-AllJobs[!duplicated(AllJobs$LocalLink),]
         AllJobs$description.xlweb<-ConvertURLToExcel(AllJobs$description.xlweb,xldiv=xldiv,hyper=hyper)
         filename<-paste(outputfileprefix,format(Sys.time(),"%d_%H%M%S"),".tab",sep="")
@@ -154,5 +142,3 @@ NatureJobs <- function(keywords,outputfileprefix="Jobs",savedescriptions=TRUE,da
       }
    }
 
-#keywords<-c("scientist","genetic") #this is one search, composed of two keywords
-#nj<-NatureJobs(keywords,"MYFILE_A_",days=81,xldiv=",")  #should describe that xldiv is better? is it clear. i.e. not CSV

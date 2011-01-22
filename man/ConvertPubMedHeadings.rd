@@ -6,7 +6,7 @@
 Convert MEDLINE abbreviations to descriptions
 }
 \description{
-Convert MEDLINE abbreviations to descriptions
+Convert MEDLINE abbreviations to descriptions.
 }
 \usage{
 ConvertPubMedHeadings(paper.df,reverse=FALSE)
@@ -28,8 +28,9 @@ When GetPubMed performs a literature search for you, the default option is to
 use the medline abbreviations as headings, which are often hard to understand.
 Author(AU), Gene Symbol(GS) and Investigator Name(IR) are three examples.
 
-This function can be called as an argument of GetPubMed or simply run it 
-afterwards as the need arises.
+There is an argument within the function GetPubMed that if specified will run
+this function automatically. Alternatively, you can run this function by itself
+later.
 
 }
 \value{

@@ -1,4 +1,4 @@
-ColumnStripper <-
+columnStripper <-
 function(anydf,Text)
    {
     if(missing(anydf))

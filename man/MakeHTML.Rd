@@ -43,14 +43,13 @@ the pathways.
 \details{
 MakeHTML takes the rather large dataframe of SNP/Gene information and
 merges it. For example, the weblink to the locusID is not displayed on
-the HTML, but a clickable link is created on the gene name. Output is
-normal created as R objects, but this function will convert the object
-into the output files that can be used by non-R people.
+the HTML, but clickable links is created on the gene names. Output is
+normally created as R objects, but this function will convert the object
+into the output files that can be used by people not familiar with R.
 
-This function will work on many different types of dataframe in
+This function will work on many different types of dataframes in
 NCBI2R. This includes, the results of a PubMed search, the annotation
-results or just the results of some GetGeneInfo commands. see the
-examples.
+results, or the results of GetGeneInfo commands. See the examples below.
 
 The default HTML file generated can be quite large. You should consider
 which columns you really need for your output, and remove those you
@@ -58,14 +57,14 @@ will not use.
 
 The compress argument for this function works best if the dataframe
 is sorted by chromosome and chromosome position before generating
-the MakeHTML page.
+the page.
 
 Depending on the webbrowser that you use, you can shrink the size
 of the font displayed by pressing (Alt with -) and expand the text
-by pressing (Alt with +). This may make things easier to read as the formatting
-is not good,
+by pressing (Alt with +). This may make things easier to read if the formatting
+is not easy to read.
 
-In some many functions, such as AnnotateSNPList, AnnotateSNPFile and
+In some functions, such as AnnotateSNPList, AnnotateSNPFile and
 AnnotateDataframe, the MakeHTML is automatically created when an output
 file name is provided by the user.
 }
@@ -86,10 +85,12 @@ Scott Melville
 snplist<-c("rs1234567","rs333","rs848484")
 d<-AnnotateSNPList(snplist)  #no HTML file is created
 MakeHTML(d,"NCBI2R_AnnotatedSNPs.html")
-
+\donttest{
+#these are additional examples that can be used but won't be checked during package testing
 snps<-GetSNPInfo(snplist)
 MakeHTML(snps,"NCBI2R_JustSNPs.html")
 
 bb<-GetGeneInfo(1200:1209)
 MakeHTML(bb,"NCBI2R_GeneInformation.html")
+}
 }

@@ -10,8 +10,9 @@ Obtains a list of nearby genes from a given genome position using NCBI.
 }
 \usage{
 GetNeighGenes(chr, chrpos, FlankingDistance = 1e+05, showurl = FALSE,
-              hyper = "HYPERLINK", full = FALSE, web=TRUE, html=FALSE, org = "human", cg = TRUE, div = "**",
-              sme = FALSE, smt = FALSE, pbar=TRUE)
+              hyper = "HYPERLINK", full = FALSE, web=TRUE, html=FALSE,
+              org = "human", cg = TRUE, div = "**", sme = FALSE,
+              smt = FALSE, pbar=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -34,7 +35,7 @@ The name of the Microsoft Excel command to link to a URL. Intended for future de
 Will set the other arguments of web and html to TRUE. It will override the other settings.
 }
   \item{web}{
-default is true. will create a URL that can be used to show the region in question.
+Default is true. will create a URL that can be used to show the region in question.
 }
   \item{html}{
 Will create a string for a html file of the names of the genes, with a dynamic link to the NCBI locus file
@@ -69,7 +70,7 @@ The list of neighbouring genes will include all genes around the SNP in question
 Works on any species mapped on NCBI, like most of the functions in NCBI2R.
 Instead of chromosome and position, you can now specify a dataframe and the function will look for columns called "chr" and "chrpos", and GetNeighbours will work on all items.
 You can spell this function as GetNeighbours or GetNeighbors.
-To open a URL from Microsoft Excel uses a specific command, depending on which language the software is in. In English language, the command in Microsoft Excel is "HYPERLINK" and in Italian it is "COLLEG.IPERTESTUALE". This command should be specified at the hyper argument for this command.
+To open a URL from Microsoft Excel uses a specific command, depending on which language the software is in. In the English language, the command in Microsoft Excel is "HYPERLINK" and in Italian it is "COLLEG.IPERTESTUALE". This command should be specified at the hyper argument for this command.
 
 }
 \value{

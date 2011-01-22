@@ -7,7 +7,7 @@ function(locusID,batchsize=200,showurl=FALSE)
    CurrentGeneforURL<-1
    BatchOffset<-0       
    OffsetCounter<-0
-   URLdef<-URLdefinitions()
+   URLdef<-ncbi2r.options()
    while(CurrentGeneforURL<=length(locusID))
       {
       url_piece<-""

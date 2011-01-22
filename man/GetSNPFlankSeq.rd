@@ -6,7 +6,7 @@
 Obtains flanking sequence of a set of SNPs from NCBI
 }
 \description{
-Obtains flanking sequence of a set of SNPs from NCBI
+Obtains flanking sequence of a set of SNPs from NCBI.
 }
 \usage{
 GetSNPFlankSeq(listofSNPs, batchsize = 200, showurl = FALSE)
@@ -27,8 +27,8 @@ Enables the user to see the URL of the NCBI request.
 }
 \details{
 Obtains the flanking position and the variation code of a set of SNPs
-from NCBI. The variation code used is the IUPAC system eg where R is 
-used to indicate A or G alleles. 
+from NCBI. The variation code used is the IUPAC system (e.g., where R is used to
+indicate A or G alleles).
 
 If all items do not start with "rs", the program will stop and a
 warning message will be generated.
@@ -36,15 +36,19 @@ warning message will be generated.
 Each batch of this function represents a single query of NCBI.
 }
 \value{
-  dataframe
+A dataframe
 }
 
 \author{
 Scott Melville
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 \section{Warning}{
+
+In 2011, this function was not always working. This is due to NCBI's interface
+being broken and not a fault with this R package. The problem first appeared in
+April of 2011, but was then fixed by July, then temporarily broken again in
+August. If it fails, you'll receive an error message.
 
 These functions use NCBI's eutils, and come with the same user requirements - if
 performing many queries, you must run the scripts during certain hours when the
@@ -60,6 +64,8 @@ result in losing access to NCBI for your group.
 \code{\link{IUPAC}}.
 }
 \examples{
+## Not run:
 snplist<-c("rs94","rs334","rs309")
 mySNPs<-GetSNPFlankSeq(snplist)
+## End (Not run)
 }

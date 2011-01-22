@@ -8,12 +8,12 @@ function(term, org = "human", strict=TRUE, cg=TRUE,db="gene",MaxRet=30000,showur
       orgstring<-""
    if(org!="")
       orgstring<-paste("+",org,"[ORGN]",sep="")
-   adj_term<-URLcreator(term,db=db,org=org,cg=cg) 
-   URLdef<-URLdefinitions()
+   adj_term<-urlCreator(term,db=db,org=org,cg=cg) 
+   URLdef<-ncbi2r.options()
    getURL<-paste(URLdef$front,"esearch.fcgi?db=",db,"&term=",adj_term,"&retmax=",MaxRet,"&rettype=FASTA",URLdef$back,sep="")
    getURL<-gsub(" ","%20",getURL)    
    webget<-get.file(getURL,showurl,clean=FALSE)
-   ListItems<-GetListFromXML(webget,sme=sme,smt=smt)
+   ListItems<-getListFromXML(webget,sme=sme,smt=smt)
    if(length(ListItems)>0 & db=="SNP")
      {
      if(length(ListItems>1))

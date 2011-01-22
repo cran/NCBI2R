@@ -18,7 +18,7 @@ GetARFromLocation(AssociationResults, chr, LowPoint, HighPoint,
 A dataframe of whole genome association results.
 }
   \item{chr}{
-The chromosome (as a character), eg "4" or "14" or "X".
+The chromosome (as a character), e.g., "4" or "14" or "X".
 }
   \item{LowPoint}{
 The lowest position of the gene, which might be the stop or the start of the gene depending on the orientation.
@@ -34,8 +34,8 @@ The name of the column containing the genome position data.
 }
 }
 \details{
-Looks at a data frame of association results for a list of SNPs, eg what the literature has already found. Like ScanForGenes, this function is great for comparing your results to other people's results.
-Returns the results of your own results for a list of SNPs. If a particular SNP is not found, then the closest SNP value is returned, along with the distance away from the requested SNP.
+A method of selecting a subset of your association results (or someone elses) by a list of SNPs that you specify. These may be SNPs that the literature has already identified. Like ScanForGenes, this function is great for comparing your results to other people's results.
+If a particular SNP is not found, then the closest SNP value is returned, along with the distance away from the requested SNP.
 
 This function by itself does not use NCBI - it just queries your association results.
 
@@ -61,7 +61,4 @@ result in losing access to NCBI for your group.
 
 \seealso{
 \code{\link{ScanForGenes}}.
-}
-\examples{
-##coming soon.
 }

@@ -6,7 +6,7 @@
 Pauses the code for N seconds
 }
 \description{
-Pauses the code for N seconds
+Pauses the code for N seconds.
 }
 \usage{
 Delay(seconds)}
@@ -34,5 +34,5 @@ Scott Melville
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \examples{
-Delay(10) #sleeps for ten seconds
+Delay(2) #sleeps for two seconds
 }

@@ -75,7 +75,7 @@ literature/hypotheses. Using object instead of files, enables
 repeats/similar repeats.
 }
 \references{
-This function, like most of the NCBI tools uses the eutils feature of NCBI
+This function, like most of the NCBI tools, uses the eutils feature of NCBI
 
 http://eutils.ncbi.nlm.nih.gov/entrez/query/static/eutils_help.html
 

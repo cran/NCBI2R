@@ -7,7 +7,7 @@ GetSNPProxyInfo<-function(singlesnpname,include="",exclude="",FlankingDistance=1
    if(length(singlesnpname)>1)
      stop("NCBI2R GetSNPProxyInfo Error:  Only one SNP at a time please")
    
-   pos.req.SNP<-GetSNPPosHapmap(singlesnpname,showurl=showurl,build=build)
+   pos.req.SNP<-GetSNPPosHapMap(singlesnpname,showurl=showurl,build=build)
    if(class(pos.req.SNP)=="character")
       return(paste("The SNP was not found in build",build))
     else

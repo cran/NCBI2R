@@ -6,8 +6,8 @@
 -create additional tutorials, expand the FAQ, more examples.
 -improve the speed of some commands, eg GetGeneInfo.
 
-To be fixed in build 1.3.2.
+To be fixed in future builds.
 
 - GetUniSTSInfo and related functions are sometimes giving warning messages.
 - GetPubMed - papers are saved (as PDFs), but the local address within the dataframe may sometimes not be correct.
-- SplitGenes - fxn_class not divided properl
+- SplitGenes - fxn_class not divided properly

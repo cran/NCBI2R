@@ -1,15 +1,15 @@
-\name{GetSNPPosHapmap}
+\name{GetSNPPosHapMap}
 \Rdversion{1.1}
-\alias{GetSNPPosHapmap}
+\alias{GetSNPPosHapMap}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Get the chromosomal position of any SNP on the Hapmap.
+Get the chromosomal position of any SNP on the HapMap.
 }
 \description{
-Find the position of any SNP on the Hapmap.
+Find the position of any SNP on the HapMap.
 }
 \usage{
-GetSNPPosHapmap(singlesnpname, showurl = FALSE,build="27_B36",rsOnly=TRUE)
+GetSNPPosHapMap(singlesnpname, showurl = FALSE,build="27_B36",rsOnly=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -30,7 +30,7 @@ Should only rsOnly SNPs be queried? At the time this was written, HapMap can onl
 
 }
 \details{
-The position of any SNP on the Hapmap website may not be the latest NCBI build and as such, this function is included here for you to convert SNPs to different genome positions.
+The position of a SNP on the HapMap website may not be the latest NCBI build and as such, this function is included here for you to convert SNPs to different genome positions.
 
 The version of the data is PhaseIII/Rel 2 Febuary 2009 on NCBI B36 assembly, dbSNP b126
 
@@ -48,13 +48,13 @@ Scott Melville
 }
 
 \section{Warning}{
-The position of any SNP on the Hapmap website may not be the latest NCBI build - The Hapmap data is usually compiled after the NCBI build.
+The position of any SNP on the HapMap website may not be the latest NCBI build - The Hapmap data is usually compiled after the NCBI build.
 }
 \seealso{
 \code{\link{GetGeneInfo}}.
 }
 \examples{
-a<-GetSNPPosHapmap("rs1234567")
+a<-GetSNPPosHapMap("rs1234567")
 b<-GetSNPInfo("rs1234567")
 
 }

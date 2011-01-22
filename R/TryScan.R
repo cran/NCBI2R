@@ -1,4 +1,4 @@
-TryScan <-
+tryScan <-
 function(getURL,sep="\n",quiet=TRUE,retry=20,error=TRUE)
    {
    thispage<-try(scan(getURL, what="character", sep=sep, quiet=quiet),silent=TRUE)

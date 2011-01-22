@@ -2,7 +2,7 @@ VisualiseRegion <-
 function(snpnames,snppositions,pvalues,StartFlank,StopFlank,GeneLowPoint,title=paste(StartFlank,"","StopFlank"),xlab="",filetype="PDF",th1=0.000001,th2=0.0001,locusID=0)
    {
    print("inside VR")
-   URLdef<-URLdefinitions()
+  URLdef<-ncbi2r.options()
    subsetAR<-data.frame(cbind(snpnames,snppositions,pvalues,PercentagePositions=0),stringsAsFactors=FALSE) 
    subsetAR$snppositions<-as.numeric(subsetAR$snppositions)
    subsetAR$pvalues<-as.numeric(subsetAR$pvalues)                      
@@ -58,8 +58,8 @@ function(snpnames,snppositions,pvalues,StartFlank,StopFlank,GeneLowPoint,title=p
                CodingExonInfo$Bp.Stop<-(GeneLowPoint)+(as.numeric(CodingExonInfo$Stop))-1 
                CodingExonInfo$Perc.Start<-100*(CodingExonInfo$Bp.Start-range_low)/(range_high-range_low)
                CodingExonInfo$Perc.Stop<-100*(CodingExonInfo$Bp.Stop-range_low)/(range_high-range_low)
-               PlotExons(ExonInfo,ExonPlotAt,"blue")
-               PlotExons(CodingExonInfo,ExonPlotAt,"red")
+               plotExons(ExonInfo,ExonPlotAt,"blue")
+               plotExons(CodingExonInfo,ExonPlotAt,"red")
                } 
             }
          }

@@ -1,6 +1,6 @@
 GetSNPFlankSeq<-function(listofSNPs,batchsize=200,showurl=FALSE)
   {
-  URLdef<-URLdefinitions()
+  URLdef<-ncbi2r.options()
   test<-unique(substr(listofSNPs,1,2))
   if(length(test)!=1 | test[1]!="rs")
      stop("Incorrect input. Each item must begin with rs")
@@ -33,7 +33,7 @@ GetSNPFlankSeq<-function(listofSNPs,batchsize=200,showurl=FALSE)
     if(length(Species_lines!=0))
       {
       Species_text<-strsplitdbl(webget[Species_lines]," \\[","\\] ")
-      ThisPageSNPs$species<-AlignsData(Species_lines,Species_text,LineRecords)
+      ThisPageSNPs$species<-alignsData(Species_lines,Species_text,LineRecords)
       }
 
     SNPID_B_lines<-grep("cannot get document summary",webget)
@@ -42,8 +42,8 @@ GetSNPFlankSeq<-function(listofSNPs,batchsize=200,showurl=FALSE)
       {
       SNPID_A_text<-strsplitdbl(webget[SNPID_A_lines],": "," \\[")
       SNPID_B_text<-paste("rs",strsplitdbl(webget[SNPID_B_lines],"id: "," Error occurred"),sep="")
-      ThisPageSNPs$SNPID_A<-as.character(AlignsData(SNPID_A_lines,SNPID_A_text,LineRecords))
-      ThisPageSNPs$SNPID_B<-as.character(AlignsData(SNPID_B_lines,SNPID_B_text,LineRecords))
+      ThisPageSNPs$SNPID_A<-as.character(alignsData(SNPID_A_lines,SNPID_A_text,LineRecords))
+      ThisPageSNPs$SNPID_B<-as.character(alignsData(SNPID_B_lines,SNPID_B_text,LineRecords))
       ThisPageSNPs$marker[is.na(ThisPageSNPs$SNPID_A)]<-ThisPageSNPs$SNPID_B[is.na(ThisPageSNPs$SNPID_A)]
       ThisPageSNPs$marker[is.na(ThisPageSNPs$SNPID_B)]<-ThisPageSNPs$SNPID_A[is.na(ThisPageSNPs$SNPID_B)]
       ThisPageSNPs$SNPID_A<-NULL
@@ -95,7 +95,7 @@ GetSNPFlankSeq<-function(listofSNPs,batchsize=200,showurl=FALSE)
 
       chunk<-keylines[startlines[i]:stoplines[i]]   
       markerline<-(startlines[i]-2)
-      marker[i]<-ParseSNPIDLine(keylines[markerline])$rsID
+      marker[i]<-parseSNPIDLine(keylines[markerline])$rsID
       nums<-1:length(chunk)
       p1A<-nums[nchar(chunk)==1]
       singlematch<-p1A[p1A!=length(chunk)]   
@@ -133,9 +133,9 @@ GetSNPFlankSeq<-function(listofSNPs,batchsize=200,showurl=FALSE)
       }
     } 
    close(pb)
-   TotalSNPData$variation<-CleanNAs(TotalSNPData$variation)
-   TotalSNPData$fiveprime<-CleanNAs(TotalSNPData$fiveprime)
-   TotalSNPData$threeprime<-CleanNAs(TotalSNPData$threeprime)
+   TotalSNPData$variation<-clean.NAs(TotalSNPData$variation)
+   TotalSNPData$fiveprime<-clean.NAs(TotalSNPData$fiveprime)
+   TotalSNPData$threeprime<-clean.NAs(TotalSNPData$threeprime)
    if(nrow(TotalSNPData[TotalSNPData$variation=="",])>0)
       print("Note: Some SNPs were not found. They are included in the table with blank results")
    return(TotalSNPData)

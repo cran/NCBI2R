@@ -62,17 +62,21 @@ the query (sme).
 }
 }
 \details{
-For snps ... using GetRegion is better than another function GetSNPsInGene
+
+Queries one specific region of the genome and returns the IDs of the queried
+database.
+
+For SNPs, using GetRegion is better than the NCBI2R function GetSNPsInGene
 which obtains the SNPs strictly for the gene boundary as defined by
 NCBI, but can include flanking regions (use AdjustRangeAroundGene).
 
-eg step A use GetGeneInfo on a gene   GetGeneInfo(1203)
+e.g., step A use GetGeneInfo on a gene   GetGeneInfo(1203)
 
-eg step B AdjustRangeAroundGene on those start and stop positions
+e.g., step B AdjustRangeAroundGene on those start and stop positions
 
-eg step C GetRegion(from step B)
+e.g., step C GetRegion(from step B)
 
-gene filters may be applied. More information available soon.
+For gene database queries, filters may be applied. More information available soon.
 }
 \value{
 A list of IDs or SNP names.

@@ -1,8 +1,9 @@
 Delay <-
 function(seconds)  
    {
-   NCBI2R.TimeStampA <<- Sys.time()
-   while(Sys.time()<NCBI2R.TimeStampA+seconds)
+   ncbi2r.options()
+   .ncbi2r.options$TimeStampA <<- Sys.time()
+   while(Sys.time()<.ncbi2r.options$TimeStampA+seconds)
       OnlyForDelay<-1  
    }
 

@@ -1,7 +1,7 @@
 GetGenesInRegion <-
 function(chr,LowPoint,HighPoint,MaxRet=30000,showurl=FALSE,cg=TRUE,org="human",quiet=TRUE,sme=FALSE,smt=FALSE)
    {
-   URLdef<-URLdefinitions()
+   URLdef<-ncbi2r.options()
    org<-gsub(" ","+",org)
    LowPoint<-as.numeric(LowPoint)  
    HighPoint<-as.numeric(HighPoint)
@@ -14,8 +14,9 @@ function(chr,LowPoint,HighPoint,MaxRet=30000,showurl=FALSE,cg=TRUE,org="human",q
      }  else { 
      currentgenestring<-""
      }
-   getURL<-paste(URLdef$front,"esearch.fcgi?db=gene&term=",chr,"[CHR]+AND+",LowPoint,":",HighPoint,"[CHRPOS]+AND+",org,"[ORGN]",currentgenestring,"&retmax=",MaxRet,"&rettype=FASTA",URLdef$back,sep="")
+   db<-"gene"  
+   getURL<-paste(URLdef$front,"esearch.fcgi?db=",db,"&term=",chr,"[CHR]+AND+",LowPoint,":",HighPoint,"[CHRPOS]+AND+",org,"[ORGN]",currentgenestring,"&retmax=",MaxRet,"&rettype=FASTA",URLdef$back,sep="")
    webget<-get.file(getURL,showurl=showurl,clean=FALSE)
-   ListItems<-GetListFromXML(webget,sme=sme,smt=smt)
+   ListItems<-getListFromXML(webget,sme=sme,smt=smt)
    return(ListItems=ListItems)  
    }

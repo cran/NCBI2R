@@ -1,4 +1,4 @@
-Cutter <-
+cutter <-
 function(Text,HTMLtag) 
    {
    counter<-1

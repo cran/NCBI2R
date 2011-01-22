@@ -1,4 +1,4 @@
-EmailAlert<-function (subject = "NCBI2R Job Done", address = "", body="")
+emailAlert<-function (subject = "NCBI2R Job Done", address = "", body="")
    {
    if(version$os=="mingw32" | version$os=="mingw64")
       stop("This command will not work on Windows operating system - only unix/linux") 

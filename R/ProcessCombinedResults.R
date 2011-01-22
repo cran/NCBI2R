@@ -1,4 +1,4 @@
-ProcessCombinedResults <-
+processCombinedResults <-
 function(combinedresults,pcolumn="p")
    {
    if(missing(combinedresults))

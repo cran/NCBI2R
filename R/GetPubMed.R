@@ -2,13 +2,13 @@ GetPubMed<-function (searchterm, file = "", download = FALSE, showurl = FALSE,
     xldiv = ";", hyper = "HYPERLINK", MaxRet = 30000, sme = FALSE,
     smt = FALSE, quiet = TRUE, batchsize = 500, descHead=FALSE)
   {
-    URLdef <- URLdefinitions()
+    URLdef<-ncbi2r.options()
     searchterm <- gsub(" ", "+", searchterm)
     getURL <- paste(URLdef$front, "esearch.fcgi?db=pubmed&term=",
         searchterm, "&retmax=", MaxRet, "&rettype=FASTA", URLdef$back,
         sep = "")
     webget <- get.file(getURL, showurl = showurl, clean = FALSE)
-    ListItems <- GetListFromXML(webget, sme = sme, smt = smt)
+    ListItems <- getListFromXML(webget, sme = sme, smt = smt)
     url_piece <- ""
     print(paste("Number of papers found in PubMed was:", length(ListItems)))
     flush.console()
@@ -107,12 +107,12 @@ GetPubMed<-function (searchterm, file = "", download = FALSE, showurl = FALSE,
             setTxtProgressBar(pb, i)
             ThisTitle <- gsub("[^A-za-z0-9 \\(\\)\\-]", "", substr(FindThesePapers$TI[i],
                 1, 70))
-            if (Excel.FIND(",", FindThesePapers$AU[i]) != (-1))
+            if (excel.FIND(",", FindThesePapers$AU[i]) != (-1))
                 pdffilefront <- clean(paste(splitfirst(FindThesePapers$AU[i],
                   ",")[1], " (", substr(FindThesePapers$DP[i],
                   1, 4), ") ", ThisTitle, "_", FindThesePapers$TA[i],
                   sep = ""))
-            if (Excel.FIND(",", FindThesePapers$AU[i]) == (-1))
+            if (excel.FIND(",", FindThesePapers$AU[i]) == (-1))
                 pdffilefront <- clean(paste(FindThesePapers$AU[i],
                   " (", substr(FindThesePapers$DP[i], 1, 4),
                   ") ", ThisTitle, "_", FindThesePapers$TA[i],

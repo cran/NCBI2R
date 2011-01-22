@@ -13,7 +13,7 @@ GetUniSTSInfo(stsid, taxid = 9606, showurl = FALSE,quiet=TRUE)
 }
 \arguments{
   \item{stsid}{
-   The id number of the UniSTS record. Found by using GetIDs.
+   The ID number of the UniSTS record. Found by using GetIDs.
 }
   \item{taxid}{
    The taxonomy ID number of the species to return.
@@ -31,8 +31,9 @@ GetUniSTSInfo(stsid, taxid = 9606, showurl = FALSE,quiet=TRUE)
 
 }
 \details{
-Obtains information from a single UniSTS ID number.
-Note: Using GetUniSTSFromName might be more what you're after.
+Obtains information from a single UniSTS ID number which is probably not
+what you might now a microsatellite marker by. If you don't know the ID number,
+use GetUniSTSFromName instead, which will get the ID number and then process.
 
 This is the main function to use to obtain information about a microsatellite marker through the UniSTS records.
 All mapping data is returned, from both linkage and physical maps.
@@ -44,7 +45,7 @@ Three items are returned
 
   \item{CrossRefs}{Any genes or UniGenes that the marker is located with}
   \item{Maps}{The mapping information about the UniSTS record}
-  \item{WarningString}{normally "None" otherwise a description of the error/warning will be displayed}
+  \item{WarningString}{Normally "None" otherwise a description of the error/warning will be displayed}
 
 }
 \references{
@@ -52,7 +53,7 @@ UniSTS website:
 
 http://www.ncbi.nlm.nih.gov/sites/entrez?db=unists
 
-This function, like most of the NCBI2R tools uses the eutils feature of NCBI
+This function, like most of the NCBI2R tools, uses the eutils feature of NCBI
 
 http://eutils.ncbi.nlm.nih.gov/entrez/query/static/eutils_help.html
 

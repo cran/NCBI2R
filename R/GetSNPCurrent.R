@@ -1,7 +1,7 @@
 GetSNPCurrent <-
 function(multipleIDs,batchsize=200,showurl=FALSE)
    {      
-   URLdef<-URLdefinitions()
+   URLdef<-ncbi2r.options()
    CountOfThisBatch<-0
    url_piece<-""
    BatchOffset<-0 
@@ -16,13 +16,13 @@ function(multipleIDs,batchsize=200,showurl=FALSE)
    SNPthings<-data.frame(rep("",10),rep("a",10),stringsAsFactors=FALSE)
    colnames(SNPthings)<-c("rsId","leftover")  
    Counter<-Counter+1
-   LC<-SkimUntil("<Rs rsId=&quot;",webget,LC)
+   LC<-skimUntil("<Rs rsId=&quot;",webget,LC)
    while(!is.na(webget[LC]))
       {
       int<-substring(webget[LC],16,nchar(webget[LC]))
       SNPthings$rsId[Counter]<-splitfirst(int,"&quot;")[1]
       LC<-LC+1
-      LC<-SkimUntil("<Rs rsId=&quot",webget,LC)
+      LC<-skimUntil("<Rs rsId=&quot",webget,LC)
       }
    if(length(unique(SNPthings$rsId[1:Counter]))!=1)
       stop("NCBI2R error: Not only one unique value (may be zero or more than one)")

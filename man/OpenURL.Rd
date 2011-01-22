@@ -6,7 +6,7 @@
 Opens a webbrowser to a given address.
 }
 \description{
-Opens a webbrowser to a specified address or addresses
+Opens a webbrowser to a specified address or addresses.
 }
 \usage{
 OpenURL(urls, safety=10)
@@ -24,7 +24,7 @@ same time.
 
 }
 \details{
-Opens a webbrowser to a specified address or addresses. At this time will only work on Windows and not within linux. Untested on a mac.
+Opens a webbrowser to a specified address or addresses. At this time, this function only works on Windows and not within linux. Untested on a mac.
 }
 \value{
 No returned value. 

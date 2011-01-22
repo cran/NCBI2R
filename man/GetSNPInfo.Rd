@@ -44,7 +44,7 @@ warning message will be generated.
 Each batch of this function represents a single query of NCBI.
 }
 \value{
-  dataframe
+A dataframe
 }
 
 \author{
@@ -54,8 +54,8 @@ Scott Melville
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 \section{Warning}{
 
-The definition of a SNP being within a gene is very literal. If the
-SNP is one base pair outside the NCBI defined gene location, it will
+The definition of a SNP being within a gene is precisely determined by NCBI.
+If the SNP is one base pair outside the defined gene location, it will
 not be found. Consider using GetRegion or GetNeighbours.
 
 The locusID column that is returned, may not be only numerical.

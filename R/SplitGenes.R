@@ -1,6 +1,8 @@
 SplitGenes <-
 function(snpdf,quiet=FALSE)
    {
+   if(class(snpdf)!="data.frame")
+     stop("NCBI2R error: data.frame needed as input with marker, genesymbol and locusID")
    if(colnames(snpdf)[1]!="marker")
       stop("Could you please make sure the first column is called marker and contains the SNP identifiers")
    if(colnames(snpdf)[2]!="genesymbol")

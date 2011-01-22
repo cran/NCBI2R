@@ -6,7 +6,7 @@
   Removes spaces at the start of a string and the end of a string
 }
 \description{
-  Removes spaces at the start of a string and the end of a string
+  Removes spaces at the start of a string and the end of a string.
 }
 \usage{
 RemoveSpaces(anytext)
@@ -18,10 +18,10 @@ RemoveSpaces(anytext)
 }
 }
 \details{
-It will not remove spaces other than at the start and the end of a string. All internal spaces will remain.
+Removes only the spaces at the start and end of a string. All internal spaces will remain.
 }
 \value{
-vector
+Vector
 }
 \author{
 Scott Melville

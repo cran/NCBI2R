@@ -1,4 +1,4 @@
-PlotExons <-
+plotExons <-
 function(Exons,ExonsPos,color,ExonSize=3,IntronSize=0.5)
    { 
    for(boxloop in 1:nrow(Exons))

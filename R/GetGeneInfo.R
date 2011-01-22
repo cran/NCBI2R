@@ -15,14 +15,14 @@ GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showur
      stop("NCBI2R error: You appear to have used a list of SNPs instead of Entrez locus identifiers.")
    if(length(locusID)>0)
      {
-     if(length(grep(",",locusID))>1) 
-       locusID<-unlist(strsplit(locusID,","))
+     if(length(grep(",",locusID))>0) 
+       locusID<-unlist(strsplit(locusID,","))  
      }
    locusID<-unique(locusID)
    locusID<-locusID[locusID!=""] 
    if(quiet==FALSE)
       print(paste("Unique genes:",length(locusID)))
-   URLdef<-URLdefinitions()
+   URLdef<-ncbi2r.options()
    Num<-length(locusID)
    genedf<-data.frame(org_ref_taxname=rep("",length(locusID)),org_ref_commonname="",OMIM="",synonyms="", genesummary="", genename="",phenotypes="", phenotypes.html="", pathways="",pathways.html="", GeneLowPoint=0,GeneHighPoint=0,ori="",chr="",genesymbol="",Int.GeneIDs="",Int.genesymbols.html="",GOfunc="",GOcomp="",GOproc="",GOfunc.html="",GOcomp.html="",GOproc.html="", build=0, cyto="",approx=0,stringsAsFactors=FALSE)  
    genedf<-as.data.frame(cbind(locusID,genedf))     
@@ -139,7 +139,7 @@ GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showur
                 }
             if(substr(webget[LC],1,54)=="<Gene-commentary_heading>RefSeqs of Annotated Genomes:")
                {
-               Checker<-Finder("<Seq-interval_from>","</Gene-commentary_seqs>",webget,LC)
+               Checker<-finder("<Seq-interval_from>","</Gene-commentary_seqs>",webget,LC)
                if(Checker$Object==1)
                   {
                   genedf$GeneLowPoint[BatchItemNum+BatchOffset]<-as.numeric(substr(webget[Checker$RowNumber],20,nchar(webget[Checker$RowNumber])-20))+1

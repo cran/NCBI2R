@@ -4,7 +4,7 @@ process.gene.table.int<-function(webget)
    if(length(data_summary_start)!=0 & length(grep("discontinued",webget))==0 & length(grep("withdrawn",webget))==0)  
        {
         Heading<-webget[1:(data_summary_start-2)]
-        Heading[1]<-substr(Heading[1],Excel.FIND(":",Heading[1])+2,nchar(Heading[1]))
+        Heading[1]<-substr(Heading[1],excel.FIND(":",Heading[1])+2,nchar(Heading[1]))
         LC<-2 
         while(substr(Heading[LC],1,6)!="GeneID")
            LC<-LC+1  

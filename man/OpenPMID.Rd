@@ -6,9 +6,9 @@
 Opens the PubMed webpage for a given PMID
 }
 \description{
-Opens the PubMed webpage so people can access links to userid/login
-situations etc. (gets around the fact that most times the freely
-available article will not be available.
+Opens the PubMed webpage for a given PubMed ID (journal article). This allows a
+user to select viewing options for journals that are not freely available.
+
 }
 \usage{
 OpenPMID(PMID, safety=10)
@@ -27,7 +27,7 @@ the user accidently opening many items at the same time.
 Opens a given NCBI PubMed ID number in a webbrowser.
 }
 \value{
-No returned value. Webbrowser opened up on corresponding page/s.
+No returned value. Webbrowser opened up on corresponding page(s).
 }
 \references{
 %% ~put references to the literature/web site here ~

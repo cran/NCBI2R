@@ -6,7 +6,7 @@
 Obtains Gene Ontologies from NCBI.
 }
 \description{
-Obtains Gene Ontologies from the NCBI's Entrez Gene database
+Obtains Gene Ontologies from the NCBI's Entrez Gene database.
 }
 \usage{
 GetGOs(locusID, showurl = FALSE)

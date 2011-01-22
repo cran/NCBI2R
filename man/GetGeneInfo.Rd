@@ -16,13 +16,13 @@ GetGeneInfo(locusIDs, batchsize = 200, xldiv = ";", int = FALSE, go = FALSE,
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{locusIDs}{
-vector of one of more locusIDs. These are numerical identifiers that NCBI calls EntrezID. Eg the human gene CLN5 is 1203.
+vector consisting of one of more locusIDs. These are numerical identifiers that NCBI calls EntrezID. E.g. the human gene CLN5 is 1203.
 }
   \item{batchsize}{
 NCBI2R will break up the locusIDs into batch sizes of this specified amount. Each batch is requested and parsed, before a new request is made against the NCBI servers. Depending on the speed of your internet connection, and your processing power, this number may be changed to improve your results.
 }
   \item{xldiv}{
-What divider does Microsoft Excel use for formulas and depends on regional settings. Normally a semi colon or a comma.
+The divider that Microsoft Excel use for formulas will depend on regional settings. Normally a semi colon or a comma.
 }
   \item{int}{
 If set to true, the function will also obtain a list of interacting genes.
@@ -51,12 +51,15 @@ Should the function return columns formatted for HTML pages. Useful when using f
 
 }
 \details{
-Input a locusID or several locusIDs and retrieve information about the gene. Such as pathways, phenotypes, gene names, symbol.
-Depending on what information you wish to obtain, it might be better to use GetGeneNames as it is faster and returns some similar items (eg genesymbol), but also returns different information.
+Input a locusID or several locusIDs and retrieve information about the gene, such as pathways, phenotypes, gene names, symbol.
+Depending on what information you wish to obtain, it might be better to use the function GetGeneNames as it is faster and returns some of the same information (eg genesymbol).
 
-The approx column that is included in the dataframe, details any approximations that were made while obtaining the results. A value of 1 means that the gene symbol is defined as interim; a value of 2 means that no gene symbol was available, and what is provided comes from one of the synonyms. A value of 3 is both of these messages.
+There is a column in the returned dataframe called approx which details any approximations made in returning the information.
+  Value 1 = gene symbol is defined as interim
+  Value 2 = no gene symbol was available, and what is provided comes from one of the synonyms.
+  Value 3 = both situations described above (for Value 1 and Value 2) occur.
 
-Each batch of this function represents a single query of NCBI
+Each batch of this function represents a single query of NCBI.
 }
 \value{
 A dataframe.
@@ -68,11 +71,11 @@ Scott Melville
 
 \section{Warning}{
 
-There are some genes that lie on both X and Y chromosomes and thees will contain "XY" as the chr value and also have two cytobands.
+There are some genes that lie on both X and Y chromosomes and these will contain "XY" as the chr value and also have two cytobands.
 
 
 If you're manually exploring your data one or two lines of code at a time, you will not have any issue with the NCBI user limits. NCBI2R inserts appropriate pauses most of the time so you can only submit three queries per second. 
-If you start running many scripts using NCBI2R, you'll have to pay attention to the limits carefully. These functions use NCBI's eutils, and come with the same user requirements - if
+If you start running many scripts using NCBI2R, you'll have to pay careful attention to the limits. These functions use NCBI's eutils, and come with the same user requirements - if
 performing many queries, you must run the scripts during certain hours when the
 NCBI servers are not in high demand. Please see the package website for more details
 
@@ -86,15 +89,13 @@ result in losing access to NCBI for your group.
 
 }
 \examples{
-dd<-GetGeneInfo(1203)  #uses the Entrez identifying number.
-dd$OMIM   #contains OMIM record
-dd$synonyms  #contains synonyms of the current gene
-dd$phenotypes
-dd$genesymbol
-ss<- GetIDs("CLN5[sym] human")   #returns the Entrez ID number
-GetGeneInfo(ss) #will display the information on screen
-#or combine both lines together and display the information
-GetGeneInfo(GetIDs("CLN5[sym] human"))
-genelist<-c(1203,1207,348,777)   
+genelist<-c(1203,777)      #uses the Entrez identifying number.
 genes<-GetGeneInfo(genelist)
+\donttest{
+#These are examples that won't be checked in package testing to save time
+ss<-GetIDs("CLN5[sym] human")   #returns the Entrez ID number
+ggi<-GetGeneInfo(ss) #will display the information on screen
+#or just combine both lines together
+ggi<-GetGeneInfo(GetIDs("CLN5[sym] human"))
+}
 }

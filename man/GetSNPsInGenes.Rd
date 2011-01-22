@@ -10,8 +10,8 @@ a gene or genes.
 This function returns a vector of all the SNPs within the boundary of
 a gene or genes.}
 \usage{
-GetSNPsInGenes(locusIDs, batchsize=200, MaxRet = 30000, showurl = FALSE, quiet = TRUE,
-             smt = FALSE, sme = FALSE)
+GetSNPsInGenes(locusIDs, batchsize=200, MaxRet = 30000, showurl = FALSE,
+             quiet = TRUE, smt = FALSE, sme = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -47,9 +47,11 @@ the query (sme).
 \details{
 This is quite literal - it defines the edges of the genes from NCBI, and
 obtains all the SNPs from within that boundary. It does not obtain
-nearby SNPs. To do this, you could use GetRegion (with db set to "set")
-and use the regions as defined by AdjustRangeAroundGene.
+nearby SNPs.
 
+If you wanted to include SNPs from outside the gene, you could use the function
+AdjustRangeAroundGene to find the new genome region and then supply that as
+input for GetSNPsInRegion.
 
 }
 \value{

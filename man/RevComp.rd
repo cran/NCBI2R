@@ -6,7 +6,7 @@
   Produces a reverse complement DNA sequence
 }
 \description{
-  Produces a reverse complement DNA sequence from a sequence provided
+  Produces a reverse complement DNA sequence from a sequence provided.
 }
 \usage{
 RevComp(anytext,ACGT=TRUE)

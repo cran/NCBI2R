@@ -27,9 +27,9 @@ For more information about filters and limits:
 
 Fields, filters, and properties in Entrez Genes
 
-http://www.ncbi.nlm.nih.gov/books/bv.fcgi?highlight=filter&rid=helpgene.table.EntrezGene.T3
+http://www.ncbi.nlm.nih.gov/books/NBK3841/table/EntrezGene.T.fields_filters_and_properti/?report=objectonly
 
 Filter sets
 
-http://www.ncbi.nlm.nih.gov/books/bv.fcgi?highlight=filter&rid=helpgene.table.EntrezGene.T4
+http://www.ncbi.nlm.nih.gov/books/NBK3841/table/EntrezGene.T.filter_sets_partial_complet/?report=objectonly
 }

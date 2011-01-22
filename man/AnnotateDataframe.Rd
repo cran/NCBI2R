@@ -17,7 +17,7 @@ AnnotateDataframe(anydf, selections = "", filename = "", hyper = "HYPERLINK",
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{anydf}{
-     A dataframe of results, contain one column of SNPs and other columns of data
+     A dataframe of results, containing one column of SNPs and other columns of data that will be included in the output. The other columns are not relevant for annotation.
 }
   \item{selections}{
      Which items from the dataframe of results that you would like displayed with the annotation. The first item must be the list of SNPs.
@@ -60,10 +60,7 @@ AnnotateDataframe(anydf, selections = "", filename = "", hyper = "HYPERLINK",
 }
 }
 \details{
-  This function is much faster than GetGeneInfo. It returns less information, but also some items can not be obtained from GetGeneInfo. These function is really useful when you just want a basic amount of information, such as the gene symbol and full gene name. Also, you can find out if the locusID has been replaced by a more recent gene identifier.
-Will work with multiple IDs, just like GetGeneInfo
-A dataframe consisting of the following columns: genename, genesymbol, NewlocusID,CurrentRecord,LastUpdate,locusID, species.
-
+  
 The list of neighbouring genes will include all genes around the SNP in question, and will therefore include any gene that the SNP is located in.
 
 }

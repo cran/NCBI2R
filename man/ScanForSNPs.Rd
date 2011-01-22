@@ -16,7 +16,7 @@ ScanForSNPs(snplist, AssociationResults, markercolumn = "name",
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{snplist}{
-the list of candidate SNPs to find in your own results.
+The list of candidate SNPs to find in your own results.
 }
   \item{AssociationResults}{
 The name of your association results (dataframe).
@@ -26,20 +26,20 @@ The column name of your SNPs in the association results.
 }
   \item{chromosomecolumn}{
 The name of the column in the dataframe containing the chromosome
-eg "2","13","mt","X".
+e.g., "2","13","mt","X".
 }
   \item{positioncolumn}{
 The name of the column in the dataframe containing the genome position data.
 }
 }
 \details{
-Looks at a data frame of association results for a list of SNPs, eg what
-the literature has already found. Like ScanForGenes, this function is
-great for comparing your results to other people's results.
+Looks at a data frame of association results for a list of SNPs, e.g., what
+the literature has already found. The function will return a subset of the
+results for the list of SNPs. If a particular SNP is not found, then the closest
+SNP value is returned, along with the distance away from the requested SNP.
 
-Returns the results of your own results for a list of SNPs. If a
-particular SNP is not found, then the closest SNP value is returned,
-along with the distance away from the requested SNP.
+Like ScanForGenes, this function used for comparing your results to other
+people's results.
 }
 \value{
 A dataframe.
@@ -52,5 +52,5 @@ Scott Melville
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-For a similar function for genes, please see \code{\link{ScanForGenes}}
+For a similar function for genes, please see \code{\link{ScanForGenes}}.
 }

@@ -9,7 +9,8 @@ Obtain Entrez ID numbers
 Obtain Entrez ID numbers from a search string.
 }
 \usage{
-GetIDs(term, org = "human", strict = TRUE, cg = TRUE, db = "gene", MaxRet = 30000, showurl = FALSE, sme = FALSE, smt = FALSE)
+GetIDs(term, org = "human", strict = TRUE, cg = TRUE, db = "gene",
+    MaxRet = 30000, showurl = FALSE, sme = FALSE, smt = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -81,12 +82,16 @@ result in losing access to NCBI for your group. But remember, the average user s
 }
 
 \examples{
+
+s<-GetIDs("Cdc42[go]")
+
+\donttest{
+#These are examples that won't be checked in package testing to save time
 GetIDs("bone")  #Get all genes that have anything to do with bone (#def=?)
 GetIDs("bone[DIS]")  #Get all genes that have anything to do with bone disease
 GetIDs("CLN5[sym]", org="dog")
-GetIDs("Cdc42 protein signal transduction[go]")
-
-s<-GetIDs("Cdc42[go]")
+s<-GetIDs("Cdc42 protein signal transduction[go]")
 t<-GetGeneInfo(s)
+}
 
 }

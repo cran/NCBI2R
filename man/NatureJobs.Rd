@@ -112,7 +112,7 @@ Microsoft Excel is "HYPERLINK" and in Italian it is
 "COLLEG.IPERTESTUALE". This command should be specified at the hyper
 argument for this command.
 
-This function, or the author, has no affiliation with NatureJobs.com or
+This function, and it's author, have no affiliation with NatureJobs.com or
 Nature.com
 }
 \value{

@@ -5,7 +5,7 @@
 Adjusts gene position
 }
 \description{
-Adjusts gene position to include flanking regions for use in other NCBI2R functions
+Adjusts gene position to include flanking regions for use in other NCBI2R functions.
 }
 \usage{
 AdjustRangeAroundGene(LowPoint, HighPoint, orientation, upstream = 10000,
@@ -30,10 +30,10 @@ The number of nucleotides you wish to include downstream (after the end of the g
 }
 }
 \details{
-Takes a physical location, orientation, and recalculates the region of interest by considering the flanking regions on either side - eg promoter/5'UTR/3'UTR
+Takes a physical location, orientation, and recalculates the region of interest by considering the flanking regions on either side - e.g. promoter/5'UTR/3'UTR.
 It is used because looking at SNPs within a gene, may be quite limiting and the interesting SNPs might be those located outside the gene sequence, such as upstream or downstream regulatory elements. This function adjusts the region by allowing the user to specify how much on the upstream and downstream "ends" to consider the flanking regions, but defaults are included.
 
-This function does not use NCBI at all - it's just performs maths.
+This function does not use NCBI at all - it's just does calculations.
 }
 \value{
 %%  ~Describe the value returned
@@ -49,8 +49,8 @@ Scott Melville
 %%  ~~further notes~~
 The gene positions in NCBI2R functions are usually known as LowPoint and
 HighPoint and you'll need to consider the orientation of the gene (also available)
-to determine which of the two returned positions is the gene start position and
-gene stop position.
+to determine which of the two returned positions is the gene start position, and 
+which is the gene stop position.
 }
 
 \seealso{

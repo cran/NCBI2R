@@ -6,7 +6,7 @@ function(locusIDs,showurl=FALSE,silent=TRUE)
    locusIDs<-locusIDs[locusIDs!=""]   
    locusIDs<-paste(locusIDs,collapse=",")
    locusIDs<-unique(unlist(strsplit(locusIDs,","))) 
-   URLdef<-URLdefinitions()
+   URLdef<-ncbi2r.options()
    GeneFoundTally<-FALSE
    for(k in 1:length(locusIDs))
       {

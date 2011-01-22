@@ -1,5 +1,5 @@
 
-AlignsData<-function(LineObserved,DataObserved,RecordStartLines,condense=TRUE)
+alignsData<-function(LineObserved,DataObserved,RecordStartLines,condense=TRUE)
    {
    ActualResults<-as.data.frame(cbind(LineObserved,DataObserved),stringsAsFactors=FALSE)
    ActualResults$LineObserved<-as.numeric(ActualResults$LineObserved)

@@ -1,15 +1,15 @@
-GetSNPPosHapmap<-function(singlesnpname,showurl=FALSE,build="27_B36",rsOnly=TRUE)
+GetSNPPosHapMap<-function(singlesnpname,showurl=FALSE,build="27_B36",rsOnly=TRUE)
    {
    if(build!="3r2_B36" & build!="27_B36")
-      stop("NCBI2R GetSNPPosHapmap error: Unknown build specified. Function has failed")
+      stop("NCBI2R GetSNPPosHapMap error: Unknown build specified. Function has failed")
    if(length(singlesnpname)>1)
-     stop("NCBI2R GetSNPPosHapmap Error:  Only one SNP at a time please")   
+     stop("NCBI2R GetSNPPosHapMap Error:  Only one SNP at a time please")   
    if(rsOnly==TRUE & substr(singlesnpname,1,2)!="rs")
-     stop("NCBI2R GetSNPPosHapmap Error:  This is not a SNP identifier beginning with rs")
+     stop("NCBI2R GetSNPPosHapMap Error:  This is not a SNP identifier beginning with rs")
    getURL<-paste("http://hapmap.ncbi.nlm.nih.gov/cgi-perl/gbrowse/hapmap",build,"/?name=",singlesnpname,sep="")
    webget <- get.file(getURL, showurl = showurl, clean = FALSE)   
    titleline<-webget[grep("<title>HapMap Data",webget[1:10])]
-   tempA<-Excel.FIND(":",titleline)
+   tempA<-excel.FIND(":",titleline)
    if(tempA==(-1))
       return("The requested SNP was not found in this build of hapmap")
    else

@@ -2,10 +2,17 @@ get.file <-
 function(getURL,showurl=FALSE,sep="\n",quiet=TRUE,clean=FALSE)
    {  
    if(showurl){print(getURL)}
-   if(exists("NCBI2R.TimeStampA")==TRUE)
-      DelayInc(NCBI2R.TimeStampA,0.333334) 
-   webget<-suppressWarnings(TryScan(getURL,sep = sep,quiet=quiet))
-   NCBI2R.TimeStampA<<-Sys.time()
+   if(exists(".ncbi2r.options")==TRUE)
+     {
+     if("TimeStampA" %in% names(.ncbi2r.options))
+       {
+       delayInc(.ncbi2r.options$TimeStampA,.ncbi2r.options$dS)
+       }
+     } else {
+     ncbi2r.options()
+     }
+   webget<-suppressWarnings(tryScan(getURL,sep = sep,quiet=quiet))
+   .ncbi2r.options$TimeStampA<<-Sys.time()
    if(clean)
       webget<-clean.xml(webget)
    return(webget)

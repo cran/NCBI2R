@@ -3,10 +3,10 @@
 \alias{GetSNPsInRegion}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Obtains a list of snps in a particular region of the genome.
+Obtains a list of SNPs in a particular region of the genome.
 }
 \description{
-Obtains a list of snps in a particular region of the genome.
+Obtains a list of SNPs in a particular region of the genome.
 }
 \usage{
 GetSNPsInRegion(chr, LowPoint, HighPoint, MaxRet = 30000, showurl = FALSE,
@@ -54,18 +54,17 @@ the query (sme).
 }
 \details{
 
-Works the same as GetRegion(db="snp").
+Works the same as GetRegion(db="snp") or GetRegion (db="SNP").
 
-Using GetSNPsInRegion is better than another function GetSNPsInGene,
-because the latter is all the SNPs that are within the gene itself,
-without considering flanking regions. So you might want to use
-AdjustRangeAroundGene first, and consider the flanking regions.
+Unlike the function GetSNPsInGene, GetSNPsInRegion can consider SNPs within the
+flanking regions. Consider using AdjustRangeAroundGene prior to use of
+GetSNPsInRegion to do this.
 
-eg step A use GetGeneInfo on a gene, eg GetGeneInfo(1203) - one query of NCBI
+e.g., step A use GetGeneInfo on a gene, eg GetGeneInfo(1203) - one query of NCBI
 
-eg step B AdjustRangeAroundGene on those start and stop positions - no query
+e.g., step B AdjustRangeAroundGene on those start and stop positions - no query
 
-eg step C GetRegion(adjusted boundaries from step B) - one query of NCBI
+e.g., step C GetRegion(adjusted boundaries from step B) - one query of NCBI
 
 }
 \value{
@@ -73,7 +72,7 @@ vector of the matching SNPs (if any).
 }
 \references{
 %% ~put references to the literature/web site here ~
-This function, like most of the NCBI2R tools uses the eutils feature of NCBI
+This function, like most of the NCBI2R tools, uses the eutils feature of NCBI
 
 http://eutils.ncbi.nlm.nih.gov/entrez/query/static/eutils_help.html
 

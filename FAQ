@@ -34,7 +34,7 @@ A. No. NCBI2R works for NCBI only. There are other R scripts out there and any o
 
 Q. I'd rather use the package on my local mirror copy of the NCBI data.
    Is this possible?
-A. No. I'm considering the option but it's not a priority for me.
+A. No, but possibly. I haven't tested it but you could try changing the URL front specified in .ncbi2r.options.
 
 Q. Does the code work for any species?
 A. Most functions will work on any species that are available within NCBI. The most testing has been performed with human so if you find something odd, please let me know.

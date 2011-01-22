@@ -33,9 +33,11 @@ Enables the user to see the URL of the NCBI request.
 
 }
 \details{
-Input one or more locusIDs and retrieve the sizes of the introns and exons of all transcripts available.  The function returns the relative positions of exons and introns in respect to the genes, and not an absolute value in respect to the chromosome. i.e. the first exon will start at position 1. A future release of the NCBI2R functions will contain an option to obtain the absolute position.
+Input one or more locusIDs (the ID number of the gene according to NCBI) and retrieve the sizes of the introns and exons of all transcripts available.
 
-Three dataframes are returned. The first is all the positions with "Set" standing for each transcript. So you can easily compare different transcripts or select a particular transcript. Two other dataframes store the accession identifiers for DNA and Protein sequences.
+The function returns the relative positions of introns and exons in respect to the genes, and not an absolute value in respect to the chromosome (i.e. the first exon will start at position 1). The actual positions can be found by using the argument TrueBP=TRUE.
+
+Three dataframes are returned. The first is all the positions with the column named "Set" storing information specific to each transcript, so you can easily select a particular transcript or compare different transcripts. Two other dataframes store the accession identifiers for DNA and Protein sequences.
 
 Each batch of this function represents a single query of NCBI.
 

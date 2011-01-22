@@ -1,5 +1,4 @@
-Finder <-
-function(FindThisText,FindThisText2,textfile,StartingRow)
+finder <-function(FindThisText,FindThisText2,textfile,StartingRow)
    {
    CurrentRow<-StartingRow
    while((substr(textfile[CurrentRow],1,nchar(FindThisText))!=FindThisText)&(CurrentRow<length(textfile)))

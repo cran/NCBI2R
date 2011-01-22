@@ -3,11 +3,11 @@
 \alias{GetGenesInRegion}
 
 \title{
-Use this to find out a list of genes in a particular region of
+Use this to find a list of genes in a particular region of
 the genome.
 }
 \description{
-Use this to find out a list of genes in a particular region of
+Use this to find a list of genes in a particular region of
 the genome.
 }
 \usage{
@@ -59,10 +59,10 @@ the query (sme).
 }
 }
 \details{
-GetGenesInRegion does exactly what you think it might :)  Specify the
-chromosome and the region of the genome and the function will return
+GetGenesInRegion obtains a list of genes that exist within a specified region.
+Specify the chromosome and the region of the genome, and the function will return
 the NCBI ID numbers for the genes in that region. You can then use
-another function such as GetGeneInfo to return information about them.
+another function such as GetGeneInfo to return information about each gene ID.
 
 I've noticed some cases that if you specify a region, and the gene starts and stops outside that region, it will not be included.
 
