@@ -60,6 +60,6 @@ result in losing access to NCBI for your group.
 \code{\link{IUPAC}}.
 }
 \examples{
-snplist<-c("rs12345","rs333","rs624662")
+snplist<-c("rs333","rs334")
 mySNPs<-GetSNPFlankSeq(snplist)
 }
