@@ -30,7 +30,7 @@ function(snpnames,snppositions,pvalues,StartFlank,StopFlank,GeneLowPoint,title=p
       if(filetype=="JPEG" | filetype=="JPG")
          {
          title<-gsub("/","[SLASH]",title) 
-         jpeg(file=paste("plots//",title,"__",format(Sys.time(),"%d_%H%M%S"),".jpg",sep=""))
+         jpeg(filename=paste("plots//",title,"__",format(Sys.time(),"%d_%H%M%S"),".jpg",sep=""))
          }
       plot(c(0, 100), c(0, off+5), type= "n", xlab=xlab, ylab="",axes=FALSE) 
       title(main=title)

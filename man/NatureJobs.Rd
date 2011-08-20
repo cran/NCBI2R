@@ -140,6 +140,9 @@ Scott Melville
 
 
 \examples{
-keywords<-c("scientist","genetic") #this is one search, composed of two keywords
-nj<-NatureJobs(keywords,"MYFILE_A_",days=81)
+
+#Not run:
+
+#keywords<-c("scientist","genetic") #this is one search, composed of two keywords
+#nj<-NatureJobs(keywords,"MYFILE_A_",days=81)
 }

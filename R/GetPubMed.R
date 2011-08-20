@@ -140,7 +140,7 @@ GetPubMed<-function (searchterm, file = "", download = FALSE, showurl = FALSE,
      papers<-ConvertPubMedHeadings(papers)
   papers$link <- paste("http://www.ncbi.nlm.nih.gov/pubmed/",papers$PMID, sep = "")
   if (file != "")
-        MakeExcel(papers, file=file, xldiv = xldiv, hyper = hyper)
+        MakeExcel(papers, filename=file, xldiv = xldiv, hyper = hyper)
   return(papers = papers)
   } else {
    print("No papers found")

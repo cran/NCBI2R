@@ -107,7 +107,7 @@ GetSNPFlankSeq<-function(listofSNPs,batchsize=200,showurl=FALSE)
           rsline<-gsub(" rs=(.)*","",keylines[startlines[i]-1])
           badrsID<-gsub("(.)*dbSNP\\|","",rsline)
           print(paste("NCBI2R Error-GetSNPFlankSeq - unable to parse variation of SNP:",badrsID))
-          stop("Please email the maintainer of the NCBI2R package")        
+          stop("Please email the maintainer of the NCBI2R package. Error code E0312")
          }
       
       variation[i]<-chunk[VarLineNumber]
@@ -137,7 +137,7 @@ GetSNPFlankSeq<-function(listofSNPs,batchsize=200,showurl=FALSE)
    TotalSNPData$fiveprime<-CleanNAs(TotalSNPData$fiveprime)
    TotalSNPData$threeprime<-CleanNAs(TotalSNPData$threeprime)
    if(nrow(TotalSNPData[TotalSNPData$variation=="",])>0)
-      print("Note: Some SNPs were not found. The are included in the table with blank results")
+      print("Note: Some SNPs were not found. They are included in the table with blank results")
    return(TotalSNPData)
    } 
 

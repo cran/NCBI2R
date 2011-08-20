@@ -1,11 +1,10 @@
 Package: NCBI2R
 Type: Package
 Title: NCBI2R-An R package to navigate and annotate genes and SNPs
-Version: 1.3.3
-Date: 2011-04-12
+Version: 1.3.4
+Date: 2011-08-20
 Author: Scott Melville <ncbi2r@gmail.com>
 Maintainer: Scott Melville <ncbi2r@gmail.com>
-Depends: startupmsg
 Description: NCBI2R is a R package that annotates lists of SNPs and/or
         genes, with current information from NCBI, including LD
         information. Functions are provided that with one command will
@@ -26,9 +25,9 @@ Description: NCBI2R is a R package that annotates lists of SNPs and/or
         could easily be understood by a person not familiar with R.
         Please see the new website at http://NCBI2R.wordpress.com for
         more information. The internet is required for almost all of
-        these functions.
+        these functions. Type PrintNCBI2RInfo() for information.
 License: GPL (> 2)
 LazyLoad: yes
 Repository: CRAN
-Date/Publication: 2011-04-13 15:16:01
-Packaged: 2011-04-13 14:17:20 UTC; scott7
+Packaged: 2011-08-23 17:58:24 UTC; scott7
+Date/Publication: 2011-08-23 20:02:33

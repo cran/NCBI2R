@@ -2,9 +2,8 @@
    {
    options(timeout = 180)
    NCBI2R.TimeStampA <<- Sys.time()-3
-   #buildStartupMessage(pkg="NCBI2R",PrintNCBI2RInfo())
-   writeLines("NCBI2R loaded. type PrintNCBI2RInfo() for more details")
-   UpdateCheck()
+   #buildStartupMessage(pkg="NCBI2R",msg="NCBI2R loaded. type PrintNCBI2RInfo() for more details")
+   #UpdateCheck()
    }
 
 
