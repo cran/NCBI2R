@@ -53,11 +53,9 @@ Only works on computers with a webbrowser set up.
 }
 
 \examples{
-##Not run:
-
-##OpenPMID(16033706)
-
-##obtains details of papers
-##a<-GetPubMed("canine CLN5","My references.tab")  
-##OpenPMID(a$PMID[1])
+\donttest{
+ OpenPMID(16033706)
+ a<-GetPubMed("canine CLN5","My references.tab")
+ OpenPMID(a$PMID[1])
+ }
 }

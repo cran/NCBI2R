@@ -60,8 +60,10 @@ Scott Melville
 }
 
 \seealso{
-\code{\link{GetSNPInfo}}, \code{\link{GetGeneInfo}}.
+\code{\link{GetSNPInfo}, \link{GetNeighGenes}}, \code{\link{GetGeneInfo}}.
 }
 \examples{
+\donttest{
 t1<-GetClosestGeneInfo(c("rs2972556","rs1081103"),50)
+}
 }

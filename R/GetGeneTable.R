@@ -1,6 +1,20 @@
 GetGeneTable <-
 function(locusIDs,batchsize=200,showurl=FALSE,pbar=TRUE,TrueBP=FALSE)
    {
+   writeLines("At this time, this function was made unavailable.")
+   writeLines("When NCBIs eutils changed their syntax, I had to make many changes")
+   writeLines("and have not got to repairing this function as yet. Sorry for the inconvenience.")
+   writeLines("The next package version will have GetGeneTable back for your use")
+   stop("run UpdateCheck() to see if you have the latest version")
+
+
+   stop("testing in progress")
+   locusIDs<-1203
+   batchsize<-200
+   showurl<-TRUE
+   pbar<-FALSE
+   TrueBP<-FALSE
+
    URLdef<-ncbi2r.options()
    if(missing(locusIDs))                                       
       stop("no locusIDs provided")
@@ -25,7 +39,7 @@ function(locusIDs,batchsize=200,showurl=FALSE,pbar=TRUE,TrueBP=FALSE)
     remainingItems<-remainingItems[!(remainingItems %in% thisbatchItems)]
     remainingItems<-remainingItems[!(is.na(remainingItems))]
     url_piece<-paste(thisbatchItems,collapse=",")
-    getURL<-paste(URLdef$front,"efetch.fcgi?db=gene&id=",url_piece,"&rettype=gene_Table",URLdef$back,sep="")
+    getURL<-paste(URLdef$front,"efetch.fcgi?db=gene&id=",url_piece,"&rettype=gene_Table&retmode=text",URLdef$back,sep="")
     webget<-get.file(getURL,showurl,clean=FALSE) 
     a<-1                                          
    

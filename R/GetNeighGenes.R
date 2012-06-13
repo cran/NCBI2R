@@ -50,6 +50,8 @@ function(chr,chrpos,FlankingDistance=100000,showurl=FALSE,hyper="HYPERLINK",full
           Frame2<-as.data.frame(rbind(Frame2,ThisSet),stringsAsFactors=FALSE)
           }          
       }
+
+
    if(pbar)   
       close(pb)  
    UniqueList<-unique(Frame2$locusID)

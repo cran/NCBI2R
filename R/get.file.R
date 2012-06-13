@@ -1,7 +1,7 @@
 get.file <-
 function(getURL,showurl=FALSE,sep="\n",quiet=TRUE,clean=FALSE)
    {  
-   if(showurl){print(getURL)}
+   if(showurl){writeLines(getURL)}
    if(exists(".ncbi2r.options")==TRUE)
      {
      if("TimeStampA" %in% names(.ncbi2r.options))

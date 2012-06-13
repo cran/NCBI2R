@@ -95,8 +95,10 @@ result in losing access to NCBI for your group.
 \code{\link{AnnotateSNPFile}}, \code{\link{AnnotateDataframe}}
 }
 \examples{
+\donttest{
 listofsnps<-c("rs12345","rs734747","rs334","rs735783","rs335")
 resultsdf<-AnnotateSNPList(listofsnps,"scottsoutput.html")
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

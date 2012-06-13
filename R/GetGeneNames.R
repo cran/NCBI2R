@@ -1,90 +1,60 @@
-GetGeneNames <-
-function(locusID,batchsize=200,showurl=FALSE)
+GetGeneNames <- function(locusID,showurl=FALSE)
    {
-   NumberOfGenesFound<-length(locusID)
-   if(NumberOfGenesFound!=0)
-      minigenedf<-data.frame(genename=rep("",NumberOfGenesFound),genesymbol="",NewlocusID="",CurrentRecord="",LastUpdate="",locusID=0,species="",stringsAsFactors=FALSE)
-   CurrentGeneforURL<-1
-   BatchOffset<-0       
-   OffsetCounter<-0
+   batchsize<-50
+   BatchCount<-0
    URLdef<-ncbi2r.options()
-   while(CurrentGeneforURL<=length(locusID))
+   remainingObjects<-unique(locusID)
+   while(length(remainingObjects)>0)
       {
-      url_piece<-""
-      BatchCounter<-1
-      while((CurrentGeneforURL<=length(locusID))&(BatchCounter<=batchsize))
-         {
-         url_piece<-paste(url_piece,"&id=",locusID[CurrentGeneforURL],sep="")
-         BatchCounter<-BatchCounter+1   
-         CurrentGeneforURL<-CurrentGeneforURL+1
-         }
-      getURL<-paste(URLdef$front,"efetch.fcgi?db=gene",url_piece,"&report=gene_table&mode=text",URLdef$back,sep="")
-      webget<-get.file(getURL,showurl,clean=FALSE)
-      OffsetCounter<-OffsetCounter+1
-      BatchOffset<-(OffsetCounter*batchsize)-batchsize 
-      CurrentGeneOfThisBatch<-0
-      LineOfWebData<-1
-      while(LineOfWebData<=length(webget))
-         {
-         Test1<-FALSE
-         Test1<-substr(webget[LineOfWebData],1,(nchar(as.character(CurrentGeneOfThisBatch+1))+1))==paste(CurrentGeneOfThisBatch+1,":",sep="")
-         Test2<-FALSE
-         if(nchar(webget[LineOfWebData])>38)
-            Test2<-substr(webget[LineOfWebData],1,38)=="There is no record in DB for GeneID = "
-         if(Test1 | Test2)
-            {
-            CurrentGeneOfThisBatch<-CurrentGeneOfThisBatch+1
-            if((substr(webget[LineOfWebData],1,38)=="There is no record in DB for GeneID = ") & (nchar(webget[LineOfWebData])>46))
-                CurrentGeneOfThisBatch<-CurrentGeneOfThisBatch+1
-            if(Test1)
-               {
-               temp<-substr(webget[LineOfWebData],nchar(webget[LineOfWebData])-1,nchar(webget[LineOfWebData]))
-               LineValid<-FALSE
-               if(temp=="] " | temp==" ]")
-                  LineValid<-TRUE
-               TitleLine<-webget[LineOfWebData]
-               while(LineValid==FALSE)
-                  {
-                  TitleLine<-paste(TitleLine,webget[LineOfWebData+1],sep=" ") 
-                  LineOfWebData<-LineOfWebData+1
-                  temp<-substr(TitleLine,nchar(TitleLine)-1,nchar(TitleLine))
-                  LineValid<-FALSE
-                  if(temp=="] " | temp==" ]"){LineValid<-TRUE}
-                  }
-               LineRemainder<-splitfirst(TitleLine)[2]  
-               minigenedf$genesymbol[CurrentGeneOfThisBatch+BatchOffset]<-splitfirst(LineRemainder)[1]
-               GeneName_Species<-splitfirst(LineRemainder)[2]
-               temp<-splitfirst(GeneName_Species,"[")
-               if(length(temp)==1)
-                  minigenedf$species[CurrentGeneOfThisBatch+BatchOffset]<-splitfirst(substr(temp[1],2,nchar(temp[1]))," ]")[1]
-               if(length(temp)!=1) 
-                  {   
-                  minigenedf$genename[CurrentGeneOfThisBatch+BatchOffset]<-substring(temp[1],1,nchar(temp[1])-1)
-                  minigenedf$species[CurrentGeneOfThisBatch+BatchOffset]<-splitfirst(substr(temp[2],2,nchar(temp[2])),"]")[1]
-                  if(substr(minigenedf$species[CurrentGeneOfThisBatch+BatchOffset],nchar(minigenedf$species[CurrentGeneOfThisBatch+BatchOffset]),nchar(minigenedf$species[CurrentGeneOfThisBatch+BatchOffset]))==" ")
-                     minigenedf$species[CurrentGeneOfThisBatch+BatchOffset]<-substr(minigenedf$species[CurrentGeneOfThisBatch+BatchOffset],1,nchar(minigenedf$species[CurrentGeneOfThisBatch+BatchOffset])-1)
-                  }
-               }
-            } else {
-            if(substr(webget[LineOfWebData],1,8)=="GeneID: ")
-               {
-               temp<-splitfirst(webget[LineOfWebData]," ",9)[1]  
-               minigenedf$locusID[CurrentGeneOfThisBatch+BatchOffset]<-substr(temp,9,nchar(temp))  
-               minigenedf$CurrentRecord[CurrentGeneOfThisBatch+BatchOffset]<-splitfirst(splitfirst(webget[LineOfWebData]," ",9)[2])[1]
-               minigenedf$LastUpdate[CurrentGeneOfThisBatch+BatchOffset]<-splitfirst(splitfirst(webget[LineOfWebData]," ",9)[2])[2]
-               }
-            if(substr(webget[LineOfWebData],1,16)=="This record was ")
-               {
-               temp<-substr(webget[LineOfWebData],17,nchar(webget[LineOfWebData]))
-               if(substring(temp,1,8)=="replaced")
-                  minigenedf$NewlocusID[CurrentGeneOfThisBatch+BatchOffset]<-substring(temp,23,nchar(temp))
-               if(substring(temp,1,12)=="discontinued")
-                  minigenedf$NewlocusID[CurrentGeneOfThisBatch+BatchOffset]<-0
-               } 
-            } 
-         LineOfWebData<-LineOfWebData+1
-         }
+      BatchCount<-BatchCount+1
+      this.batch<-min(batchsize,length(remainingObjects))
+      these.objects<-remainingObjects[1:this.batch]
+      url_piece<-paste("&id=",paste(these.objects,collapse=","),sep="")
+      remainingObjects<-remainingObjects[!(remainingObjects %in% remainingObjects[1:this.batch])]
+      getURL<-paste(URLdef$front,"efetch.fcgi?db=gene",url_piece,"&rettype=gene_Table&retmode=text",URLdef$back,sep="")
+      webget<-get.file(getURL,showurl=showurl,clean=FALSE)
+      refLines<-grep("^\t",webget)[1]-1
+      if(is.na(refLines))
+         refLines<-grep("There is no table for this gene",webget)[1]
+      if((length(webget)==1 & length(refLines)==1))
+        {
+        writeLines("Warn: Appears to be a bad parse on the NCBI website. Will try partial extraction.")
+        writeLines("Warn: Extraction will not contain CurrentRecord and LastUpdate information for this batch")
+        writeLines("Warn: If extraction fails, try breaking query into smaller groups and trying again.")
+        a5t<-get.gene.docset(these.objects)
+        minigenedf<-a5t[,c("genename","genesymbol","NewlocusID","locusID","species")]
+        minigenedf$CurrentRecord<-"";  minigenedf$LastUpdate<-""
+        minigenedf<-minigenedf[,c("genename","genesymbol","NewlocusID","CurrentRecord","LastUpdate","locusID","species")]
+        }  else {
+
+        if(length(refLines)==0)
+          {
+          mt.df<-as.data.frame(cbind(genename="",genesymbol="",NewlocusID="",CurrentRecord="",LastUpdate="",locusID="",species=""),stringsAsFactors=FALSE)
+          return(mt.df[0,])
+          }
+        if(refLines[1]==2)
+          refLines<-3
+        top<-webget[(1:refLines[1]-1)]
+         if(length(grep("not found",top[2]))==1)
+          {
+          writeLines("NCBI record query error")
+          writeLines("Try excluding the following locusID from the query and repeating")
+          writeLines(gsub("GeneId ([[:digit:]]*) not found.","\\1",top[2]))
+          writeLines("Will try to salvage query.")
+          minigenedf<-get.gene.docset(these.objects)
+          minigenedf<-GetGeneNames(minigenedf$locusID[minigenedf$genename!=""])
+          } else {
+          minigenedf<-extract.genenames.from.genetabletxt(top)
+          }
       }
-   if(NumberOfGenesFound!=0)
-      return(minigenedf)
-   }  
+
+      if(BatchCount==1)
+        {
+        tgf<-minigenedf
+        } else {
+        tgf<-as.data.frame(rbind(tgf,minigenedf),stringsAsFactors=FALSE)
+        }
+      }
+   return(tgf)
+   }
+

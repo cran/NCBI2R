@@ -64,8 +64,8 @@ result in losing access to NCBI for your group.
 \code{\link{IUPAC}}.
 }
 \examples{
-## Not run:
+\donttest{
 snplist<-c("rs94","rs334","rs309")
 mySNPs<-GetSNPFlankSeq(snplist)
-## End (Not run)
+}
 }

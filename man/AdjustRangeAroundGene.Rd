@@ -57,10 +57,10 @@ which is the gene stop position.
 \code{\link{GetSNPInfo}}.
 }
 \examples{
+\donttest{
 idnumber<-GetIDs("CLN5[SYM] human") 
 ss<-GetGeneInfo(idnumber)
 dd<-AdjustRangeAroundGene(ss$GeneLowPoint,ss$GeneHighPoint,ss$ori,12000,0)
-#xx<-GetARFromLocation(object,ss$Chromosome,dd$LowPoint,dd$HighPoint)
+xx<-GetARFromLocation(object,ss$Chromosome,dd$LowPoint,dd$HighPoint)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}

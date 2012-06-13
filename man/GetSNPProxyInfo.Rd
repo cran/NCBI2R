@@ -83,6 +83,7 @@ Scott Melville
 \code{\link{GetLDInfo},\link{GetSNPPosHapMap}.}
 }
 \examples{
+\donttest{
  #Next example returns one line. The proxy will be in column SNPA or
  #  SNPB depending on the linkage data.
 a<-GetSNPProxyInfo("rs1234567")
@@ -92,5 +93,6 @@ b<-GetSNPProxyInfo("rs1234567",keepmode=2)
  # Next example returns many many lines - no filtering at all other
  # than the inclusion and exclusion lists
 c<-GetSNPProxyInfo("rs1234567",keepmode=3)
+}
 }
 

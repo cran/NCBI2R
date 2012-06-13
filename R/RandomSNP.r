@@ -1,12 +1,6 @@
 randomSNP <-
-function(number,org="")
+function(number,org="",replace=FALSE)
    {
-   snplist<-""
-   for(i in 1:number)
-      {
-      thisvalue<-paste("rs",as.character(floor(runif(1)*1000000)),sep="")
-      snplist<-c(snplist,thisvalue)
-      }
-   snplist<-snplist[2:(number+1)]
+   snplist<-paste("rs",as.character(sample(1:1000000,number,replace=replace)),sep="")
    return(snplist)
    }

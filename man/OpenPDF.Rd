@@ -60,15 +60,13 @@ Will work only if you have a web browser set up.
 \code{\link{OpenPMID}}, \code{\link{GetPubMed}}
 }
 \examples{
-
-
+\donttest{
 examplepaper<-GetPubMed("South Tyrol MICROS")
 #Note: will run only if web browser set up on operating system
-#OpenPDF(examplepaper$PMID)
-
+OpenPDF(examplepaper$PMID)
 # will not open PDF because item not available on PubMed Central
 mypaper<-GetPubMed("border collie CLN5")
-#OpenPDF(mypaper$PMID)
-
-#OpenPDF(20436961)
+OpenPDF(mypaper$PMID)
+OpenPDF(20436961)
+}
 }

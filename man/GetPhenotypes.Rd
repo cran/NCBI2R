@@ -53,6 +53,8 @@ result in losing access to NCBI for your group.
 
 }
 \examples{
+\donttest{
 s<-GetPhenotypes(c(348,1203,1204,777)) #some information may be blank for some genes
 t<-GetPathways(c(348,1203,1204,777)) #some information may be blank for some genes
+}
 }

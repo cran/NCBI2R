@@ -9,7 +9,8 @@ Obtains NCBI information about one or more SNPs
 Obtains NCBI information about one or more SNPs.
 }
 \usage{
-GetSNPInfo(listofSNPs, batchsize = 200, showurl = FALSE, pbar=TRUE)
+GetSNPInfo(listofSNPs, batchsize = 200, showurl = FALSE, pbar=TRUE,
+           style="docset.xml")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -27,6 +28,9 @@ Enables the user to see the URL of the NCBI request.
   \item{pbar}{
 Show progress bar. Default is TRUE.
 }
+  \item{style}{
+Which type of NCBI file will be used. Only one value available at present.
+}
 
 
 }
@@ -41,7 +45,21 @@ the gene.
 If all items do not start with "rs", the program will stop and a
 warning message will be generated.
 
-Each batch of this function represents a single query of NCBI.
+At present time, only one value for the style argument is available.
+
+Each batch of this function normally represents a single query of NCBI. However,
+since early 2012, after the usual parsing of files in the fast manner, any snps
+that are not mapped properly will undergo an additional check using a more
+comprehensive manner. The additional queries will only be performed on a small
+number of SNPs for a typical user so any delays will be minimal. The extra check
+was added in response to NCBI no longer listing map positions of markers with
+more than one mapping location.
+
+Check the flag column carefully as a value other than zero indicates
+a likely problem with the SNP record. This could point to a warning
+such as the SNP mapping may be uncertain etc, and should be checked
+with the web version of NCBI for more information.
+
 }
 \value{
 A dataframe

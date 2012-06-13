@@ -89,10 +89,9 @@ result in losing access to NCBI for your group.
 
 }
 \examples{
+\donttest{
 genelist<-c(1203,777)      #uses the Entrez identifying number.
 genes<-GetGeneInfo(genelist)
-\donttest{
-#These are examples that won't be checked in package testing to save time
 ss<-GetIDs("CLN5[sym] human")   #returns the Entrez ID number
 ggi<-GetGeneInfo(ss) #will display the information on screen
 #or just combine both lines together

@@ -5,8 +5,10 @@ function()
    tool<-"NCBI2R"
    email<-"ncbi2r@gmail.com"
    tailurl<-paste("&tool=",tool,"&email=",email,sep="")
-   x <- read.dcf(file = system.file("DESCRIPTION", package = "NCBI2R"))
-   buildversion<-as.character(as.data.frame(x)$Version)
+   buildversion<-try(utils::packageVersion(pkg=tool),silent=TRUE)
+   ifelse(class(buildversion)[1]=="try-error",
+      buildversion<-NA,
+      buildversion<-as.character(buildversion))
    vS<-"No update check yet"
    package.web<-"http://NCBI2R.wordpress.com"
    dS<-0.333334

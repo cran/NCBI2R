@@ -9,15 +9,12 @@ Obtains information about user defined genes from NCBI
 Obtains NCBI information about user defined genes from NCBI's Entrez Gene database using eutilities.
 }
 \usage{
-GetGeneNames(locusID, batchsize = 200, showurl = FALSE)
+GetGeneNames(locusID, showurl = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{locusID}{
 One or more Entrez locus ID numbers to obtain information for.
-}
-  \item{batchsize}{
-The number of ids that are sent to NCBI for processing in each batch. Faster results may be achieved by changing this number depending on internet/CPU speeds.
 }
   \item{showurl}{
 Displays the URL of the requests. Useful for learning how the functions work, and how you might wish to write your own functions for querying NCBI.

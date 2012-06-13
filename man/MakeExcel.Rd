@@ -114,7 +114,9 @@ Scott Melville
 
 }
 \examples{
+\donttest{
 snplist<-c("rs1234567","rs333","rs848484")
 d<-AnnotateSNPList(snplist)  #no HTML file is created
 MakeExcel(d,"results.tab")
+}
 }

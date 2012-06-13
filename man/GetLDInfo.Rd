@@ -72,6 +72,8 @@ The HapMap website does not always have the same positions as the NCBI builds. T
 \code{\link{GetGeneInfo}}.
 }
 \examples{
+\donttest{
 ff<-GetLDInfo("4",123456789,123556789)
+}
 }
 

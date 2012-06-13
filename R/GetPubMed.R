@@ -22,7 +22,7 @@ GetPubMed<-function (searchterm, file = "", download = FALSE, showurl = FALSE,
         remainingPMIDs <- remainingPMIDs[!(remainingPMIDs %in%
             thisbatchPMIDs)]
         remainingPMIDs <- remainingPMIDs[!(is.na(remainingPMIDs))]
-        url_piece <- paste(thisbatchPMIDs, collapse = "&id=")
+        url_piece <- paste(thisbatchPMIDs, collapse = ",")
         papers <- data.frame(PMID = rep("0", length(thisbatchPMIDs)),
             TI = "", AB = "", stringsAsFactors = FALSE)
         getURL <- paste(URLdef$front, "efetch.fcgi?db=pubmed&id=",
@@ -31,7 +31,7 @@ GetPubMed<-function (searchterm, file = "", download = FALSE, showurl = FALSE,
         webget <- webget[1:(length(webget) - 1)]
         webget <- gsub("&gt;", ">", webget)
         papercounter <- 0
-        LC <- 3
+        LC <- 1
         while (LC <= length(webget)) {
             if (substr(webget[LC], 5, 5) == "-") {
                 medline_heading <- RemoveSpaces(substr(webget[LC],

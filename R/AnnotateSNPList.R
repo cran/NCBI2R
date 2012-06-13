@@ -1,6 +1,6 @@
 AnnotateSNPList <-
 function(snplist,filename="",hyper="HYPERLINK",xldiv=";",smt=FALSE,sme=FALSE,div="---",keeplocusIDs=FALSE,keepNS=FALSE,FlankingDistance=100000,kp=TRUE,quiet=TRUE,neigh=TRUE,showurl=FALSE)
-   {                          
+   {
    snps<-GetSNPInfo(snplist,showurl=showurl)
    snps<-SplitGenes(snps)
    

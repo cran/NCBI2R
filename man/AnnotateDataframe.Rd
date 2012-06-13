@@ -87,7 +87,7 @@ result in losing access to NCBI for your group.
 }
 \examples{
 
-##Not run:
-##AnnotateDataframe(MyGWA,selections = c("p","beta"),filename="Output.html")
-
+\donttest{
+AnnotateDataframe(MyGWA,selections = c("p","beta"),filename="Output.html")
+}
 }

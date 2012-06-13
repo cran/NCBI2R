@@ -140,9 +140,8 @@ Scott Melville
 
 
 \examples{
-
-#Not run:
-
-#keywords<-c("scientist","genetic") #this is one search, composed of two keywords
-#nj<-NatureJobs(keywords,"MYFILE_A_",days=81)
+\donttest{
+keywords<-c("scientist","genetic") #this is one search, composed of two keywords
+nj<-NatureJobs(keywords,"MYFILE_A_",days=81)
+}
 }

@@ -1,5 +1,5 @@
 GetSNPFlankSeq<-function(listofSNPs,batchsize=200,showurl=FALSE)
-  {
+   {
   URLdef<-ncbi2r.options()
   test<-unique(substr(listofSNPs,1,2))
   if(length(test)!=1 | test[1]!="rs")
@@ -17,24 +17,16 @@ GetSNPFlankSeq<-function(listofSNPs,batchsize=200,showurl=FALSE)
   remainingSNPs<-trimmedSNPnames
   for(BatchCounter in 1:NumberOfBatchesInTotal)
     {
-    setTxtProgressBar(pb,BatchCounter)
-    thisbatchSNPs<-remainingSNPs[1:batchsize]                         
+    thisbatchSNPs<-remainingSNPs[1:batchsize]
     thisbatchSNPs<-thisbatchSNPs[!(is.na(thisbatchSNPs))]
     remainingSNPs<-remainingSNPs[!(remainingSNPs %in% thisbatchSNPs)] 
     remainingSNPs<-remainingSNPs[!(is.na(remainingSNPs))]
     url_piece<-paste(thisbatchSNPs,collapse=",")
-
     getURL<-paste(URLdef$front,"efetch.fcgi?db=snp&id=",url_piece,"&report=FASTA",URLdef$back,sep="")
     webget<-get.file(getURL,showurl=showurl,clean=FALSE)
-    LineRecords<-grep("^[[:digit:]]+:[[:space:]]",webget)
-
-    ThisPageSNPs<-as.data.frame(cbind(LineRecords,marker="",ThreePrime="",Variation="",FivePrime="",species=""),stringsAsFactors=FALSE)
-    Species_lines<-grep(" \\[[[:alpha:]]+[[:space:]][[:alpha:]]+\\] ",webget)
-    if(length(Species_lines!=0))
-      {
-      Species_text<-strsplitdbl(webget[Species_lines]," \\[","\\] ")
-      ThisPageSNPs$species<-alignsData(Species_lines,Species_text,LineRecords)
-      }
+    setTxtProgressBar(pb,BatchCounter)
+    LineRecords<-grep("^>",webget)
+    ThisPageSNPs<-as.data.frame(cbind(LineRecords,marker="",ThreePrime="",Variation="",FivePrime="",flag=0),stringsAsFactors=FALSE)
 
     SNPID_B_lines<-grep("cannot get document summary",webget)
     SNPID_A_lines<-LineRecords[!(LineRecords %in% SNPID_B_lines)]
@@ -60,23 +52,18 @@ GetSNPFlankSeq<-function(listofSNPs,batchsize=200,showurl=FALSE)
 
     if(length(SNPID_A_lines)==0 & length(SNPID_B_lines)!=0)
       {
-      ThisPageSNPs$marker<-paste("rs",strsplitdbl(webget[SNPID_B_lines],"id: "," Error occurred"),sep="")        
+      ThisPageSNPs$marker<-paste("rs",strsplitdbl(webget[SNPID_B_lines],"id: "," Error occurred"),sep="")
       ThisPageSNPs$chrpos<-0
       }
     if(length(SNPID_A_lines)!=0 & length(SNPID_B_lines)==0)
-      ThisPageSNPs$marker<-strsplitdbl(webget[SNPID_A_lines],": "," \\[")
-
+      ThisPageSNPs$marker<-gsub("[[:print:]]*\\|(rs[[:digit:]]*)[[:blank:]]rs=[[:digit:]]*\\|[[:print:]]*","\\1",webget[SNPID_A_lines])
 
     nonHTMLlines<-grep("<",webget)
     keylines<-webget[!(1:length(webget) %in% nonHTMLlines)] 
-    IDlines<-grep(":",keylines)
 
-    Infolines<-grep("\\|",keylines) 
-    
-    startlines<-grep("&gt",keylines)+1
-    tempA<-grep(": ",keylines)-1
+    startlines<-grep(">",keylines)+1
+    tempA<-grep(">",keylines)-1
     badlist<-grep("Error occurred",keylines) 
-    
     tempA<-tempA[!(tempA %in% badlist)]
     
     if(!(length(keylines) %in% badlist))
@@ -88,20 +75,28 @@ GetSNPFlankSeq<-function(listofSNPs,batchsize=200,showurl=FALSE)
     threeprime<-rep("",length(stoplines))
     marker<-rep("",length(stoplines))
     variation<-rep(0,length(stoplines))
-
+    flag<-rep(0,length(stoplines))
     i<-0
-    while(i<length(stoplines)) {
-      i<-i+1
 
-      chunk<-keylines[startlines[i]:stoplines[i]]   
-      markerline<-(startlines[i]-2)
-      marker[i]<-parseSNPIDLine(keylines[markerline])$rsID
+    while(i<length(stoplines))
+      {
+      i<-i+1
+      chunk<-keylines[startlines[i]:stoplines[i]]
+      markerline<-(startlines[i]-1)
+      tmpGY<-parseSNPIDLine.v2(keylines[markerline])
+      marker[i]<-paste("rs",tmpGY$dt[tmpGY$hd=="rs"],sep="")
+
+      if(length(chunk)==1 & chunk[1]=="N")
+        {
+        flag[i]<-1
+
+        } else {
+
+
       nums<-1:length(chunk)
       p1A<-nums[nchar(chunk)==1]
       singlematch<-p1A[p1A!=length(chunk)]   
       VarLineNumber<-max(singlematch) 
-
-      
       if(length(VarLineNumber)>1)
          {
           rsline<-gsub(" rs=(.)*","",keylines[startlines[i]-1])
@@ -116,8 +111,10 @@ GetSNPFlankSeq<-function(listofSNPs,batchsize=200,showurl=FALSE)
       fiveprime[i]<-OneLineSequence(five)
       threeprime[i]<-OneLineSequence(three)
       }
+      }
+      
     marker<-as.character(marker)
-    w<-as.data.frame(cbind(marker,variation,fiveprime,threeprime),stringsAsFactors=FALSE)
+    w<-as.data.frame(cbind(marker,variation,fiveprime,threeprime,flag),stringsAsFactors=FALSE)
     adjustedTheseSNPs<-paste("rs",thisbatchSNPs,sep="")
     adjustedTheseSNPs<-as.data.frame(cbind(adjustedTheseSNPs,(1:length(adjustedTheseSNPs))),stringsAsFactors=FALSE)
     w$marker<-as.character(w$marker)

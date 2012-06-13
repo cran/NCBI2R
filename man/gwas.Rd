@@ -25,8 +25,10 @@ illustrate some new features of NCBI2R.
 }
 
 \examples{
+\donttest{
 data(gwas)
-## maybe str(gwas) ; plot(gwas) ...
+GenomeSort(gwas)
+}
 }
 \author{
 Scott Melville

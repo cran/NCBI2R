@@ -29,10 +29,13 @@ Enables the user to see the URL of the NCBI request.
  Adjusts the exon info to generate the genomic positions of each exon, rather than the relative positions.
 }
 
-
-
 }
 \details{
+
+IN VERSION 1.4.0 THIS FUNCTION DOES NOT WORK BUT WILL BE ADDED BACK IN THE NEXT VERSION.
+Since the underlying NCBI interface changes, this function needs to be rewritten.
+It will be back but I opted to release the rest of the new functions at this point.
+
 Input one or more locusIDs (the ID number of the gene according to NCBI) and retrieve the sizes of the introns and exons of all transcripts available.
 
 The function returns the relative positions of introns and exons in respect to the genes, and not an absolute value in respect to the chromosome (i.e. the first exon will start at position 1). The actual positions can be found by using the argument TrueBP=TRUE.
@@ -76,7 +79,9 @@ result in losing access to NCBI for your group.
 \code{\link{GetGeneInfo}}.
 }
 \examples{
+\donttest{
 a<-GetGeneTable(348)
 b<-GetGeneTable(1201)
+}
 }
 

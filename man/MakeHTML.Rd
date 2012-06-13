@@ -82,14 +82,12 @@ Scott Melville
 \code{\link{MakeExcel}}.
 }
 \examples{
+\donttest{
 snplist<-c("rs1234567","rs333","rs848484")
 d<-AnnotateSNPList(snplist)  #no HTML file is created
 MakeHTML(d,"NCBI2R_AnnotatedSNPs.html")
-\donttest{
-#these are additional examples that can be used but won't be checked during package testing
 snps<-GetSNPInfo(snplist)
 MakeHTML(snps,"NCBI2R_JustSNPs.html")
-
 bb<-GetGeneInfo(1200:1209)
 MakeHTML(bb,"NCBI2R_GeneInformation.html")
 }

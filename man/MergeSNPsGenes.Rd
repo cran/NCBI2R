@@ -46,11 +46,11 @@ Scott Melville.
 
 \examples{
 
-
+ \donttest{
 snplist<-c("rs12345","rs333","rs624662")
 mySNPs<-GetSNPInfo(snplist)
 mySNPs<-SplitGenes(mySNPs)
 mygenes<-GetGeneInfo(mySNPs$locusID)
 dataset<-MergeSNPsGenes(mySNPs,mygenes)
-
+}
 }

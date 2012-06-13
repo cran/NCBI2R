@@ -47,7 +47,9 @@ Scott Melville
 }
 
 \examples{
+\donttest{
 a <- GetPubMed("CLN5","My references.tab")
 b <- ConvertPubMedHeadings(a)
 c <- GetPubMed("CLN5",descHead=TRUE)
+}
 }

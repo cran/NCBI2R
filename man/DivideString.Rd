@@ -33,5 +33,7 @@ Scott Melville
 }
 
 \examples{
+\donttest{
 DivideString("1234,5678,145251,6136",sep=",")
+}
 }

@@ -44,7 +44,7 @@ Will work only if you have a web browser set up in your configuration.
 \code{\link{OpenPMID}}, \code{\link{OpenPDF}}
 }
 \examples{
-
-## Not run:
-## OpenURL("http://www.ncbi.nlm.nih.gov/")
+\donttest{
+ OpenURL("http://www.ncbi.nlm.nih.gov/")
+ }
 }

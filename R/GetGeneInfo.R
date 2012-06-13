@@ -31,12 +31,13 @@ GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showur
       {
       BatchOffset<-((BatchLoop-1)*batchsize)
       CountOfThisBatch<-0
-      url_piece<-""
-      while((CountOfThisBatch<batchsize) & ((CountOfThisBatch+BatchOffset)<length(locusID)))
+      url_piece<-"&id="
+        while((CountOfThisBatch<batchsize) & ((CountOfThisBatch+BatchOffset)<length(locusID)))
          {
          CountOfThisBatch<-CountOfThisBatch+1
-         url_piece<-paste(url_piece,"&id=",locusID[(CountOfThisBatch+BatchOffset)],sep="")
+         url_piece<-paste(url_piece,locusID[(CountOfThisBatch+BatchOffset)],",",sep="")
          }
+       url_piece<-substr(url_piece,1,nchar(url_piece)-1)
       getURL<-paste(URLdef$front,"efetch.fcgi?db=gene",url_piece,"+gene%20%all[filter]&rettype=XML",URLdef$back,sep="")
       webget<-get.file(getURL,quiet=quiet,showurl=showurl,clean=TRUE)
       BatchItemNum<-0
@@ -46,12 +47,11 @@ GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showur
          remain_pc<-floor(100*(length(webget)-LC)/length(webget))
          cat(paste("\r NCBI2R GetGeneInfo Batch ",BatchLoop," of ",TotalBatches," of max size ", batchsize," ",remain_pc,"%     ",sep=""))
          flush.console()
-         if(webget[LC] =="<Entrezgene>")
+         if(substr(webget[LC],nchar(webget[LC])-11,nchar(webget[LC]))=="<Entrezgene>")
             BatchItemNum<-BatchItemNum+1
          if(substr(webget[LC],1,35)=="There is no record in DB for GeneID")
             {
-            print(webget[LC])
-            BatchItemNum<-BatchItemNum+1 
+            BatchItemNum<-BatchItemNum+1
             }   
          if(substr(webget[LC],1,9)=="<Org-ref>")
             {
@@ -60,10 +60,11 @@ GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showur
             }
          if(substr(webget[LC],1,25)=="<SubSource_subtype value=")
             {
+            tmp.chr<-substr(webget[LC+1],17,nchar(webget[LC+1])-17)
             if(genedf$chr[BatchItemNum+BatchOffset]=="")
-               genedf$chr[BatchItemNum+BatchOffset]<-substr(webget[LC+1],17,nchar(webget[LC+1])-17)
+               genedf$chr[BatchItemNum+BatchOffset]<-tmp.chr
             else
-               genedf$chr[BatchItemNum+BatchOffset]<-paste(genedf$chr[BatchItemNum+BatchOffset],substr(webget[LC+1],17,nchar(webget[LC+1])-17),sep="")
+               genedf$chr[BatchItemNum+BatchOffset]<-paste(genedf$chr[BatchItemNum+BatchOffset],tmp.chr,sep="")
             }
          if(substr(webget[LC],1,13)=="<Dbtag_db>MIM")
             genedf$OMIM[BatchItemNum+BatchOffset]<-substr(webget[LC+3],15,nchar(webget[LC+3])-15)
@@ -145,9 +146,11 @@ GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showur
                   genedf$GeneLowPoint[BatchItemNum+BatchOffset]<-as.numeric(substr(webget[Checker$RowNumber],20,nchar(webget[Checker$RowNumber])-20))+1
                   genedf$GeneHighPoint[BatchItemNum+BatchOffset]<-as.numeric(substr(webget[Checker$RowNumber+1],18,nchar(webget[Checker$RowNumber+1])-18))+1
                   genedf$ori[BatchItemNum+BatchOffset]<-substr(webget[Checker$RowNumber+3],24,nchar(webget[Checker$RowNumber+3])-8)
-                  if(substr(webget[Checker$RowNumber+3],24,nchar(webget[Checker$RowNumber+3])-8)=="plus")
+
+
+                  if(length(grep("plus",webget[Checker$RowNumber+3]))==1)
                     genedf$ori[BatchItemNum+BatchOffset]<-"+"
-                  if(substr(webget[Checker$RowNumber+3],24,nchar(webget[Checker$RowNumber+3])-8)=="minus")
+                  if(length(grep("minus",webget[Checker$RowNumber+3]))==1)
                     genedf$ori[BatchItemNum+BatchOffset]<-"-"
                   }
                }

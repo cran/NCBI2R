@@ -92,16 +92,18 @@ Violation of the terms described there, and the terms on the eutils website may
 result in losing access to NCBI for your group.
 }
 \seealso{
-\code{\link{GetRegion}, \link{DivideString}.}
+\code{\link{GetClosestGeneInfo}, \link{GetRegion}, \link{DivideString}.}
 }
 \examples{
 
-
-a<-GetNeighGenes("4",123456789,100000)  #Looks at the genes within 100 kbp on either side of the location on chromosome four, a total of 200 kbp
+\donttest{
+#Next cmd will looks at the genes within 100 kbp on either side of the location on chr 4
+a<-GetNeighGenes("4",123456789,100000)
 b<-GetNeighGenes("4",123456789,100000,web=FALSE)
 c<-GetNeighGenes("4",123456789,100000,full=TRUE)
 ff<-as.data.frame(cbind(c("4","6","10"),c("123456789","222333444","100666777")))
 g<-GetNeighGenes(ff,html=TRUE)
-loci<-DivideString(g$locusID,sep=",") #divide the string of loci into a vector of each component
-
+#Next cmd will divide the string of loci into a vector of each component
+loci<-DivideString(g$locusID,sep=",")
+}
 }

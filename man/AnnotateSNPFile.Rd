@@ -85,5 +85,7 @@ result in losing access to NCBI for your group.
 \code{\link{AnnotateSNPList}}, \code{\link{AnnotateDataframe}}.
 }
 \examples{
-#resultsdf<-AnnotateSNPFile("markers.txt","scottsoutput.html")
+\donttest{
+resultsdf<-AnnotateSNPFile("markers.txt","scottsoutput.html")
+}
 }

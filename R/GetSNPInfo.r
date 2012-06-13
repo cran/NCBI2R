@@ -1,139 +1,24 @@
-GetSNPInfo<-function(listofSNPs,batchsize=200,showurl=FALSE,pbar=TRUE)
-  {
-  if(class(batchsize)=="character")
-     stop("Incorrect input. you have possibly entered a SNP name where the batchsize should be")
-  if(length(listofSNPs)==1)
-     pbar<-FALSE
-  URLdef<-ncbi2r.options()
-  test<-unique(substr(listofSNPs,1,2)) 
-  if(length(test)!=1 | test[1]!="rs")
-     stop("Incorrect input. Each item must begin with rs")
-  trimmedSNPnames<-substr(as.character(listofSNPs),3,nchar(as.character(listofSNPs)))
-  TotalBatches<-ceiling(length(trimmedSNPnames)/batchsize)
-  if(TotalBatches==1)
-      pbar<-FALSE
-  if(pbar==TRUE)
-    pb<-txtProgressBar(min=0,max=TotalBatches,style=3)
-  remainingItems<-trimmedSNPnames
-  for(BatchCounter in 1:TotalBatches)
-    {
-  if(pbar==TRUE)
-    setTxtProgressBar(pb,BatchCounter)
-  thisbatchItems<-remainingItems[1:batchsize]                       
-  thisbatchItems<-thisbatchItems[!(is.na(thisbatchItems))]
-  remainingItems<-remainingItems[!(remainingItems %in% thisbatchItems)]
-  remainingItems<-remainingItems[!(is.na(remainingItems))]
-  url_piece<-paste(thisbatchItems,collapse=",")
-  getURL<-paste(URLdef$front,"efetch.fcgi?db=snp&id=",url_piece,"&report=DocSet",URLdef$back,sep="")
-  webget<-get.file(getURL,showurl,clean=FALSE)
-  LineRecords<-grep("^[[:digit:]]+:[[:space:]]",webget)
-  ThisPageSNPs<-as.data.frame(cbind(LineRecords,marker="",genesymbol="",locusID="",chr="",chrpos="",fxn_class="",species="",dupl_loc=""),stringsAsFactors=FALSE)
-  Species_lines<-grep(" \\[[[:alpha:]]+[[:space:]][[:alpha:]]+\\] ",webget)
-  if(length(Species_lines!=0))
+GetSNPInfo<-function(listofSNPs,batchsize=200,showurl=FALSE,pbar=TRUE,style="docset.xml")
+   {
+   if(style!="docset.xml")
+     stop("NCBI2R error: Only docset.xml is available for the style setting at this time.")
+   check.batchsize(batchsize)
+   trimmedSNPnames<-checkSNPsAllrs(listofSNPs)
+   p1<-getSNPInfo.master.docset(trimmedSNPnames=trimmedSNPnames,batchsize=batchsize,showurl=showurl,pbar=pbar)
+   j3<-p1[p1$chrpos==0 & p1$species!="",]
+   j4<-p1[!(p1$chrpos==0 & p1$species!=""),]
+   if(nrow(j3)>0 & style=="docset.xml")
       {
-      Species_text<-strsplitdbl(webget[Species_lines]," \\[","\\] ")
-      ThisPageSNPs$species<-alignsData(Species_lines,Species_text,LineRecords) 
-      }
-   
-  SNPID_B_lines<-grep("cannot get document summary",webget)
-  SNPID_A_lines<-LineRecords[!(LineRecords %in% SNPID_B_lines)]
-
-  if(length(SNPID_A_lines)!=0 & length(SNPID_B_lines)!=0)
-    {
-    SNPID_A_text<-strsplitdbl(webget[SNPID_A_lines],": "," \\[")
-    SNPID_B_text<-paste("rs",strsplitdbl(webget[SNPID_B_lines],"id: "," Error occurred"),sep="")   
-    ThisPageSNPs$SNPID_A<-as.character(alignsData(SNPID_A_lines,SNPID_A_text,LineRecords))            
-    ThisPageSNPs$SNPID_B<-as.character(alignsData(SNPID_B_lines,SNPID_B_text,LineRecords))
-    ThisPageSNPs$marker[is.na(ThisPageSNPs$SNPID_A)]<-ThisPageSNPs$SNPID_B[is.na(ThisPageSNPs$SNPID_A)]
-    ThisPageSNPs$marker[is.na(ThisPageSNPs$SNPID_B)]<-ThisPageSNPs$SNPID_A[is.na(ThisPageSNPs$SNPID_B)]
-    ThisPageSNPs$SNPID_A<-NULL            
-    ThisPageSNPs$SNPID_B<-NULL
-    } 
-    
-  if(length(SNPID_A_lines)==0 & length(SNPID_B_lines)==0)
-    {
-    print("ITEMS: NONE FOUND")
-    print("An error has occurred in NCBI2R. Please try again.")
-    print("If a problem persists - please contact the author - details at the website")
-    stop("No SNP data was available. Error code is E01")
-    }
-    
-  if(length(SNPID_A_lines)==0 & length(SNPID_B_lines)!=0)
-    {
-    ThisPageSNPs$marker<-paste("rs",strsplitdbl(webget[SNPID_B_lines],"id: "," Error occurred"),sep="")        
-    ThisPageSNPs$chrpos<-0
-    }
-  if(length(SNPID_A_lines)!=0 & length(SNPID_B_lines)==0)
-    ThisPageSNPs$marker<-strsplitdbl(webget[SNPID_A_lines],": "," \\[")
-    
-    GENE_lines<-grep("GENE=",webget)
-    if(length(GENE_lines)!=0)
-       GENE_text<-substr(webget[GENE_lines],6,nchar(webget[GENE_lines]))
-    LOCUSID_lines<-grep("^LOCUS_ID=",webget)
-    LOCUSID_text<-substr(webget[LOCUSID_lines],10,nchar(webget[LOCUSID_lines])) 
-    if(length(LOCUSID_lines)!=0)
-      {
-      ThisPageSNPs$genesymbol<-alignsData(GENE_lines,GENE_text,LineRecords)
-      ThisPageSNPs$locusID<-alignsData(LOCUSID_lines,LOCUSID_text,LineRecords)           
-      }
-    FXNCLASS_lines<-grep("^FXN_CLASS=",webget)
-    FXNCLASS_text<-substr(webget[FXNCLASS_lines],11,nchar(webget[FXNCLASS_lines]))
-    if(length(FXNCLASS_lines)!=0)
-      ThisPageSNPs$fxn_class<-alignsData(FXNCLASS_lines,FXNCLASS_text,LineRecords)
-    CHRPOS_lines<-grep("^CHROMOSOME BASE POSITION=",webget)
-    dbl_lines<-grep("^CHROMOSOME BASE POSITION=+[[:alnum:]]+:[[:digit:]]+\\|",webget)
-    if(length(dbl_lines)!=0)
-      {              
-      dbl_text<-substr(webget[dbl_lines],26,nchar(webget[dbl_lines]))   
-      ThisPageSNPs$dupl_loc<-alignsData(dbl_lines,dbl_text,LineRecords)
-      webget[dbl_lines]<-gsub("(\\|[[:alnum:]]+:+[[:digit:]]+)*$","",webget[dbl_lines])
-      }
-
-    CHRPOS_text<-substr(webget[CHRPOS_lines],26,nchar(webget[CHRPOS_lines]))   
-    CHR_text<-as.character(do.call(cbind,strsplit(CHRPOS_text,":"))[1,])
-
-    if(length(CHRPOS_lines)!=0)
-       {
-       ThisPageSNPs$chr<-alignsData(CHRPOS_lines,CHR_text,LineRecords)
-       BP_text<-as.numeric(do.call(cbind,strsplit(CHRPOS_text,":"))[2,])
-       ThisPageSNPs$chrpos<-alignsData(CHRPOS_lines,BP_text,LineRecords)
-       }
-
-    ThisPageSNPs$LineRecords<-NULL 
-    if(BatchCounter==1)   {
-      TotalSNPData<-ThisPageSNPs
+      writeLines("Some markers were not found. Will attempt a second method.")
+      p2<-getSNPInfo.master.xml(trimmedSNPnames=gsub("^rs","",j3$marker),batchsize=batchsize,showurl=showurl)
+      p2j3<-merge(j3[,c("marker","species")],p2[,c("marker","genesymbol","locusID","chr","chrpos","fxn_class","dupl_loc","current.rsid","flag")],by="marker",all=TRUE)
+      rm(p2)
+      p2j3<-p2j3[,c("marker","genesymbol","locusID","chr","chrpos","fxn_class","species","dupl_loc","current.rsid","flag")]
+      j34<-as.data.frame(rbind(j4,p2j3),stringsAsFactors=FALSE)
       } else {
-      TotalSNPData<-as.data.frame(rbind(TotalSNPData,ThisPageSNPs))   
+      j34<-j4; rm(j4)
       }
-    } 
-  if(pbar==TRUE)    
-   close(pb) 
-  TotalSNPData$genesymbol<-clean.NAs(TotalSNPData$genesymbol)
-  TotalSNPData$locusID<-clean.NAs(TotalSNPData$locusID)
-  TotalSNPData$chr<-clean.NAs(TotalSNPData$chr)
-  TotalSNPData$chrpos<-clean.NAs(TotalSNPData$chrpos)
-  TotalSNPData$fxn_class<-clean.NAs(TotalSNPData$fxn_class)
-  TotalSNPData$species<-clean.NAs(TotalSNPData$species)
-  TotalSNPData$dupl_loc<-clean.NAs(TotalSNPData$dupl_loc)
-   myvalue_lines<-grep(",",TotalSNPData$locusID)
-  if(length(myvalue_lines)!=0)
-     {
-      myvalues<-grep(",",TotalSNPData$locusID,value=TRUE) 
-      myvalues_string<-paste(myvalues,collapse=",")   
-      myvalues<-unique(unlist(strsplit(myvalues_string,",")))
-      mydata<-GetGeneNames(myvalues)[,c("locusID","genesymbol")]
-      for(i in myvalue_lines)
-         {
-         locusIDsToChange<-unlist(strsplit(TotalSNPData$locusID[i],","))
-         TotalSNPData$genesymbol[i]<-paste(mydata[mydata$locusID %in% locusIDsToChange,"genesymbol"],collapse=",")
-         }
-     }    
-  if(nrow(TotalSNPData[TotalSNPData$chrpos==0,])>0)
-     writeLines("Note: Some SNPs were not found. They have a chrpos of zero.")
-  if(nrow(TotalSNPData[TotalSNPData$dupl_loc!="",])>0)
-     writeLines("Note: Some SNPs were found in more than one location.")
-  return(TotalSNPData)
-}   
-
-
-
+   ans<-order.to.original.snplist(listofSNPs,j34,"marker")
+   rm(j3)
+   return(ans)
+   }

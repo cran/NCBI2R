@@ -1,6 +1,6 @@
 GetLDInfo<-function(chr,pos1,pos2,showurl=FALSE,filter="",build="27_B36",pop="CEU",db="HapMap",quiet=FALSE)
     {
-    if(toupper(db)!=c("HAPMAP","SNAP"))
+    if(!(toupper(db) %in% c("HAPMAP","SNAP")))
         stop("NCBI2R GetLDInfo error: incorrect db specified. either hapmap or snap required")
     if(build!="3r2_B36" & build!="27_B36")
       stop("NCBI2R GetLDInfo error: Unknown build specified. GetLDInfo function has failed")
