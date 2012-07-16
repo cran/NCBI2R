@@ -58,9 +58,10 @@ which is the gene stop position.
 }
 \examples{
 \donttest{
-idnumber<-GetIDs("CLN5[SYM] human") 
-ss<-GetGeneInfo(idnumber)
+locusID<-GetIDs("AKR1C4[SYM] human")
+ss<-GetGeneInfo(locusID)
 dd<-AdjustRangeAroundGene(ss$GeneLowPoint,ss$GeneHighPoint,ss$ori,12000,0)
-xx<-GetARFromLocation(object,ss$Chromosome,dd$LowPoint,dd$HighPoint)
+data(gwas)  #load sample gwas data and then filter based on the adjusted range around gene
+xx<-GetARFromLocation(gwas,ss$chr,dd$LowPoint,dd$HighPoint)
 }
 }

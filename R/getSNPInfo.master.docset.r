@@ -1,5 +1,3 @@
-
-
 getSNPInfo.master.docset<-function(trimmedSNPnames,batchsize=200,showurl=FALSE,pbar=TRUE)
    {
    if(length(trimmedSNPnames)==1)

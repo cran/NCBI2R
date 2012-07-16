@@ -47,9 +47,9 @@ Scott Melville.
 \examples{
 
  \donttest{
-snplist<-c("rs12345","rs333","rs624662")
+snplist<-c("rs71659622","rs333","rs624662")
 mySNPs<-GetSNPInfo(snplist)
-mySNPs<-SplitGenes(mySNPs)
+mySNPs<-SplitGenes(mySNPs) #if snp is in >1 genes, data will be split over multiple lines
 mygenes<-GetGeneInfo(mySNPs$locusID)
 dataset<-MergeSNPsGenes(mySNPs,mygenes)
 }

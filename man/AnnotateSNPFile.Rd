@@ -86,6 +86,10 @@ result in losing access to NCBI for your group.
 }
 \examples{
 \donttest{
+#first prepare a marker file -
+snps<-c("rs1234567","rs333","rs728248")
+write(snps,file="markers.txt")
+#run the Annotation
 resultsdf<-AnnotateSNPFile("markers.txt","scottsoutput.html")
 }
 }

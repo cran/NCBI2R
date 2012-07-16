@@ -88,6 +88,10 @@ result in losing access to NCBI for your group.
 \examples{
 
 \donttest{
-AnnotateDataframe(MyGWA,selections = c("p","beta"),filename="Output.html")
+data(gwas) #load in sample data
+MyResults<-gwas[gwas$chr==22 & gwas$chrpos>=2000000 & gwas$chrpos<=25001000,]
+#note: you can add columns below, eg beta values or whatever your data has
+#but the example you've loaded does not have these extra columns
+AnnotateDataframe(MyResults,selections = c("p"),filename="Output.html")
 }
 }

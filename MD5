@@ -1,4 +1,4 @@
-4de7fe0390bc3309c986857e4f4fd287 *DESCRIPTION
+90b55f3edfa5065fb994de1b67c870f7 *DESCRIPTION
 0f8a33c243f5bd216be763184b3d450c *FAQ
 e2c62b6381f41bb6d06ba1ab081ab4e4 *NAMESPACE
 fabfe818f0e9fa68167fa55d18390d91 *R/AdjustGeneTable.r
@@ -25,7 +25,7 @@ ec33dfabf1db708629f2f302bffd95a2 *R/GetClosestGeneInfo.r
 d2f5fd738a028d2dd94d539d5f8fd2cb *R/GetGOs.r
 6db51c7e21cfda07852bbf1bf39ef1a4 *R/GetGeneInfo.r
 fbec14da59f46220dfa5e15bb9e4ba76 *R/GetGeneNames.r
-4becf45b699597330a2b9c255345e8cc *R/GetGeneTable.r
+71441033395dc4a73be26d0877e41547 *R/GetGeneTable.r
 38e878e9c1b27e26a02055b51c3caee9 *R/GetGenesInRegion.r
 6d07a7afc1431024aba276abdcacc875 *R/GetIDs.r
 08a207e0e29492060835fd68864c411a *R/GetInteractions.r
@@ -81,7 +81,7 @@ bf44aeb1bdf060ec0bda9cf2b5aef342 *R/UpdateCheck.r
 3668a7d5d0509211836bf02d753e4ba0 *R/change.class.data.frame.r
 6708afa697f0547cbfe71a698241f2ab *R/check.IUPAC.r
 5e730a001d9f4120e57a8df6f9406e62 *R/check.batchsize.r
-4410a47ee19ec7f2c847d1499fefa9be *R/check.package.r
+900c6f262d0509237d022eea0e7b3560 *R/check.package.r
 784f99746ee9093e8388945bfd822006 *R/check.platform.or.test.r
 bc22a09bf3c8e12afc874f8f648500d2 *R/checkAllNumerics.r
 42bd2fb3a3940c28d74e41b8ed015755 *R/checkSNPsAllrs.r
@@ -118,11 +118,11 @@ e6ea7594221f3fb58f7e0edc8ecd9c15 *R/get.uni.sts.info.cross.ref.available.r
 738dd37eeee298c8d86b1ae917247bd6 *R/get.uni.sts.info.cross.ref.r
 82bc2169e59a6a3f3427ac24fa9259d7 *R/get.uni.sts.info.map.r
 95cecff234068ab1dd8d2da8edc72cd9 *R/get.uni.sts.info.map.wrap.r
-3e846aca264a080c40f09384c9cc3b4f *R/getListFromXML.r
+4b59a15fe5ba9a8a972708753383c53d *R/getListFromXML.r
 b0917077032619bc80656e96faa36a67 *R/getSNPInfo.cleaning.r
-ef5159480209dd696172be82421a74d5 *R/getSNPInfo.master.docset.r
+451e6949a0ad77db0b69f6c1230e7b1e *R/getSNPInfo.master.docset.r
 8ae415f41441305abc641f86ab1f4519 *R/getSNPInfo.master.xml.r
-248ea5ab17f09f8798d3b6cc95d8e719 *R/getSNPInfo.singlebatch.trimmednames.docset.r
+7332836f47abacb9c525b7eba0112319 *R/getSNPInfo.singlebatch.trimmednames.docset.r
 29d2e40f0b14c5da9a0b5899fade30b7 *R/getSNPInfo.singlebatch.trimmednames.xml.r
 7a3e0486979e2f648fa39acea981264a *R/make.local.HTML.r
 3be84b0dccb3bac2028fc655c49d9ae1 *R/make.log.r
@@ -142,7 +142,7 @@ fa1ae6f3e912f29199e5cb9c06897e84 *R/randomSNP.r
 2dcf3c86e88965d31627df12bb8353b7 *R/rbind.with.diffnames.r
 ba0cb9dd94b8cf724e3b191d620636e8 *R/searcher.r
 a8cad48ff1fc8c2e1180b741614b0f7c *R/set.create.dir.r
-e6dac39f299c7aa3bf806277678b32d3 *R/showMessages.r
+16467313f5a3002e6d04a2a0e4134786 *R/showMessages.r
 f9415580aae0f6d294ced0bedfda7eed *R/skimUntil.r
 8397029d70f2e6aefe9e065569589482 *R/splitfirst.r
 9825964a30126fb8b9a18255e3914ca8 *R/strsplitdbl.r
@@ -160,10 +160,10 @@ ec07992274615cce5e999990469b3919 *TODO
 cfe28464c46ba7a7bb087de81ac27c16 *demo/00Index
 1d6f73e95b110d26523fdd79eb5cc285 *demo/genedemo.r
 65904e5f9b921ba3cb25286515994605 *demo/snpdemo.r
-95a53516463968696a1904482c84c309 *man/AdjustRangeAroundGene.Rd
+817f80fb4afa0cae86a485ad72df21f3 *man/AdjustRangeAroundGene.Rd
 92d49fe4600bb24e3f8ee3f09f4b2ee4 *man/AminoAcids.rd
-ceae781ee89e477924f44ee749a5d99c *man/AnnotateDataframe.Rd
-0cc7cdb0b92f6e91421b349e0366ee43 *man/AnnotateSNPFile.Rd
+f32b055fe7a7580d83c12e809764b789 *man/AnnotateDataframe.Rd
+4daa5b61f31390d0bbbfbed8b5e7b817 *man/AnnotateSNPFile.Rd
 047e04fec5a85cdeb4ccb739ea76a508 *man/AnnotateSNPList.Rd
 967e55af2e8bd817bf858c59eb323d0a *man/Comp.Rd
 8ea07c70c4dc8d348b54e98c1a8e19c9 *man/CompareTaxInfo.Rd
@@ -205,7 +205,7 @@ c7764e857e1cf2514757fa9d226f4128 *man/IUPAC.rd
 1c8e13ba4d80ef156edd4c235bf04907 *man/MakeExcel.Rd
 502cb9b06c9e6dcee7916f8ac96d3385 *man/MakeHTML.Rd
 266a012eede5650886e359ea27533992 *man/MedlineAbbreviations.rd
-f8d14033a632aca718e41eb61ac78e83 *man/MergeSNPsGenes.Rd
+4457550525eda4ea73decb9f0eb13d3d *man/MergeSNPsGenes.Rd
 cbddc37efe9ff69ffdc781e4603e6d63 *man/NatureJobs.Rd
 08d771f492e3d84f13ab3a320bb5e594 *man/OpenPDF.Rd
 c983202829d045b4723e9f1691d42b36 *man/OpenPMID.Rd

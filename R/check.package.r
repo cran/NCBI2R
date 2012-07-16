@@ -30,11 +30,15 @@ getPackageVersionsOnAllMirrors<-function(package="NCBI2R")
      if(class(j)!="try-error")
        mdf[m,2:4]<-j
      }
-   t2<-as.data.frame(rbind(table(mdf[,2])))
-   t3<-as.data.frame(rbind(table(mdf[,3])))
-   t4<-as.data.frame(rbind(table(mdf[,4])))
-   t234<-as.data.frame(rbind(t2,t3,t4),stringsAsFactors=FALSE)
-   row.names(t234)<-c("Src","Mac","Win")
+  versions<-sort(unique(c(mdf[,2],mdf[,3],mdf[,4]))) 
+  t234<-as.data.frame(matrix(0,ncol=length(versions),nrow=3))
+  row.names(t234)<-c("Src","Mac","Win")
+  names(t234)<-versions
+  for(k in 1:3)
+    {
+    for(l in 1:length(versions))
+      t234[k,l]<-nrow(mdf[mdf[,k+1]==versions[l],])
+    }
    print(t234)
    return(list(bySite=mdf,summary=t234))
    }
@@ -119,13 +123,15 @@ test.examples.from.file<-function(fn)
       egs.3<-egs.3[egs.3>egs.1][1]
       egs<-hlp[(egs.1+1):(egs.3-1)]
       egs<-egs[egs!="\\donttest{"]
-
+      egs<-egs[egs!=" \\donttest{"]
+      writeLines("");writeLines("");writeLines("");writeLines("");writeLines("");writeLines("");writeLines("");writeLines("")
+      print(fn)
+      print(egs)
       k<-0
       cont<-TRUE
       while(k<length(egs) & cont==TRUE)
          {
          k<-k+1
-
          a<-try(eval(parse(text=egs[k])))
          if(class(a)=="try-error")
            {

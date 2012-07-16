@@ -1,23 +1,36 @@
 getListFromXML <-
-function(webget,smt=FALSE,sme=FALSE,MaxRet=30000)
+function(webget,smt=FALSE,sme=FALSE,MaxRet=30000,return.data=FALSE)
    {
    webget<-gsub("\t","",webget)
-   RowCounter<-1
-   ListCounter<-0
-   ListItems<-rep("",10000)
-   while(substr(webget[RowCounter],nchar(webget[RowCounter])-7,nchar(webget[RowCounter]))!="<IdList>")
-      RowCounter<-RowCounter+1
-   RowCounter<-RowCounter+1
-   while(substr(webget[RowCounter],1,9)!="</IdList>")
-      {                                                                              
-      ListCounter<-ListCounter+1
-      ListItems[ListCounter]<-substr(webget[RowCounter],5,nchar(webget[RowCounter])-5)
-      RowCounter<-RowCounter+1
+   webget<-gsub("<IdList>","\t<IdList>",webget)
+   webget<-gsub("</IdList>","\t</IdList>",webget)
+   webget<-unlist(strsplit(webget,"\t"))
+   s1<-grep("^<IdList>$",webget)[1]
+   s2<-grep("^</IdList>",webget)[1]
+   if(is.na(s1) | is.na(s2))
+     stop("NCBI2R error: parsing XML problem")
+   ListItems<-gsub("[[:print:]]*<Id>([[:print:]]*)</Id>$","\\1",webget[(s1+1):(s2-1)])
+   ListItems<-ListItems[ListItems!=""]
+   dummy<-showMessages(webget,smt=smt,sme=sme)
+   if(class(dummy$errors)=="data.frame")
+      {
+      writeLines("NCBI2R Fatal error using esearch query")
+      print(dummy$errors)
+      if(class(dummy$warnings)=="data.frame")
+        {
+        writeLines("Additional warnings were also present")
+        print(dummy$warnings)
+        }
+      stop("")
       }
-   if(smt==TRUE | sme==TRUE)
-      showMessages(webget,smt=smt,sme=sme)
    if(length(ListItems[ListItems!=""])==MaxRet)
       print("Warning: Number of items was greater than expected. PARTIAL RESULTS USED [MaxRet need increasing]")
-   ListItems<-ListItems[ListItems!=""]
-   }  
-                           
+   if(return.data==TRUE)
+     {
+      return(list(ListItems=ListItems,errors=dummy$errors,warnings=dummy$warnings))
+      } else {
+         return(ListItems)
+       }
+   }
+
+   
