@@ -21,13 +21,14 @@ function(snpdf,quiet=FALSE)
             if(firsttime==0)
                {
                firsttime<-1
-               print("The following SNP/s are located within genes")
+               writeLines("The following SNP/s are located within more than one gene")
                }
-            print(snpdf$marker[LC])
+            cat(paste("\r",snpdf$marker[LC]," "))
             }
          res<-splitfirst(snpdf$locusID[LC],",")
          snpdf$locusID[LC]<-res[1] 
          snpdf$genesymbol[LC]<-as.character(GetGeneNames(snpdf$locusID[LC])$genesymbol) 
+         writeLines(snpdf$genesymbol[LC])
          if(length(splitfirst(res[2],","))==0)
             thisrow<-data.frame(snpdf[LC,1],GetGeneNames(res[2])$genesymbol,res[2],snpdf[LC,c(4:ncol(snpdf))])
          if(length(splitfirst(res[2],","))!=0)

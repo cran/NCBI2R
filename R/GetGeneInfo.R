@@ -24,8 +24,8 @@ GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showur
       print(paste("Unique genes:",length(locusID)))
    URLdef<-ncbi2r.options()
    Num<-length(locusID)
-   genedf<-data.frame(org_ref_taxname=rep("",length(locusID)),org_ref_commonname="",OMIM="",synonyms="", genesummary="", genename="",phenotypes="", phenotypes.html="", pathways="",pathways.html="", GeneLowPoint=0,GeneHighPoint=0,ori="",chr="",genesymbol="",Int.GeneIDs="",Int.genesymbols.html="",GOfunc="",GOcomp="",GOproc="",GOfunc.html="",GOcomp.html="",GOproc.html="", build=0, cyto="",approx=0,stringsAsFactors=FALSE)  
-   genedf<-as.data.frame(cbind(locusID,genedf))     
+   genedf<-data.frame(locusID=0,org_ref_taxname=rep("",length(locusID)),org_ref_commonname="",OMIM="",synonyms="", genesummary="", genename="",phenotypes="", phenotypes.html="", pathways="",pathways.html="", GeneLowPoint=0,GeneHighPoint=0,ori="",chr="",genesymbol="",Int.GeneIDs="",Int.genesymbols.html="",GOfunc="",GOcomp="",GOproc="",GOfunc.html="",GOcomp.html="",GOproc.html="", build=0, cyto="",approx=0,stringsAsFactors=FALSE)
+   #genedf<-as.data.frame(cbind(locusID,genedf)) #changed for 1.4.2
    TotalBatches<-ceiling(length(locusID)/batchsize)
    for(BatchLoop in 1:TotalBatches)
       {
@@ -40,6 +40,10 @@ GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showur
        url_piece<-substr(url_piece,1,nchar(url_piece)-1)
       getURL<-paste(URLdef$front,"efetch.fcgi?db=gene",url_piece,"+gene%20%all[filter]&rettype=XML",URLdef$back,sep="")
       webget<-get.file(getURL,quiet=quiet,showurl=showurl,clean=TRUE)
+      
+      #clean out some stuff I don't use? risky but could save a lot of time.... but the +4 type stuff is then out the window...
+      #build as elseif? or just switch to grep for 1.5
+      
       BatchItemNum<-0
       LC<-1
       while(LC<=length(webget))
@@ -50,9 +54,10 @@ GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showur
          if(substr(webget[LC],nchar(webget[LC])-11,nchar(webget[LC]))=="<Entrezgene>")
             BatchItemNum<-BatchItemNum+1
          if(substr(webget[LC],1,35)=="There is no record in DB for GeneID")
-            {
             BatchItemNum<-BatchItemNum+1
-            }   
+         if(substr(webget[LC],1,19)=="<Gene-track_geneid>")
+            genedf$locusID[BatchItemNum+BatchOffset]<-substr(webget[LC],20,nchar(webget[LC])-20)
+
          if(substr(webget[LC],1,9)=="<Org-ref>")
             {
             genedf$org_ref_taxname[BatchItemNum+BatchOffset]<-substr(webget[LC+1],18,nchar(webget[LC+1])-18)
@@ -79,6 +84,8 @@ GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showur
             genedf$genesymbol[BatchItemNum+BatchOffset]<-substr(webget[LC+1],23,nchar(webget[LC+1])-23)
             genedf$approx[BatchItemNum+BatchOffset]<-1
             }
+            
+            
          if(substr(webget[LC],1,41)=="<Gene-commentary_label>Official Full Name")
             genedf$genename[BatchItemNum+BatchOffset]<-substr(webget[LC+1],23,nchar(webget[LC+1])-23)
          if(substr(webget[LC],1,40)=="<Gene-commentary_label>Interim Full Name")
@@ -155,7 +162,7 @@ GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showur
                   }
                }
             LC<-LC+1
-         }
+          }
       }
   cat("\r                                                           ")
   cat("\n")
@@ -176,16 +183,20 @@ GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showur
       genedf$phenotypes.html<-NULL
       }
    genedf$genesummary<-gsub("&amp;apos;","'",genedf$genesummary)
-   for(i in 1:nrow(genedf))
+   genedf$approx[genedf$genesymbol==""]<-2
+   if(length(genedf$approx[genedf$genesymbol==""])>0)
       {
-      if(genedf$genesymbol[i]=="")
+      ggn<-GetGeneNames(genedf$locusID[genedf$genesymbol==""])
+      ff<-(1:nrow(genedf))[genedf$genesymbol==""]
+      for(i in 1:length(ff))
          {
-         if(length(grep(" ",genedf$synonyms[i]))==0)
-            {
-            genedf$genesymbol[i]<-genedf$synonyms[i]
-            genedf$approx[i]<-(genedf$approx[i])+2
-            }
+         genedf$genename[ff[i]]<-ggn$genename[i]
+         genedf$genesymbol[ff[i]]<-ggn$genesymbol[i]
          }
       }
+   genedf<-order.to.original.list(enteredlist=locusIDs,df1=genedf,keycol="locusID")
    return(genedf)
    }
+   
+   
+

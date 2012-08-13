@@ -12,12 +12,11 @@ function(snpdf,genedf,quiet=FALSE,markercolumn="marker")
    snpdf<-SplitGenes(snpdf,quiet)  
    snpdf$oso<-1:nrow(snpdf) 
    genedf$chr<-NULL 
-   snps.genes<-merge(snpdf,genedf,by.x="locusID",by.y="locusID",all.x=TRUE,all.y=TRUE)
-   snps.genes$genesymbol.x<-NULL         
+   snps.genes<-unique(merge(snpdf,genedf,by="locusID",all=TRUE))   #added unique and tidied the line - had long declarations: all.x==all.y=TRUE,by.x=by.y="locusID" presumable because I was developing it
+   snps.genes$genesymbol.x<-NULL
    snps.genes$genesymbol<-snps.genes$genesymbol.y
    snps.genes$genesymbol.y<-NULL                 
    snps.genes<-clean.NAs(snps.genes)     
-
    snps.genes<-move.column(snps.genes,markercolumn,1)
    snps.genes<-move.column(snps.genes,"genesymbol",5)
    snps.genes<-move.column(snps.genes,"genename",6)

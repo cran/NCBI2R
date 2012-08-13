@@ -1,4 +1,4 @@
-90b55f3edfa5065fb994de1b67c870f7 *DESCRIPTION
+699d55b8230830458ca2b3e85119c04c *DESCRIPTION
 0f8a33c243f5bd216be763184b3d450c *FAQ
 e2c62b6381f41bb6d06ba1ab081ab4e4 *NAMESPACE
 fabfe818f0e9fa68167fa55d18390d91 *R/AdjustGeneTable.r
@@ -6,7 +6,7 @@ fabfe818f0e9fa68167fa55d18390d91 *R/AdjustGeneTable.r
 68ef9276787d5d00a13f4b94473c8bab *R/AminoAcids.r
 28ec8c6f2c70fab1cca095876b3278f9 *R/AnnotateDataframe.r
 3caf91ea6514edd8d8506013ee651e0e *R/AnnotateSNPFile.r
-197c36493008289b8998985c7a1e687a *R/AnnotateSNPList.r
+6b341ce9732dc685197434f8ec15d2af *R/AnnotateSNPList.r
 44f926976cab238f921f84c48f73622d *R/Comp.r
 9b7f9379a73c35946f04f6edb3294631 *R/CompareTaxInfo.r
 7f87f664c7e8e4bbc69c1dfd3ea2381d *R/ConvertDFToHTML.r
@@ -23,7 +23,7 @@ b1725159be0d4e776a0393e6977ac0f2 *R/ConvertURLToHTML.r
 ec33dfabf1db708629f2f302bffd95a2 *R/GetClosestGeneInfo.r
 6807ea95451672eab4012d915a331c4c *R/GetExpiryDate.r
 d2f5fd738a028d2dd94d539d5f8fd2cb *R/GetGOs.r
-6db51c7e21cfda07852bbf1bf39ef1a4 *R/GetGeneInfo.r
+c0b26b6a1ddf491478e2dcfc5de7a2c7 *R/GetGeneInfo.r
 fbec14da59f46220dfa5e15bb9e4ba76 *R/GetGeneNames.r
 71441033395dc4a73be26d0877e41547 *R/GetGeneTable.r
 38e878e9c1b27e26a02055b51c3caee9 *R/GetGenesInRegion.r
@@ -54,7 +54,7 @@ f85d483f7e93b544572b7759adac3b34 *R/GetUniSTSInfo.r
 706b4fabd8f7c583633b2bf838b291bc *R/MakeExcel.r
 d7c5f80f6cc72a5e7b28f341f0ad26c1 *R/MakeHTML.r
 d671dc39864c8cf5081ef1ed37a0d7e5 *R/MedlineAbbreviations.r
-3803c64732b87a76acf98e82b15ffd95 *R/MergeSNPsGenes.r
+389dc5ec345ab99e959490b9a0466ce3 *R/MergeSNPsGenes.r
 9d30d2ed2c4b16bd4297948f33fd9d62 *R/NatureJobs.r
 ca9b95fd78c81a386506716bafe93496 *R/OpenPDF.r
 c3090b6bfe1de3f56ebbc3b0aad95934 *R/OpenPMID.r
@@ -72,7 +72,7 @@ af1476fda9cc40f759ecc8ce9fff667d *R/ScanForSNPs.FindSNPPositions.r
 65f0390392eb73dbf7a65e75e4c90e27 *R/ScanForSNPs.WithSNPPositions.r
 bd85dc6d2fde7298b0af2048a3c08588 *R/ScanForSNPs.r
 6df93042e3b10191e495d82620fb8fc4 *R/SortByChr.r
-67922287d47aa45eb86a34c46f1880e6 *R/SplitGenes.r
+ed5c5bb0244924870434a73a1ab1b5fb *R/SplitGenes.r
 bf44aeb1bdf060ec0bda9cf2b5aef342 *R/UpdateCheck.r
 7c6885034a60553ed5357335b9eb39af *R/VisualiseRegion.r
 08a35a5c5cc60cc138a3f023e1e898d7 *R/add.column.r
@@ -81,7 +81,7 @@ bf44aeb1bdf060ec0bda9cf2b5aef342 *R/UpdateCheck.r
 3668a7d5d0509211836bf02d753e4ba0 *R/change.class.data.frame.r
 6708afa697f0547cbfe71a698241f2ab *R/check.IUPAC.r
 5e730a001d9f4120e57a8df6f9406e62 *R/check.batchsize.r
-900c6f262d0509237d022eea0e7b3560 *R/check.package.r
+81cf7cde90de04c4836247719c087419 *R/check.package.r
 784f99746ee9093e8388945bfd822006 *R/check.platform.or.test.r
 bc22a09bf3c8e12afc874f8f648500d2 *R/checkAllNumerics.r
 42bd2fb3a3940c28d74e41b8ed015755 *R/checkSNPsAllrs.r
@@ -129,6 +129,7 @@ b0917077032619bc80656e96faa36a67 *R/getSNPInfo.cleaning.r
 32e7793afb5a1c3b63da9eb2507e2886 *R/move.column.r
 88bb92b0070784393c5e0803e410e0ee *R/ncbi2r.options.default.r
 b8f94dbb74fed9440e82b8c8d38f57c4 *R/ncbi2r.options.r
+ecc566d0dc9f391acc5f2fab36a8a6cd *R/order.to.original.list.r
 ed24bac318707437b179f7f3f30bfb04 *R/order.to.original.snplist.r
 560d27d3fac2af95b2d12741630bb6d8 *R/parse.chunk.r
 9dad0ca2bde26e77ddb1765cf311dd73 *R/parse.items.r

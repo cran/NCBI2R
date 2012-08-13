@@ -175,6 +175,7 @@ sourceDir<-function(path, trace = TRUE, ...)
 
 checkPackage.v2<-function(lib.loc=ncbi2r.options()$internal.library.check,recyc=TRUE,package="NCBI2R")
    {
+    writeLines("lib.loc should end in NCBI2R not /R")
     if(substr(lib.loc,nchar(lib.loc),nchar(lib.loc))!="/")
       lib.loc<-paste(lib.loc,"/",sep="")
     src.r<-paste(lib.loc,package,"/R",sep="")

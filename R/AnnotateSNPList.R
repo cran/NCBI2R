@@ -18,7 +18,8 @@ function(snplist,filename="",hyper="HYPERLINK",xldiv=";",smt=FALSE,sme=FALSE,div
       {
       newsnps<-snps        
       } else {
-      if(length(unique(genes$approx))==1 & genes$approx[1]==0)  {
+      if(length(unique(genes$approx))==1 & genes$approx[1]==0)
+         {
          writeLines("Information for genes has been found - no genes listed have interim titles (i.e. temporary and unofficial names)")
          genes$approx<-NULL
          } else {
