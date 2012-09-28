@@ -122,21 +122,14 @@ dataframe
 %% ~put references to the literature/web site here ~
 http://www.naturejobs.com
 
-Information about cell limits in Microsoft Excel 2003
-
-http://office.microsoft.com/en-us/excel/HP051992911033.aspx
-
-Information about cell limits in Microsoft Excel 2007
-
-http://office.microsoft.com/en-us/excel/HP100738491033.aspx?pid=CH101030621033
-
-
 }
 \author{
 Scott Melville
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+\seealso{
+Please see \code{\link{MakeExcel}} for a discussion about output for Microsoft Excel.
+}
 
 
 \examples{

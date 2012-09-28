@@ -17,8 +17,11 @@ function(chr,chrpos,FlankingDistance=100000,showurl=FALSE,hyper="HYPERLINK",full
       }
    if(substr(div,nchar(div),nchar(div))!=" ")
      div<-paste(div," ",sep="")
-   org<-gsub(" ","+",org)  
-   taxstring<-paste("TAXID=",as.character(GetTax(org),sme=sme,smt=smt),sep="")
+   org<-gsub(" ","+",org)
+   taxFromOrg<-try(GetTax(org))
+   if(class(taxFromOrg)=="try-error")
+      stop("NCBI2R error GNG-003. Unable to use function GetTax within GetNeighGenes")
+   taxstring<-paste("TAXID=",as.character(taxFromOrg,sme=sme,smt=smt),sep="")
    if(length(taxstring)>1)
      stop("more than one species was identified by the org variable. Please try again with a new organism term")
    if(length(chr)!=length(chrpos))
@@ -41,7 +44,11 @@ function(chr,chrpos,FlankingDistance=100000,showurl=FALSE,hyper="HYPERLINK",full
       {   
        if(pbar)
           setTxtProgressBar(pb,i)
-       locusID<-GetRegion("gene",Frame1$chr[i],Frame1$LowPoint[i],Frame1$HighPoint[i],cg=cg,org=org,sme=sme,smt=smt,showurl=showurl) 
+       locusID<-try(GetRegion("gene",Frame1$chr[i],Frame1$LowPoint[i],Frame1$HighPoint[i],cg=cg,org=org,sme=sme,smt=smt,showurl=showurl))
+       if(class(locusID)=="try-error")
+         {
+         stop("NCBI2R error GNG-004. Unable to use function GetRegion within GetNeighGenes")
+         }
        posindf<-rep(i,length(locusID)) 
        ThisSet<-as.data.frame(cbind(locusID,posindf))
        if(i==1)
@@ -59,7 +66,9 @@ function(chr,chrpos,FlankingDistance=100000,showurl=FALSE,hyper="HYPERLINK",full
 
    if(length(UniqueList)!=0)
        {
-       Frame3<-GetGeneNames(UniqueList) 
+       Frame3<-try(GetGeneNames(UniqueList))
+       if(class(Frame3)=="try-error")
+          stop("NCBI2R error GNG-005. Unable to use function GetGeneNames")
        Frame23<-merge(Frame2,Frame3,by="locusID",all=TRUE)
        if(cg==TRUE)
           Frame23<-Frame23[Frame23$CurrentRecord!="discontinued",]  
@@ -73,9 +82,22 @@ function(chr,chrpos,FlankingDistance=100000,showurl=FALSE,hyper="HYPERLINK",full
           Frame1$genesymbol[k]<-paste(Frame23[Frame23$posindf==k,"genesymbol"],collapse=",")
           Frame1$NeighHTML[k]<-paste(Frame23[Frame23$posindf==k,"NeighHTML"],collapse=",")   
          }
-       Frame1$chrpos<-NULL
-       Frame1<-Frame1[,c("chr","LowPoint","HighPoint","locusID","genename","genesymbol","NeighHTML","Neigh.web")] 
     }
+
+
+  if(!("genename" %in% names(Frame1)))
+     Frame1$genename<-""
+  if(!("locusID" %in% names(Frame1)))
+     Frame1$locusID<-""
+  if(!("genesymbol" %in% names(Frame1)))
+     Frame1$genesymbol<-""
+  if(!("NeighHTML" %in% names(Frame1)))
+     Frame1$NeighHTML<-""
+  if(!("Neigh.web" %in% names(Frame1)))
+     Frame1$Neigh.web<-""
+  Frame1<-Frame1[,c("chr","LowPoint","HighPoint","locusID","genename","genesymbol","NeighHTML","Neigh.web")]
+
+
 
   if(web==FALSE)
     Frame1$Neigh.web<-NULL

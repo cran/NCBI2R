@@ -1,6 +1,14 @@
 getListFromXML <-
 function(webget,smt=FALSE,sme=FALSE,MaxRet=30000,return.data=FALSE)
    {
+   
+   get.count.of.list<-function(webget)
+      {
+      a<-as.numeric(gsub("^[[:print:]]*<Count>([[:digit:]]+)[[:print:]]*$","\\1",webget[grep("<Count>",webget)][1]))
+      return(a)
+      }
+      
+   
    webget<-gsub("\t","",webget)
    webget<-gsub("<IdList>","\t<IdList>",webget)
    webget<-gsub("</IdList>","\t</IdList>",webget)
@@ -23,8 +31,14 @@ function(webget,smt=FALSE,sme=FALSE,MaxRet=30000,return.data=FALSE)
         }
       stop("")
       }
-   if(length(ListItems[ListItems!=""])==MaxRet)
-      print("Warning: Number of items was greater than expected. PARTIAL RESULTS USED [MaxRet need increasing]")
+
+    lc<-get.count.of.list(webget)
+   if(lc>MaxRet)
+      {
+      writeLines("Warning: Number of items was greater than expected. PARTIAL RESULTS USED [MaxRet need increasing]")
+      writeLines(paste("Actual Length:",lc))
+      writeLines(paste("Returned Length:",MaxRet))
+      }
    if(return.data==TRUE)
      {
       return(list(ListItems=ListItems,errors=dummy$errors,warnings=dummy$warnings))
@@ -33,4 +47,3 @@ function(webget,smt=FALSE,sme=FALSE,MaxRet=30000,return.data=FALSE)
        }
    }
 
-   

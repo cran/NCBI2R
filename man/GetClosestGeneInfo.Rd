@@ -14,7 +14,7 @@ GetClosestGeneInfo(listofSNPs,FlankingDistance=100000,lb=TRUE)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{listofSNPs}{
-The list of SNPs that you wish to find information from.
+The list of SNPs that you wish to find information from. Note: This is not a filename.
 }
   \item{FlankingDistance}{
 The distance on either side of the specified position to include.
@@ -53,10 +53,20 @@ a list of two objects
   snps.no.genes
 
      A vector of any snps that were not found to be near a gene.
+     
+ snps.unmapped
+    A vector of any snps that did not have a genomic position.
 }
 
 \author{
 Scott Melville
+}
+\section{Warning}{
+If there is uncertainty about the mapping of any SNP, please pay careful attention to the column
+named flag. A non-zero value represents a mapping issue that you should investigate.
+
+Similarly, any genes that have a non-zero value for the column named approx require investigation.
+
 }
 
 \seealso{

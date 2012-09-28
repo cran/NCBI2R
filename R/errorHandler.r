@@ -1,0 +1,20 @@
+errorHandler<-function(errid="",style=-1)
+   {
+   writeLines("");writeLines("")
+   writeLines(paste("NCBI2R error ",errid))
+   if(style==1)
+     traceback()
+   tmp<-sessionInfo()
+   writeLines(paste("R.Version.Info:",paste(R.Version(),collapse=",")))
+   if("basePkgs" %in% names(tmp))
+     writeLines(paste("basePkgs:",paste(tmp$basePkgs,collapse=",")))
+   writeLines(paste("sysTime:",as.character(format(Sys.time(),usetz=TRUE))))
+   writeLines("")
+   writeLines("NCBI fatal error. Please retry again later as it may be temporary.")
+   writeLines("You could reduce the number of snps/genes to identify the problem.")
+   writeLines("  - break the query into smaller groups and try each group by itself.")
+   writeLines("If the problem persists please email ncbi2r@gmail.com")
+   writeLines("and include the above information for debugging.")
+   writeLines("")
+   }
+

@@ -3,7 +3,7 @@
 \alias{GetGeneTable}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-get intron/exon data from NCBI
+Get intron/exon data from NCBI
 }
 \description{
 Obtains the introns, exons, and coding exons of a specified gene using NCBI.
@@ -32,7 +32,8 @@ Enables the user to see the URL of the NCBI request.
 }
 \details{
 
-IN VERSION 1.4.0 THIS FUNCTION DOES NOT WORK BUT WILL BE ADDED BACK IN THE NEXT VERSION.
+Since VERSION 1.4.0 THIS FUNCTION DOES NOT WORK BUT WILL BE ADDED BACK AS SOON AS POSSIBLE.
+
 Since the underlying NCBI interface changes, this function needs to be rewritten.
 It will be back but I opted to release the rest of the new functions at this point.
 
@@ -66,6 +67,9 @@ Scott Melville
 }
 
 \section{Warning}{
+
+Since VERSION 1.4.0 THIS FUNCTION DOES NOT WORK BUT WILL BE ADDED BACK AS SOON AS POSSIBLE.
+
 These functions use NCBI's eutils, and come with the same user requirements - if
 performing many queries, you must run the scripts during certain hours when the
 NCBI servers are not in high demand. Please see the package website for more details

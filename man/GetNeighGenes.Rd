@@ -68,8 +68,8 @@ Obtains a list of nearby genes from a given genome position.
 The list of neighbouring genes will include all genes around the SNP in question, and will therefore include any gene that the SNP is located in.
 
 Works on any species mapped on NCBI, like most of the functions in NCBI2R.
-Instead of chromosome and position, you can now specify a dataframe and the function will look for columns called "chr" and "chrpos", and GetNeighbours will work on all items.
-You can spell this function as GetNeighbours or GetNeighbors.
+Instead of chromosome and position, you can now specify a dataframe and the function will look for columns called "chr" and "chrpos", and GetNeighGenes will work on all items.
+
 To open a URL from Microsoft Excel uses a specific command, depending on which language the software is in. In the English language, the command in Microsoft Excel is "HYPERLINK" and in Italian it is "COLLEG.IPERTESTUALE". This command should be specified at the hyper argument for this command.
 
 }

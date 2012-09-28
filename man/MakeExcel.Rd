@@ -88,19 +88,13 @@ A spreadsheet for Microsoft Excel is produced.
 }
 \references{
 
-The number of characters in each cell of Microsoft Excel differs by version
-
-2003
+The number of characters in each cell of Microsoft Excel differs by version.
+Please see the following weblinks for 2003, 2007 and 2010 versions respectively.
 
 http://office.microsoft.com/en-us/excel/HP051992911033.aspx
-
-2007
-
 http://office.microsoft.com/en-us/excel/HP100738491033.aspx
-
-2010
-
 http://office.microsoft.com/en-us/excel/HP010342495.aspx
+
 }
 \author{
 Scott Melville

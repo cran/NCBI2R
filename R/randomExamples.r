@@ -1,0 +1,9 @@
+randomExamples<-function(n=10,style="snp",limits=c(1,5000))
+   {
+   style<-toupper(style)
+   if(style=="SNP")
+      a<-randomSNP(n)
+   if(style=="GENE")
+      a<-randomGene(n,limits=limits)
+   return(a)
+   }

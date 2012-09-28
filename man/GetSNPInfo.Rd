@@ -60,6 +60,15 @@ a likely problem with the SNP record. This could point to a warning
 such as the SNP mapping may be uncertain etc, and should be checked
 with the web version of NCBI for more information.
 
+There are two different cases when a SNP will have a position returned as 0 and both related to
+them not being found. In some cases, the species and current.rsid will be complete but there will be
+no mapping position because this SNP is not found on the latest map. You may notice that this
+function will try a second method to confirm this. For SNPs that are not found at all in the NCBI
+database, there will be empty strings for the species or current.rsid in the information returned.
+
+Please note. It is not possible to a SNPs older position. Only the position (if available) from
+the current genome build will be returned.
+
 }
 \value{
 A dataframe
@@ -69,12 +78,13 @@ A dataframe
 Scott Melville
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 \section{Warning}{
 
 The definition of a SNP being within a gene is precisely determined by NCBI.
 If the SNP is one base pair outside the defined gene location, it will
-not be found. Consider using GetRegion or GetNeighbours.
+not be found. Consider using GetRegion or GetNeighbours. In some cases, a SNP will appear to be
+within the gene but is literally located outside the gene but closeby eg (within 5 kb).
+This reflects NCBI's classification and not a NCBI2R issue. I have no affiliation with NCBI.
 
 The locusID column that is returned, may not be only numerical.
 If a SNP is found within multiple genes, the locusID column will contain

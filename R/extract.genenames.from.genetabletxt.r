@@ -1,7 +1,7 @@
 
 extract.GetGenenames.top<-function(top)
    {
-  genenamesA<-gsub("[[:print:]]*[[:digit:]]+-[[:print:]]{1,3}-[[:print:]]{4}([[:print:]]*)","\\1",top[grep("replaced with",top,invert=TRUE)])
+  genenamesA<-gsub("[[:print:]]*[[:blank:]][[:digit:]]+-[[:print:]]{1,3}-[12][[:print:]]{3}([[:print:]]*)","\\1",top[grep("replaced with",top,invert=TRUE)])
   genenamesA.ln<-grep("replaced with",top,invert=TRUE)
   genenamesB<-gsub("[[:print:]]*with[[:blank:]]GeneID:[[:blank:]][[:digit:]]*([[:print:]]*)","\\1",top[grep("replaced with",top,invert=FALSE)])
   genenamesB.ln<-grep("replaced with",top,invert=FALSE)

@@ -13,9 +13,28 @@ GetGeneNames <- function(locusID,showurl=FALSE)
       remainingObjects<-remainingObjects[!(remainingObjects %in% remainingObjects[1:this.batch])]
       getURL<-paste(URLdef$front,"efetch.fcgi?db=gene",url_piece,"&rettype=gene_Table&retmode=text",URLdef$back,sep="")
       webget<-get.file(getURL,showurl=showurl,clean=FALSE)
-      refLines<-grep("^\t",webget)[1]-1
+      a<-grep("^\t",webget)[1]-1
+      b<-grep("^Reference ",webget)[1]
+      b2<-grep("^Alternate ",webget)[1]
+      ab<-c(a,b,b2)
+      ab<-ab[!is.na(ab)]
+
+      if(length(ab)==0)
+        {
+        refLines<-NA
+        } else {
+        refLines<-min(ab)
+        }
       if(is.na(refLines))
          refLines<-grep("There is no table for this gene",webget)[1]
+
+
+      if(is.na(refLines))
+        {
+        errorHandler("GGN-001")
+        writeLines("GetGeneNames cannot parse records-no refLines found")
+        stop("NCBI2R",call.=FALSE)
+        }
       if((length(webget)==1 & length(refLines)==1))
         {
         writeLines("Warn: Appears to be a bad parse on the NCBI website. Will try partial extraction.")
@@ -34,7 +53,19 @@ GetGeneNames <- function(locusID,showurl=FALSE)
           }
         if(refLines[1]==2)
           refLines<-3
-        top<-webget[(1:refLines[1]-1)]
+        top<-try(webget[(1:refLines[1]-1)])
+        if(class(top)=="try-error")
+           {
+           writeLines("Unable to parse the top of the file")
+           writeLines(paste("Length of webget:",length(webget)))
+           if(length(webget)<10)
+             print(webget)
+           writeLines(paste("Length of refLines:",length(refLines)))
+           if(length(refLines)<10)
+             print(refLines)
+           stop("NCBI2R Error GGN-009")
+           }
+        top<-gsub("This record was discontinued.","",top)
          if(length(grep("not found",top[2]))==1)
           {
           writeLines("NCBI record query error")
@@ -47,7 +78,6 @@ GetGeneNames <- function(locusID,showurl=FALSE)
           minigenedf<-extract.genenames.from.genetabletxt(top)
           }
       }
-
       if(BatchCount==1)
         {
         tgf<-minigenedf
@@ -55,6 +85,13 @@ GetGeneNames <- function(locusID,showurl=FALSE)
         tgf<-as.data.frame(rbind(tgf,minigenedf),stringsAsFactors=FALSE)
         }
       }
+
+   tgf<-try(order.to.original.list(enteredlist=locusID,df1=tgf,keycol="locusID"))
+   if(class(tgf)=="try-error")
+        {
+        errorHandler("GGN-002")
+        writeLines("GetGeneNames worked but data could not be sorted")
+        stop("NCBI2R",call.=FALSE)
+      }
    return(tgf)
    }
-

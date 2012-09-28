@@ -72,24 +72,28 @@ Scott Melville
 }
 
 \section{Warning}{
-These functions use NCBI's eutils, and come with the same user requirements - if
+
+Please pay careful attention to the column named flag. This indicates there was a mapping issue
+with the marker and this result should be examined carefully.
+
+IMPORTANT: These functions use NCBI's eutils, and come with the same user requirements - if
 performing many queries, you must run the scripts during certain hours when the
-NCBI servers are not in high demand. Please see the package website for more details
+NCBI servers are not in high demand. Violation of the terms described there, and the terms on the
+eutils website may result in losing access to NCBI for your group.
 
-http://NCBI2R.wordpress.com
+Please see the package website for more details:  http://NCBI2R.wordpress.com
 
-Violation of the terms described there, and the terms on the eutils website may
-result in losing access to NCBI for your group.
+
 }
 \seealso{
 \code{\link{AnnotateSNPList}}, \code{\link{AnnotateDataframe}}.
 }
 \examples{
 \donttest{
-#first prepare a marker file -
+#first prepare a marker file - but you can supply your own.
 snps<-c("rs1234567","rs333","rs728248")
 write(snps,file="markers.txt")
-#run the Annotation
-resultsdf<-AnnotateSNPFile("markers.txt","scottsoutput.html")
+#Now run the annotation using that marker file
+resultsdf<-AnnotateSNPFile("markers.txt","Annotation_output.html")
 }
 }

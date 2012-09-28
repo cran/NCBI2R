@@ -22,14 +22,15 @@ Text is displayed on the screen.
 Scott Melville
 }
 
-\seealso{
-For more information about filters and limits:
+\references{
+For more Information about filters and limits that can be used on the website and this NCBI2R package (not affiliated with NCBI) please see the following page for NCBI's Gene database page
+http://www.ncbi.nlm.nih.gov/books/NBK3841/table/
 
-Fields, filters, and properties in Entrez Genes
+On that webpage there are two useful tables about Filters and Fields - These can be used to design your own queries for some NCBI2R functions.
 
-http://www.ncbi.nlm.nih.gov/books/NBK3841/table/EntrezGene.T.fields_filters_and_properti/?report=objectonly
+Table 4 - Filter sets
+Table 5. - Filter sets
 
-Filter sets
-
-http://www.ncbi.nlm.nih.gov/books/NBK3841/table/EntrezGene.T.filter_sets_partial_complet/?report=objectonly
+These links were checked 24 September 2012. If they are not there, please let me know via the package website.
+http://ncbi2r.wordpress.com
 }

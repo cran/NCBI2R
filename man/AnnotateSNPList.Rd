@@ -61,6 +61,7 @@ It will show the url of the requests using the eutils method.
 }
 }
 \details{
+
 If you're looking to produce annotation tables with things like pvalues, I suggest you use AnnotateDataframe instead. You can still use AnnotateSNPFile to create the dataframe, and then manually merge p-values etc on to the created dataframe, and then use MakeHTML or MakeExcel to view the output.
 
 The list of neighbouring genes will include all genes around the SNP in question, and will therefore include any gene that the SNP is located in.
@@ -68,7 +69,6 @@ The list of neighbouring genes will include all genes around the SNP in question
 It works the same as AnnotateSNPFile but this function works with an existing R object of SNPs.
 
 The command used to open a URL from Microsoft Excel differs depending on which language the software is in. In English language, the command in Microsoft Excel is "HYPERLINK" and in Italian it is "COLLEG.IPERTESTUALE". This command should be specified at the hyper argument for this command
-
 
 }
 \value{
@@ -81,14 +81,17 @@ Scott Melville
 
 
 \section{Warning}{
+
+Please pay careful attention to the column named flag. Any non-zero values indicate a
+mapping issue with the marker and this result should be examined carefully.
+
 These functions use NCBI's eutils, and come with the same user requirements - if
 performing many queries, you must run the scripts during certain hours when the
-NCBI servers are not in high demand. Please see the package website for more details
+NCBI servers are not in high demand. Violation of the terms described there, and the terms on the
+eutils website may result in losing access to NCBI for your group.
 
-http://NCBI2R.wordpress.com
+Please see the package website for more details: http://NCBI2R.wordpress.com
 
-Violation of the terms described there, and the terms on the eutils website may
-result in losing access to NCBI for your group.
 }
 
 \seealso{
@@ -100,5 +103,4 @@ listofsnps<-c("rs12345","rs734747","rs334","rs735783","rs335")
 resultsdf<-AnnotateSNPList(listofsnps,"scottsoutput.html")
 }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+

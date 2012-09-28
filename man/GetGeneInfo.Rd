@@ -57,9 +57,21 @@ Depending on what information you wish to obtain, it might be better to use the 
 There is a column in the returned dataframe called approx which details any approximations made in returning the information.
   Value 1 = gene symbol is defined as interim
   Value 2 = no gene symbol was available, and what is provided comes from one of the synonyms.
-  Value 3 = both situations described above (for Value 1 and Value 2) occur.
+  Value 3 = 1 +2 = both situations described above (for Value 1 and Value 2) occur.
+  Value 4 = Gene is not mapped but a record exists. GeneLowPoint/GeneHighPoint will be listed as 0.
+  Value 5 = Value 1 & Value 4 both true.
+  Value 6 = Value 2 & Value 4 both true.
+  Value 7 = Values 1,2,4 all true.
 
 Each batch of this function represents a single query of NCBI.
+
+Since September 2012, the build column may contain characters and numbers, reflecting the changes at
+NCBI. Previously this would contain values such as 37.3 for the Human Genome build but due to the
+new format, the build may be displayed like this: Homo sapiens Annotation Release 103. This new
+method of defining the information returned has been available since NCBI2R 1.4.3.
+
+Please note. It is not possible to query the old position of a current gene with this package.
+
 }
 \value{
 A dataframe.
@@ -73,6 +85,7 @@ Scott Melville
 
 There are some genes that lie on both X and Y chromosomes and these will contain "XY" as the chr value and also have two cytobands.
 
+Check the approx column as described above. Any non-zero value should be carefully checked.
 
 If you're manually exploring your data one or two lines of code at a time, you will not have any issue with the NCBI user limits. NCBI2R inserts appropriate pauses most of the time so you can only submit three queries per second. 
 If you start running many scripts using NCBI2R, you'll have to pay careful attention to the limits. These functions use NCBI's eutils, and come with the same user requirements - if

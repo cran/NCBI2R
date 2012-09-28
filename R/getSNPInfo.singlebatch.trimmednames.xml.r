@@ -7,6 +7,9 @@ getSNPInfo.singlebatch.trimmednames.xml<-function(trimmedSNPnames,showurl=FALSE)
    webget<-get.file(getURL,showurl,clean=FALSE)
    webget<-unlist(strsplit(webget,"<"))
    g1<-paste("<",webget[webget!=""],sep="")
+   if(length(g1)==3)
+     stop("NCBI2R improper download of snp xml files. Please try again")
+
    rm(webget)
   key.things.to.extract<-c("Rs","Sequence","Frequency","Assembly","FxnSet","MapLoc","Component","MergeHistory")
   g2<-parse.multiple.line.xml2(key.things.to.extract,g1)
@@ -75,7 +78,7 @@ getSNPInfo.singlebatch.trimmednames.xml<-function(trimmedSNPnames,showurl=FALSE)
     ans<-unique(merge(ans,m2,by.x="current.rsid",by.y="snp",all=TRUE))
     } else {
     ans$chr<-""
-    ans$chrpos<-""
+    ans$chrpos<-"-1"
     }
 
    merge.df<-unique(g4[g4$V1=="MergeHistory" & g4$V2=="rsId",c("V3","snp")])
@@ -104,6 +107,7 @@ get.reference.genome.groupLabels<-function(dat)
   reference.list<-gsub("[[:print:]]*groupLabel=\"([[:print:]]*?)\"[[:print:]]*$","\\1",y1.dt)
   return(reference.list)
   }
+  
 parse.multiple.line.xml2<-function(keywords,txt)
    {
    keywords<-paste("^<",keywords," ",sep="")
@@ -113,11 +117,27 @@ parse.multiple.line.xml2<-function(keywords,txt)
    h1$LN<-rep(xx.l,times=nchar(gsub("[^=]","",xx)))
    return(h1)
    }
+   
 parse.multiple.line.internal<-function(SL)
    {
    j5<-gsub("^<[[:print:]]*?([[:blank:]]([[:print:]]*=\"[[:print:]]*\"))(/)*>$", "\\1",SL)
-   j6<-unlist(strsplit(j5,"\"| "))
-   j6<-matrix(j6,ncol=3,byrow=TRUE)
+   j6a<-unlist(strsplit(j5,"\"| "))
+
+   j6<-try(matrix(j6a,ncol=3,byrow=TRUE),silent=TRUE)
+   if(class(j6)=="try-error")
+      {
+      writeLines("")
+      writeLines("NCBI2R fatal error E653: Suggest trying the query again later")
+      writeLines("error within GetSNPInfo: parse.multiple.line.internal")
+      writeLines("data dump for debugging")
+      print(j6a)
+      print(length(j6a))
+      print("B1")
+      print(j5)
+      print("C1")
+      print(SL)
+      stop()
+      }
    SL.first.word<-gsub("^<([[:print:]]*?)[[:blank:]][[:print:]]*$","\\1",SL)
    j6[,1]<-rep(SL.first.word,nchar(gsub("[^=]","",SL)))
 

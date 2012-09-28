@@ -25,7 +25,7 @@ GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showur
    URLdef<-ncbi2r.options()
    Num<-length(locusID)
    genedf<-data.frame(locusID=0,org_ref_taxname=rep("",length(locusID)),org_ref_commonname="",OMIM="",synonyms="", genesummary="", genename="",phenotypes="", phenotypes.html="", pathways="",pathways.html="", GeneLowPoint=0,GeneHighPoint=0,ori="",chr="",genesymbol="",Int.GeneIDs="",Int.genesymbols.html="",GOfunc="",GOcomp="",GOproc="",GOfunc.html="",GOcomp.html="",GOproc.html="", build=0, cyto="",approx=0,stringsAsFactors=FALSE)
-   #genedf<-as.data.frame(cbind(locusID,genedf)) #changed for 1.4.2
+
    TotalBatches<-ceiling(length(locusID)/batchsize)
    for(BatchLoop in 1:TotalBatches)
       {
@@ -40,9 +40,6 @@ GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showur
        url_piece<-substr(url_piece,1,nchar(url_piece)-1)
       getURL<-paste(URLdef$front,"efetch.fcgi?db=gene",url_piece,"+gene%20%all[filter]&rettype=XML",URLdef$back,sep="")
       webget<-get.file(getURL,quiet=quiet,showurl=showurl,clean=TRUE)
-      
-      #clean out some stuff I don't use? risky but could save a lot of time.... but the +4 type stuff is then out the window...
-      #build as elseif? or just switch to grep for 1.5
       
       BatchItemNum<-0
       LC<-1
@@ -75,8 +72,9 @@ GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showur
             genedf$OMIM[BatchItemNum+BatchOffset]<-substr(webget[LC+3],15,nchar(webget[LC+3])-15)
          if(substr(webget[LC],1,17)=="<Gene-ref_maploc>")
             genedf$cyto[BatchItemNum+BatchOffset]<-substr(webget[LC],18,nchar(webget[LC])-18)
-         if(substr(webget[LC],1,60)=="<Gene-commentary_heading>RefSeqs of Annotated Genomes: Build")
-            genedf$build[BatchItemNum+BatchOffset]<-substr(webget[LC],62,nchar(webget[LC])-26)
+
+         if(substr(webget[LC],1,55)=="<Gene-commentary_heading>RefSeqs of Annotated Genomes: ")
+            genedf$build[BatchItemNum+BatchOffset]<-gsub("^[[:print:]]*RefSeqs of Annotated Genomes:[[:blank:]]([[:print:]]*)</[[:print:]]*","\\1",webget[LC])
          if(substr(webget[LC],1,38)=="<Gene-commentary_label>Official Symbol")
             genedf$genesymbol[BatchItemNum+BatchOffset]<-substr(webget[LC+1],23,nchar(webget[LC+1])-23)
          if(substr(webget[LC],1,37)=="<Gene-commentary_label>Interim Symbol")
@@ -147,26 +145,50 @@ GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showur
                 }
             if(substr(webget[LC],1,54)=="<Gene-commentary_heading>RefSeqs of Annotated Genomes:")
                {
-               Checker<-finder("<Seq-interval_from>","</Gene-commentary_seqs>",webget,LC)
-               if(Checker$Object==1)
-                  {
-                  genedf$GeneLowPoint[BatchItemNum+BatchOffset]<-as.numeric(substr(webget[Checker$RowNumber],20,nchar(webget[Checker$RowNumber])-20))+1
-                  genedf$GeneHighPoint[BatchItemNum+BatchOffset]<-as.numeric(substr(webget[Checker$RowNumber+1],18,nchar(webget[Checker$RowNumber+1])-18))+1
-                  genedf$ori[BatchItemNum+BatchOffset]<-substr(webget[Checker$RowNumber+3],24,nchar(webget[Checker$RowNumber+3])-8)
+
+                    thisLC<-LC
+                     currentlevel<-0
+                     newChunkPos<-c()
+                     while(currentlevel>=0)
+                        {
+
+                        thisLC<-thisLC+1
+                        if(webget[thisLC]=="<Gene-commentary>")
+                           currentlevel<-currentlevel+1
+                        if(webget[thisLC]=="</Gene-commentary>")
+                           currentlevel<-currentlevel-1
 
 
-                  if(length(grep("plus",webget[Checker$RowNumber+3]))==1)
-                    genedf$ori[BatchItemNum+BatchOffset]<-"+"
-                  if(length(grep("minus",webget[Checker$RowNumber+3]))==1)
-                    genedf$ori[BatchItemNum+BatchOffset]<-"-"
-                  }
+                        if(currentlevel==1)
+                           newChunkPos<-c(newChunkPos,webget[thisLC])
+                        }
+
+                    headings<-gsub("[[:print:]]+>([[:print:]]*)<[[:print:]]+","\\1",newChunkPos[grep("<Gene-commentary_heading>",newChunkPos)])
+                    froms<-gsub("[[:print:]]+>([[:print:]]*)<[[:print:]]+","\\1",newChunkPos[grep("<Seq-interval_from>",newChunkPos)])
+                    tos<-gsub("[[:print:]]+>([[:print:]]*)<[[:print:]]+","\\1",newChunkPos[grep("<Seq-interval_to>",newChunkPos)])
+                    oris<-gsub("^[[:print:]]+\"([[:print:]]*)\"[[:print:]]+$","\\1",newChunkPos[grep("<Na-strand value",newChunkPos)])
+                    oris[oris=="plus"]<-"+"
+                    oris[oris=="minus"]<-"-"
+
+                    h1<-as.data.frame(cbind(headings,froms,tos,oris),stringsAsFactors=FALSE)
+                    h1<-h1[grep("ALT_|Alternate|Patch|Conserved Domains",h1$headings,ignore.case=TRUE,invert=TRUE),]
+                    if(nrow(h1)!=1)
+                      {
+                      genedf$approx[BatchItemNum+BatchOffset]<-genedf$approx[BatchItemNum+BatchOffset]+4
+                      } else {
+                     genedf$GeneLowPoint[BatchItemNum+BatchOffset]<-as.numeric(h1$froms)+1
+                     genedf$GeneHighPoint[BatchItemNum+BatchOffset]<-as.numeric(h1$tos)+1
+                     genedf$ori[BatchItemNum+BatchOffset]<-h1$oris
+                     }
+                   LC<-thisLC
+
                }
             LC<-LC+1
           }
       }
   cat("\r                                                           ")
   cat("\n")
-   if(go==FALSE)
+  if(go==FALSE)
       {
       genedf$GOfunc<-NULL;       genedf$GOcomp<-NULL
       genedf$GOproc<-NULL;       genedf$GOfunc.html<-NULL
@@ -182,11 +204,19 @@ GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showur
       genedf$pathways.html<-NULL
       genedf$phenotypes.html<-NULL
       }
+
    genedf$genesummary<-gsub("&amp;apos;","'",genedf$genesummary)
-   genedf$approx[genedf$genesymbol==""]<-2
+   genedf$approx[genedf$genesymbol==""]<-genedf$approx[genedf$genesymbol==""]+2
    if(length(genedf$approx[genedf$genesymbol==""])>0)
       {
-      ggn<-GetGeneNames(genedf$locusID[genedf$genesymbol==""])
+      ggn<-try(GetGeneNames(genedf$locusID[genedf$genesymbol==""]))
+      if(class(ggn)=="try-error")
+          {
+          errorHandler("GGI-001")
+          writeLines("GetGeneInfo worked but some genesymbols were not found")
+          writeLines("Subsequent attempts to get these with GetGeneNames failed")
+          stop("NCBI2R",call.=FALSE)
+          }
       ff<-(1:nrow(genedf))[genedf$genesymbol==""]
       for(i in 1:length(ff))
          {
@@ -194,9 +224,13 @@ GetGeneInfo<-function(locusIDs,batchsize=200,xldiv=";",int=FALSE,go=FALSE,showur
          genedf$genesymbol[ff[i]]<-ggn$genesymbol[i]
          }
       }
-   genedf<-order.to.original.list(enteredlist=locusIDs,df1=genedf,keycol="locusID")
+   genedf<-try(order.to.original.list(enteredlist=locusIDs,df1=genedf,keycol="locusID"))
+   if(class(genedf)=="try-error")
+        {
+        errorHandler("GGI-002")
+        writeLines("GetGeneInfo worked but data could not be sorted")
+        stop("NCBI2R",call.=FALSE)
+      }
    return(genedf)
    }
-   
-   
 

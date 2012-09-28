@@ -175,7 +175,12 @@ sourceDir<-function(path, trace = TRUE, ...)
 
 checkPackage.v2<-function(lib.loc=ncbi2r.options()$internal.library.check,recyc=TRUE,package="NCBI2R")
    {
-    writeLines("lib.loc should end in NCBI2R not /R")
+   writeLines("examples with data(gwas) won't work unless it's alresady loaded. so load manually?")
+    writeLines("perhaps do this at the same time as I sourceDir the files...")
+    writeLines("run recyc=FALSE on first attempt in new environment. otherwise won't work.")
+    writeLines("load? file name...NCBI2R/data/gwas.rda")
+    writeLines("re next line: add a check here")
+    writeLines("Note:lib.loc should not end in NCBI2R or /R")
     if(substr(lib.loc,nchar(lib.loc),nchar(lib.loc))!="/")
       lib.loc<-paste(lib.loc,"/",sep="")
     src.r<-paste(lib.loc,package,"/R",sep="")
@@ -199,3 +204,150 @@ checkPackage.v2<-function(lib.loc=ncbi2r.options()$internal.library.check,recyc=
    return(.ncbi2r.tests)
    }
 
+test.GetSNPInfo.GetSNPsInGenes<-function(n=100,MaxRet=100000,delay.duration=60,delay.every=100)
+   {
+   writeLines("NCBI2R internal check.")
+   writeLines("Will compare two independent functions to see if same values returned")
+   writeLines("If nrow of the output doesn't equal zero, we have a problem")
+   writeLines("This problem could be MaxRet needs improving or snps in multiple genes")
+  gl.listofSNPs<-NULL
+  allgenes<-c()
+  while(length(allgenes)==0)
+     {
+    writeLines("Getting random list of SNPs")
+    snplist<-randomSNP(n)
+    gsi<-try(GetSNPInfo(snplist))
+    if(class(gsi)=="try-error")
+      {
+      writeLines("ERROR:")
+      gl.listofSNPs<<-snplist
+      stop("ERROR. check gl.listofSNPs")
+      }
+    gsi$matches<-""
+    allgenes<-unique(gsi$locusID[gsi$locusID!=""])
+    }
+  for(i in 1:length(allgenes))
+     {
+     cat(paste("\r",length(allgenes),"-",i))
+     if(floor(i/delay.every)==i/delay.every & i!=length(allgenes))
+        {
+        writeLines(paste("Long delay started for",delay.duration))
+        print(Sys.time())
+        Sys.sleep(delay.duration)
+        print(Sys.time())
+        }
+     gsig<-GetSNPsInGenes(allgenes[i],MaxRet=MaxRet)
+     gsi$matches[gsi$marker %in% gsig]<-paste(gsi$matches[gsi$marker %in% gsig],allgenes[i],sep=",")
+     }
+    b<-gsi[gsi$locusID!="",]
+    b$matches<-gsub("^,","",b$matches)
+    gl.listofSNPs<<-gl.listofSNPs
+    return(b[b$matches!=b$locusID,])
+    }
+
+check.GeneSymbolsAreAppropriate<-function(v)
+   {
+   writeLines("Input a list of genesymbols and this checks for lower case items which are unusual")
+   writeLines("Won't include LOC12345 etc nor anything that starts with a C eg C2ORF.")
+   writeLines("But perhaps that C2ORF etc option could be turned off")
+   v<-unique(unlist(strsplit(v,",")))
+   v<-v[!is.na(v)]
+   v<-v[grep("LOC[[:digit:]]+",v,invert=TRUE)]
+   lowers<-v[grep("[a-z]",v)]
+   lowers.problems<-lowers[grep("^C",lowers,invert=TRUE)]
+   return(lowers.problems)
+  }
+
+
+checkSplitGenes<-function()
+   {
+   snplist<-c("rs12345","rs333","rs1003483")
+   mySNPs<-GetSNPInfo(snplist)
+   splitSNPs<-SplitGenes(mySNPs)
+   if(nrow(splitSNPs)==3)
+     stop("SplitGenes is not working properly")
+   return(splitSNPs)
+   }
+
+testing.function<-function(f="GetSNPInfo",style="snp",randoms=503,iterations=100,delay.duration=120,delay.every=10)
+   {
+   writeLines("This should work on any function - gene or snp - perhaps the other functions as well")
+   writeLines("Could suppress the output and just keep a tally of what works, what does not")
+   writeLines("the delay is only on the number of iterations - not within the function itself")
+   bad<-0;   good<-0;   i<-1
+   gl.lastgood.snplist<-NULL
+   gl.lastbad.snplist<-NULL
+   gl.snplist<-NULL
+   keepoutput<-TRUE
+   testlist<-randomExamples(randoms,style=style)
+   a<-paste(f,"(testlist)",sep="")
+   output<-try(eval(parse(text=a)))
+   if(class(output)=="try-error")
+      {
+      writeLines("could not get the first one to work")
+      gl.snplist<<-testlist
+
+      print(testlist)
+      writeLines("the list of snps saved globally as gl.snplist")
+      stop("")
+      } else {
+
+       writeLines("OK. First part worked. snps stored as gl.lastgood.snplist")
+       good<-good+1
+
+       gl.lastgood.snplist<-testlist
+
+       while(i<iterations)
+            {
+
+            writeLines(as.character(paste("\r",iterations,"-",i,"G:",good,"B:",bad)))
+           if(floor(i/delay.every)==i/delay.every & i!=iterations)
+              {
+              writeLines(paste("Long delay started for",delay.duration))
+              print(Sys.time())
+              Sys.sleep(delay.duration)
+              print(Sys.time())
+              }
+            testlist<-randomExamples(randoms,style=style)
+            a<-paste(f,"(testlist)",sep="")
+             thisoutput<-try(eval(parse(text=a)))
+             if(class(thisoutput)=="try-error")
+               {
+               writeLines("failed")
+               bad<-bad+1
+               gl.lastbad.snplist<-testlist
+               writeLines(as.character(testlist))
+               } else {
+               writeLines("OK")
+               gl.lastgood.snplist<-testlist
+
+
+               if(class(thisoutput)=="data.frame")
+                  output<-as.data.frame(rbind(output,thisoutput),stringsAsFactors=FALSE)
+               if(class(thisoutput)=="list")
+                  {
+                  for(j in 1:length(thisoutput))
+                     {
+                     if(class(thisoutput[[j]])=="data.frame")
+                         {
+                         output[[j]]<-as.data.frame(rbind(output[[j]],thisoutput[[j]]),stringsAsFactors=FALSE)
+                         }
+                     if(class(thisoutput[[j]])=="character")
+                         {
+                         output[[j]]<-c(output[[j]],thisoutput[[j]])
+                         }
+                     }
+                  }
+               good<-good+1
+               }
+             i<-i+1
+            }
+      }
+
+   print(paste("G/B",good,"/",bad))
+   j<-list(d=output,g=good,b=bad)
+
+   gl.lastbad.snplist<<-gl.lastbad.snplist
+   gl.lastgood.snplist<<-gl.lastgood.snplist
+   return(j)
+   }

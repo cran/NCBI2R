@@ -18,7 +18,7 @@ GetSNPInfo<-function(listofSNPs,batchsize=200,showurl=FALSE,pbar=TRUE,style="doc
       } else {
       j34<-j4; rm(j4)
       }
-   ans<-order.to.original.snplist(listofSNPs,j34,"marker")
+   ans<-order.to.original.list(listofSNPs,j34,"marker")
    rm(j3)
    return(ans)
    }

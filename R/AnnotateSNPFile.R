@@ -9,7 +9,7 @@ function(snpfile,filename="output.html",hyper="HYPERLINK",xldiv=",",quiet=TRUE,s
       print("first item in snplist was not an rs identifier so it was removed. Assumed to be a header. Will continue")
       snplist<-snplist[2:length(snplist)]
       }
-   newsnps<-AnnotateSNPList(snplist,filename,hyper=hyper,xldiv=xldiv,quiet=quiet,smt=smt,sme=sme,div="---",keeplocusIDs=keeplocusIDs,keepNS=keepNS,showurl=showurl,neigh=neigh,kp=kp,FlankingDistance=FlankingDistance)
+   newsnps<-AnnotateSNPList(snplist,filename,hyper=hyper,xldiv=xldiv,quiet=quiet,smt=smt,sme=sme,div=div,keeplocusIDs=keeplocusIDs,keepNS=keepNS,showurl=showurl,neigh=neigh,kp=kp,FlankingDistance=FlankingDistance)
    return(newsnps)  
    }
 

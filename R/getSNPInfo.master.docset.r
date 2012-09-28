@@ -41,10 +41,10 @@ getSNPInfo.master.docset<-function(trimmedSNPnames,batchsize=200,showurl=FALSE,p
          }
       }
    if(nrow(TotalSNPData[TotalSNPData$chrpos==0,])>0)
-      writeLines("Note: Some SNPs were not found. They have a chrpos of zero.")
+      writeLines("Note: Some SNP locations could not be found. They have a chrpos of zero.")
    if(nrow(TotalSNPData[TotalSNPData$dupl_loc!="",])>0)
       writeLines("Note: Some SNPs were found in more than one location.")
-     TotalSNPData$current.rsid<-gsub("^[[:blank:]]*([[:print:]]*)[[:blank:]]has merged into[[:blank:]]*([[:print:]]*)[[:blank:]]*$","\\2",TotalSNPData$marker)
+
    TotalSNPData$marker<-gsub("^[[:blank:]]*([[:print:]]*)[[:blank:]]has merged into[[:blank:]]*([[:print:]]*)$[[:blank:]]*","\\1",TotalSNPData$marker)
    TotalSNPData$marker<-gsub(" ","",TotalSNPData$marker)
    TotalSNPData$current.rsid<-gsub(" ","",TotalSNPData$current.rsid)

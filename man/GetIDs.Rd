@@ -46,31 +46,39 @@ These two arguments are for checking that your requests are being understood cor
 This list of LocusIDs can then be used to obtain more information about the genes, or used as a list of candidates for ScanForGenes.
 You can use this function within other queries as shown below in the example.
 
+This query is best used for one gene at a time but there are ways to do more than one gene at a time.
+
 Each object within NCBI gets a unique identifier - different for each database.
 
-Each use of this function represents a single query of NCBI.
+Each use of this function represents a single query of NCBI. By including more than one search term
+the number of times this function needs to be run will be reduced. However, please see the warnings
+below.
+
 }
 \value{
 A vector of ID numbers specific to the database you queried.
 }
 \references{
-For more information about filters and limits
+For more Information about filters and limits that can be used on the website and this NCBI2R package (not affiliated with NCBI) please see the following page for NCBI's Gene database page
+http://www.ncbi.nlm.nih.gov/books/NBK3841/table/
 
-Fields, filters, and properties in Entrez Genes
+On that webpage there are two useful tables that may be consulted to design your own queries for some NCBI2R functions.
 
-http://www.ncbi.nlm.nih.gov/books/bv.fcgi?highlight=filter&rid=helpgene.table.EntrezGene.T3
+Table 4 - Filter sets
+Table 5. - Fields sets
 
-Filter sets
-
-http://www.ncbi.nlm.nih.gov/books/bv.fcgi?highlight=filter&rid=helpgene.table.EntrezGene.T4
-
-
+This links were checked 24 September 2012. If they are not there, please let me know via the package website.
+http://ncbi2r.wordpress.com
 }
 \author{
 Scott Melville
 }
 
 \section{Warning}{
+
+If you query more than one search term at a time (separated by a pipe symbol as shown below),
+the IDs returned may not be in the order that you expect so check carefully.
+
 These functions use NCBI's eutils, and come with the same user requirements - if
 performing many queries, you must run the scripts during certain hours when the
 NCBI servers are not in high demand. Please see the package website for more details
@@ -81,15 +89,19 @@ Violation of the terms described there, and the terms on the eutils website may
 result in losing access to NCBI for your group. But remember, the average user should have no problems at all. NCBI2R inserts delays most of the times - it's only going to be if you are performing large numbers of queries in a short space of time.
 }
 
+\seealso{
+\code{\link{PrintFilters}}.
+}
+
 \examples{
 
 s<-GetIDs("Cdc42[go]")
 
 \donttest{
-#These are examples that won't be checked in package testing to save time
 GetIDs("bone")  #Get all genes that have anything to do with bone (#def=?)
 GetIDs("bone[DIS]")  #Get all genes that have anything to do with bone disease
 GetIDs("CLN5[sym]", org="dog")
+GetIDs("CLN5[SYM]|APOE[SYM]") #this performs queries for two genes at the same time.
 s<-GetIDs("Cdc42 protein signal transduction[go]")
 t<-GetGeneInfo(s)
 }

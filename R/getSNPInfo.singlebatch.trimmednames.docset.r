@@ -9,29 +9,27 @@ getSNPInfo.singlebatch.trimmednames.docset<-function(trimmedSNPs,showurl=FALSE)
    old20120618LineRecords<-grep("^[[:digit:]]+:[[:space:]]",webget)
    LineRecords<-sort(c(old20120618LineRecords,new20120618LineRecords))
    ThisPageSNPs<-as.data.frame(cbind(LineRecords,marker="",genesymbol="",locusID="",chr="",chrpos=0,fxn_class="",species="",dupl_loc="",current.rsid="",flag=0),stringsAsFactors=FALSE)
-   Species_lines<-grep(" \\[[[:alpha:]]+[[:space:]][[:alpha:]]+\\]",webget)
+   Species_lines<-grep("\\[[[:alpha:]]+[[:space:]][[:alpha:]]+\\]",webget)
    if(length(Species_lines!=0))
       {
-      Species_text<-strsplitdbl(webget[Species_lines]," \\[","\\]")
+      Species_text<-strsplitdbl(webget[Species_lines],"\\[","\\]")
       ThisPageSNPs$species<-alignsData(Species_lines,Species_text,LineRecords)
       warnText<-gsub("[[:print:]]*\\]([[:print:]]*)?","\\1",webget[Species_lines])
       ThisPageSNPs$flag[alignsData(Species_lines,warnText,LineRecords)!=""]<-1
       }
-   SNPID_B_lines<-grep("cannot get document summary",webget) 
-   SNPID_A_lines<-LineRecords[!(LineRecords %in% SNPID_B_lines)]
+   SNPID_B_lines<-grep("cannot get document summary",webget)
+   if(length(SNPID_B_lines)>0)
+     {
+     SNPID_A_lines<-LineRecords[!(LineRecords %in% (SNPID_B_lines-1))]
+     } else {
+     SNPID_A_lines<-LineRecords
+     }
 
    if(length(SNPID_A_lines)!=0 & length(SNPID_B_lines)!=0)
        {
-       SNPID_A_text<-strsplitdbl(webget[SNPID_A_lines],": "," \\[")
-       SNPID_B_text<-paste("rs",strsplitdbl(webget[SNPID_B_lines],"id: "," Error occurred"),sep="") 
-       ThisPageSNPs$SNPID_A<-as.character(alignsData(SNPID_A_lines,SNPID_A_text,LineRecords))
-       ThisPageSNPs$SNPID_B<-as.character(alignsData(SNPID_B_lines,SNPID_B_text,LineRecords))
-       ThisPageSNPs$marker[is.na(ThisPageSNPs$SNPID_A)]<-ThisPageSNPs$SNPID_B[is.na(ThisPageSNPs$SNPID_A)]
-       ThisPageSNPs$marker[is.na(ThisPageSNPs$SNPID_B)]<-ThisPageSNPs$SNPID_A[is.na(ThisPageSNPs$SNPID_B)]
-       ThisPageSNPs$SNPID_A<-NULL
-       ThisPageSNPs$SNPID_B<-NULL
+       ThisPageSNPs$marker<-gsub("^(rs[[:digit:]]*)[[:blank:]]*\\[[[:print:]]*","\\1",webget[sort(c(SNPID_A_lines,SNPID_B_lines-1))])
+       ThisPageSNPs$current.rsid[grep("merged into",webget[sort(c(SNPID_A_lines,SNPID_B_lines-1))])]<-gsub("^(rs[[:digit:]]*) has merged into (rs[[:digit:]]*)[[:print:]]*$","\\2",webget[sort(c(SNPID_A_lines,SNPID_B_lines-1))][grep("merged into",webget[sort(c(SNPID_A_lines,SNPID_B_lines-1))])])
        }
-
    if(length(SNPID_A_lines)==0 & length(SNPID_B_lines)==0)
        {
        print("ITEMS: NONE FOUND")
@@ -40,14 +38,24 @@ getSNPInfo.singlebatch.trimmednames.docset<-function(trimmedSNPs,showurl=FALSE)
        stop("No SNP data was available. Error code is E01")
        }
    if(length(SNPID_A_lines)==0 & length(SNPID_B_lines)!=0)
-       ThisPageSNPs$marker<-gsub("^(rs[[:digit:]]+)[[:blank:]][[:print:]]*","\\1",webget[SNPID_A_lines])
+       {
+       ThisPageSNPs$marker<-gsub("^(rs[[:digit:]]+)[[:blank:]][[:print:]]*","\\1",webget[SNPID_B_lines-1])
+       ThisPageSNPs$current.rsid[grep("merged into",webget[SNPID_B_lines-1])]<-gsub("^(rs[[:digit:]]*) has merged into (rs[[:digit:]]*)[[:print:]]*$","\\2",webget[SNPID_B_lines-1][grep("merged into",webget[SNPID_B_lines-1])])
+       }
    if(length(SNPID_A_lines)!=0 & length(SNPID_B_lines)==0)
+       {
        ThisPageSNPs$marker<-gsub("^(rs[[:digit:]]+)[[:blank:]][[:print:]]*","\\1",webget[SNPID_A_lines])
+       ThisPageSNPs$current.rsid[grep("merged into",webget[SNPID_A_lines])]<-gsub("^(rs[[:digit:]]*) has merged into (rs[[:digit:]]*)[[:print:]]*$","\\2",webget[SNPID_A_lines][grep("merged into",webget[SNPID_A_lines])])
+     }
+
+
+
+
    GENE_lines<-grep("GENE=",webget)
    if(length(GENE_lines)!=0)
       GENE_text<-substr(webget[GENE_lines],6,nchar(webget[GENE_lines]))
    LOCUSID_lines<-grep("^LOCUS_ID=",webget)
-   LOCUSID_text<-substr(webget[LOCUSID_lines],10,nchar(webget[LOCUSID_lines])-1)
+   LOCUSID_text<-substr(webget[LOCUSID_lines],10,nchar(webget[LOCUSID_lines]))
    if(length(LOCUSID_lines)!=0)
       {
       ThisPageSNPs$genesymbol<-alignsData(GENE_lines,GENE_text,LineRecords)
@@ -73,6 +81,16 @@ getSNPInfo.singlebatch.trimmednames.docset<-function(trimmedSNPs,showurl=FALSE)
        BP_text<-as.numeric(do.call(cbind,strsplit(CHRPOS_text,":"))[2,])
        ThisPageSNPs$chrpos<-alignsData(CHRPOS_lines,BP_text,LineRecords)
        }
+       
+
+   ThisPageSNPs$chr[is.na(ThisPageSNPs$chr)]<-""
+   ThisPageSNPs$chrpos[is.na(ThisPageSNPs$chrpos)]<-0
+   ThisPageSNPs$species[is.na(ThisPageSNPs$species)]<-""
+   
    ThisPageSNPs$LineRecords<-NULL
+
+   ThisPageSNPs$marker<-gsub("^(rs[[:digit:]]+)[[:print:]]*$","\\1",ThisPageSNPs$marker)
+   ThisPageSNPs$current.rsid[ThisPageSNPs$current.rsid=="" & ThisPageSNPs$chrpos!=0]<-ThisPageSNPs$marker[ThisPageSNPs$current.rsid=="" & ThisPageSNPs$chrpos!=0]
    return(ThisPageSNPs)
    }
+

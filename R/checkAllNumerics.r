@@ -1,8 +1,10 @@
 
 checkAllNumerics<-function(vec)
   {
+  if(class(vec)=="data.frame")
+    stop("NCBI2R Error E61: Expecting a vector of values")
   if(class(vec)=="factor")
-    stop("Cannot use values that are factors")
+    stop("NCBI2R Error E62: Cannot use values that are factors")
   if(class(vec)=="numeric")
     {
     return(TRUE)

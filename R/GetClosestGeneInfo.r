@@ -8,16 +8,25 @@ GetClosestGeneInfo<-function(listofSNPs,FlankingDistance=100000,lb=TRUE)
    gsi<-try(GetSNPInfo(listofSNPs))
    if(class(gsi)=="try-error")
      stop("GetClosestGene failed due to an error in GetSNPInfo")
+
+   zeropos<-gsi[gsi$chrpos==0,]
+   gsi<-gsi[gsi$chrpos!=0,]
+
    internalgenes<-unique(unlist(strsplit(gsi$locusID,","))) 
-   missingsnps<-listofSNPs
+   missingsnps<-gsi$marker
    if(length(internalgenes)>0)
       {
-      ggi<-GetGeneInfo(internalgenes) 
+      ggi<-try(GetGeneInfo(internalgenes))
+      if(class(ggi)=="try-error")
+        {
+        errorHandler("GCGI-001")
+        stop("")
+        }
       if(lb)
         ggi<-ggi[grep("not current",ggi$build,invert=TRUE),]
       markers<-gsi$marker[gsi$locusID!=""]
-      sg<-SplitGenes(gsi[gsi$locusID!="",c("marker","genesymbol","locusID")],quiet=TRUE)
-      all.internals<-merge(sg[,c("marker","locusID")],ggi,by="locusID",all=TRUE)
+      sg<-SplitGenes(gsi[gsi$locusID!="",c("marker","genesymbol","locusID","flag")],quiet=TRUE)
+      all.internals<-merge(sg[,c("marker","locusID","flag")],ggi,by="locusID",all=TRUE)
       all.internals$distance<-0
       all.internals<-merge(all.internals,gsi[gsi$locusID!="",c("marker","chrpos")],by="marker",all=TRUE)
       missingsnps<-missingsnps[!(missingsnps %in% all.internals$marker)]
@@ -34,12 +43,16 @@ GetClosestGeneInfo<-function(listofSNPs,FlankingDistance=100000,lb=TRUE)
 
       if(length(neargenes)!=0)
          {
-         ggi<-GetGeneInfo(neargenes)
+         ggi<-try(GetGeneInfo(neargenes))
+         if(class(ggi)=="try-error")
+           stop("NCBI2R error GCGI-005. Unable to use GetGeneInfo within GetClosestGeneInfo")
          if(lb)
             ggi<-ggi[grep("not current",ggi$build,invert=TRUE),]
-         sg<-SplitGenes(gsi[,c("marker","genesymbol","locusID","chrpos")],quiet=TRUE) 
+         sg<-SplitGenes(gsi[,c("marker","genesymbol","locusID","chrpos","flag")],quiet=TRUE)
          sg<-sg[sg$locusID %in% ggi$locusID,]
-         h1<-merge(sg[,c("marker","locusID")],ggi,by="locusID",all=TRUE)
+
+
+         h1<-merge(sg[,c("marker","locusID","flag")],ggi,by="locusID",all=TRUE)
          h1$distance<-999999999
          h1<-merge(h1,sg[,c("marker","chrpos")],by="marker",all=TRUE)
          h1$distance[h1$chrpos<=h1$GeneLowPoint] <- h1$GeneLowPoint[h1$chrpos<=h1$GeneLowPoint] - h1$chrpos[h1$chrpos<=h1$GeneLowPoint]
@@ -47,7 +60,7 @@ GetClosestGeneInfo<-function(listofSNPs,FlankingDistance=100000,lb=TRUE)
          h1$keep<-FALSE;    allmarkers<-unique(h1$marker)
          for(K in 1:length(allmarkers))
             h1$keep[h1$marker==allmarkers[K] & h1$distance==min(h1$distance[h1$marker==allmarkers[K]])]<-TRUE
-         all.externals<-h1[h1$keep==TRUE,]
+         all.externals<-unique(h1[h1$keep==TRUE,])
          all.externals$keep<-NULL
          missingsnps<-missingsnps[!(missingsnps %in% all.externals$marker)]
          }
@@ -62,10 +75,12 @@ GetClosestGeneInfo<-function(listofSNPs,FlankingDistance=100000,lb=TRUE)
    if(class(res)=="data.frame")
       {
       pr.cols<-c("marker","chrpos","distance","genesymbol","locusID","GeneLowPoint","GeneHighPoint")
+
       other<-names(res)[!(names(res) %in% pr.cols)]
       res<-res[,c(pr.cols,other)]
-      res<-res[order(listofSNPs[(listofSNPs %in% res$marker)]),] 
-      row.names(res)<-1:nrow(res)
+
+      res<-try(order.to.original.list(enteredlist=listofSNPs[listofSNPs %in% res$marker],df1=res,keycol="marker"))
+
       }
-    return(list(data=res,snps.no.genes=missingsnps))
+    return(list(data=res,snps.no.genes=missingsnps,snps.unmapped=zeropos$marker))
    }
