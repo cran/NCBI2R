@@ -1,10 +1,10 @@
-f5e4d39952e6977c3c547259aca8ea23 *DESCRIPTION
+d27c093e9a17c93ab854ea84031bf591 *DESCRIPTION
 0f8a33c243f5bd216be763184b3d450c *FAQ
 e4bbb8b02ab50726f80a46568be14b2d *NAMESPACE
 fabfe818f0e9fa68167fa55d18390d91 *R/AdjustGeneTable.r
 31292c155037d4855c3196b5f4710acd *R/AdjustRangeAroundGene.r
 68ef9276787d5d00a13f4b94473c8bab *R/AminoAcids.r
-8e8ffba1f4ddb19d41f700b2fe847095 *R/AnnotateDataframe.r
+2cffff71bfb4c205bf6b830aa9ecec1a *R/AnnotateDataframe.r
 52895bbdb26e947cbdc9218003b6be4b *R/AnnotateSNPFile.r
 86ece6c0abbb0ca732db560143a6ad59 *R/AnnotateSNPList.r
 44f926976cab238f921f84c48f73622d *R/Comp.r
@@ -38,7 +38,7 @@ dc89915bcaa2afca1ff3291d026d4a58 *R/GetPubMed.r
 83da435e894419d14467b02d94c315bd *R/GetPublishedGWAS.r
 c2f3ac4537c189f2dac430d558fea47a *R/GetRegion.r
 ae39f00b816dc0269a5221b0e1f1ebf0 *R/GetSNPCurrent.r
-b4d90daa5183c39f9565937586c5c664 *R/GetSNPFlankSeq.r
+7512f73c8cd4fec7699deaedc32c8c64 *R/GetSNPFlankSeq.r
 71daab4e84235567d2aeca3a7ec2dd06 *R/GetSNPInfo.r
 7303981df540294f21dcffe646e2edc3 *R/GetSNPPosHapMap.r
 535e26565716fe51a553ba29e20d2727 *R/GetSNPProxyInfo.r
@@ -53,7 +53,7 @@ f85d483f7e93b544572b7759adac3b34 *R/GetUniSTSInfo.r
 7c03e26fc58fb350cce0953f5c8fc87c *R/GetUniSTSSpecies.r
 7e5ceb7500425abcbdb2df77a9338a8d *R/IUPAC.r
 706b4fabd8f7c583633b2bf838b291bc *R/MakeExcel.r
-d7c5f80f6cc72a5e7b28f341f0ad26c1 *R/MakeHTML.r
+f9686ed540336a4b4f243e5c5b90edaf *R/MakeHTML.r
 d671dc39864c8cf5081ef1ed37a0d7e5 *R/MedlineAbbreviations.r
 818c2ab260338ddc9b4cc9a22df75df6 *R/MergeSNPsGenes.r
 9d30d2ed2c4b16bd4297948f33fd9d62 *R/NatureJobs.r
@@ -82,7 +82,7 @@ bf44aeb1bdf060ec0bda9cf2b5aef342 *R/UpdateCheck.r
 3668a7d5d0509211836bf02d753e4ba0 *R/change.class.data.frame.r
 6708afa697f0547cbfe71a698241f2ab *R/check.IUPAC.r
 5e730a001d9f4120e57a8df6f9406e62 *R/check.batchsize.r
-4fd986137de83071c370c47466e23a00 *R/check.package.r
+67da24f6d12c2aef95a9271b7b04a2eb *R/check.package.r
 784f99746ee9093e8388945bfd822006 *R/check.platform.or.test.r
 8d3afe5f67219eb72d1e8442583b7f46 *R/checkAllNumerics.r
 42bd2fb3a3940c28d74e41b8ed015755 *R/checkSNPsAllrs.r
@@ -131,7 +131,7 @@ b40d79a2937dc1c57e1afb7dd2809342 *R/getSNPInfo.master.xml.r
 32e7793afb5a1c3b63da9eb2507e2886 *R/move.column.r
 88bb92b0070784393c5e0803e410e0ee *R/ncbi2r.options.default.r
 b8f94dbb74fed9440e82b8c8d38f57c4 *R/ncbi2r.options.r
-1bef868cc36bfbd13adda244cc4c9c2a *R/order.to.original.list.r
+38ae4f954bd6c702155274493bf4e552 *R/order.to.original.list.r
 560d27d3fac2af95b2d12741630bb6d8 *R/parse.chunk.r
 9dad0ca2bde26e77ddb1765cf311dd73 *R/parse.items.r
 6b2c670d79a14409d354aa18f1f2dc81 *R/parseSNPIDLine.r

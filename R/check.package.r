@@ -94,7 +94,7 @@ package.check.status<-function(fn="allerrors.txt",package="NCBI2R")
    }
 
 
-checkPackage<-function(lib.loc=ncbi2r.options()$internal.library.check,v=3,package="NCBI2R",recyc=TRUE)
+checkPackage<-function(lib.loc=NCBI2R:::ncbi2r.options()$internal.library.check,v=3,package="NCBI2R",recyc=TRUE)
    {
    if(v<1 | v>3)
      stop("improper check mode")
@@ -111,7 +111,7 @@ checkPackage.v1<-function(package="NCBI2R")
    write.table(nm[[1]],file="flavorchecks.txt",row.names=FALSE,col.names=TRUE,sep="\t",quote=FALSE)
    print(tt$summary)
    print(nm[[1]])
-    }
+   }
 
 test.examples.from.file<-function(fn)
    {

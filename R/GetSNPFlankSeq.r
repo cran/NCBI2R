@@ -92,26 +92,39 @@ GetSNPFlankSeq<-function(listofSNPs,batchsize=200,showurl=FALSE)
 
         } else {
 
+        nums<-1:length(chunk)
+        p1A<-nums[nchar(chunk)==1]
+        singlematch<-p1A[p1A!=length(chunk)]
+        if(length(singlematch)>0)
+          {
+          VarLineNumber<-max(singlematch)
+          } else {
+          VarLineNumber<-(-Inf)
+          }
 
-      nums<-1:length(chunk)
-      p1A<-nums[nchar(chunk)==1]
-      singlematch<-p1A[p1A!=length(chunk)]   
-      VarLineNumber<-max(singlematch) 
-      if(length(VarLineNumber)>1)
-         {
-          rsline<-gsub(" rs=(.)*","",keylines[startlines[i]-1])
-          badrsID<-gsub("(.)*dbSNP\\|","",rsline)
-          print(paste("NCBI2R Error-GetSNPFlankSeq - unable to parse variation of SNP:",badrsID))
-          stop("Please email the maintainer of the NCBI2R package. Error code E0312")
-         }
-      
-      variation[i]<-chunk[VarLineNumber]
-      five<-chunk[1:((VarLineNumber)-1)]
-      three<-chunk[((VarLineNumber)+1):length(chunk)]
-      fiveprime[i]<-OneLineSequence(five)
-      threeprime[i]<-OneLineSequence(three)
-      }
-      }
+        if(length(VarLineNumber)>1)
+           {
+            rsline<-gsub(" rs=(.)*","",keylines[startlines[i]-1])
+            badrsID<-gsub("(.)*dbSNP\\|","",rsline)
+            print(paste("NCBI2R Error-GetSNPFlankSeq - unable to parse variation of SNP:",badrsID))
+            stop("Please email the maintainer of the NCBI2R package. Error code E0312")
+           }
+        if(VarLineNumber==-Inf)
+           {
+           writeLines("\r")
+           writeLines(paste("Problem on parse.",marker[i]))
+           variation[i]<-""
+           flag[i]<-1
+           } else {
+
+            variation[i]<-chunk[VarLineNumber]
+            five<-chunk[1:((VarLineNumber)-1)]
+            three<-chunk[((VarLineNumber)+1):length(chunk)]
+            fiveprime[i]<-OneLineSequence(five)
+            threeprime[i]<-OneLineSequence(three)
+           }
+        }
+     }
       
     marker<-as.character(marker)
     w<-as.data.frame(cbind(marker,variation,fiveprime,threeprime,flag),stringsAsFactors=FALSE)
@@ -123,8 +136,9 @@ GetSNPFlankSeq<-function(listofSNPs,batchsize=200,showurl=FALSE)
     ThisPageSNPs<-ThisPageSNPs[order(ThisPageSNPs$originalorder),]
     ThisPageSNPs$originalorder<-NULL
     ThisPageSNPs$LineRecords<-NULL
-    if(BatchCounter==1)   {
-        TotalSNPData<-ThisPageSNPs
+    if(BatchCounter==1)
+      {
+      TotalSNPData<-ThisPageSNPs
       } else {
       TotalSNPData<-as.data.frame(rbind(TotalSNPData,ThisPageSNPs))
       }

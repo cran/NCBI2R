@@ -2,13 +2,17 @@ AnnotateDataframe <-
 function(anydf,selections="",filename="",hyper="HYPERLINK",xldiv=";",smt=FALSE,sme=FALSE,div="---",keeplocusIDs=FALSE,keepNS=FALSE,kp=TRUE,quiet=TRUE,neigh=TRUE,showurl=FALSE,FlankingDistance=100000,suppressColCheck=FALSE)
    {
    if(class(anydf)!="data.frame")
-     stop("object was not a data frame")
+      stop("NCBI2R error: object was not a data frame")
    if(selections[1]=="")
-     print("no columns were selected in the data frame. Program will proceed assuming these are the list of markers.")
+      {
+      writeLines("NCBI2R advisory: No columns were selected in the data frame using the selections argument.")
+      writeLines("NCBI2R advisory: Function will work on the first column and assume these are the list of markers.")
+      selections<-names(anydf)[1]
+      print(selections)
+      print(anydf[,selections])
+      }
    if(length(selections)==1 & !suppressColCheck)
-     print("WARNING: only one column was selected from the data frame")
-   if(nrow(anydf)>200)
-      print(paste("Your data frame is",nrow(anydf),"lines long. Program will continue - this is just advice"))
+      writeLines("NCBI2R advisory: only one column was selected from the data frame")
 
    if(selections[1]!="")
       {
@@ -17,11 +21,13 @@ function(anydf,selections="",filename="",hyper="HYPERLINK",xldiv=";",smt=FALSE,s
          {
          writeLines("The following columns were not found in the loaded data frame")
          writeLines(paste(nonmatches,collapse=","))
-         stop(print("NCBI2R error. Please try again."))
+         stop("NCBI2R error. Please try again.")
          }
       }
 
-   snplist<-anydf[,selections[1]]
+   snplist<-unique(anydf[,selections[1]])
+   if(class(snplist)!="character")
+      stop("NCBI2R error: the marker list must be of character class. Factors not allowed")
 
    snps<-GetSNPInfo(snplist,showurl=showurl)
    print("GetSNPInfo has been performed and information for identified genes will now be found.")
@@ -31,12 +37,6 @@ function(anydf,selections="",filename="",hyper="HYPERLINK",xldiv=";",smt=FALSE,s
    org<-unique(snps$species[snps$species!=""])
    snps$species<-NULL
 
-   if(length(selections)>1)
-      {
-      oldnames<-names(snps)
-      snps<-as.data.frame(cbind(snps,anydf[,selections[2:length(selections)]]))
-      names(snps)<-c(oldnames,selections[2:length(selections)])
-      }
   snps<-SplitGenes(snps)
   genes<-try(GetGeneInfo(snps$locusID,div=div,quiet=quiet,showurl=showurl))
    if(class(genes)=="try-error")
@@ -55,13 +55,13 @@ function(anydf,selections="",filename="",hyper="HYPERLINK",xldiv=";",smt=FALSE,s
          }
       newsnps<-try(MergeSNPsGenes(snps,genes,quiet=TRUE))
       if(class(newsnps)=="try-error")
-        stop("NCBI2R error Adf-002: Unable to MergeSNPsGenes within function AnnotateDataframe")
+        stop("NCBI2R error ADf-002: Unable to MergeSNPsGenes within function AnnotateDataframe")
       }
    flush.console()
    if(neigh){
      Nei<-try(GetNeighGenes(newsnps$chr,newsnps$chrpos,org=org,sme=sme,smt=smt,div=div,showurl=showurl,html=TRUE,FlankingDistance=FlankingDistance))
      if(class(Nei)=="try-error")
-        stop("NCBI2R error Adf-003: Unable to use GetNeighGenes within function AnnotateDataframe")
+        stop("NCBI2R error ADf-003: Unable to use GetNeighGenes within function AnnotateDataframe")
      Nei$chr<-NULL
      names(Nei)[1:5]<-paste("N.",names(Nei)[1:5],sep="")
      flush.console()
@@ -69,9 +69,7 @@ function(anydf,selections="",filename="",hyper="HYPERLINK",xldiv=";",smt=FALSE,s
      } else {
      snpsNei<-newsnps
      }
-
-   snpsNei<-order.to.original.list(snps$marker,snpsNei,"marker")
-
+   snpsNei<-order.to.original.list(anydf[,selections],snpsNei,keycol=c(selections[1],"marker"))
    if(filename!="")
       MakeHTML(snpsNei,filename,keeplocusIDs=keeplocusIDs,keepNS=keepNS,kp=kp)
    return(snpsNei)

@@ -198,7 +198,9 @@ function(anydf,filename,compress=TRUE,markercolumn="marker",keeplocusIDs=FALSE,k
       } 
    HTMLpageoutput<-c(HTMLpageoutput,"</table></body></html>")
    write.table(HTMLpageoutput,file=filename,row.names=FALSE, col.names=FALSE, quote=FALSE)
-   a<-writeLines(paste("HTML file was written at ",getwd(),"/",filename,sep=""))
+   a<-try(writeLines(paste("HTML file was written at ",normalizePath(filename),sep="")))
+   if(class(a)=="try-error")
+      a<-writeLines(paste("HTML file was written at ",getwd(),"/",filename,sep=""))
 
    }
     
