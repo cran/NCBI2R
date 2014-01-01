@@ -19,9 +19,8 @@ This data set of fictional GWAS results can demonstrate NCBI2R.
   }
 }
 \details{
-Fictional data used to demonstrate the functions of NCBI2R. This data will
-probably be different in each release of the package as I change it to
-illustrate some new features of NCBI2R.
+Fictional data used to demonstrate the functions of the NCBI2R package.
+This data may be different in each release of the package.
 }
 
 \examples{

@@ -37,7 +37,7 @@ http://www.ncbi.nlm.nih.gov/sites/entrez?db=PubMed
 
 Like most other NCBI2R tools, this function uses eutils:
 
-http://eutils.ncbi.nlm.nih.gov/entrez/query/static/eutils_help.html
+http://www.ncbi.nlm.nih.gov/books/NBK25500
 }
 \author{
 Scott Melville

@@ -12,7 +12,8 @@
 AnnotateDataframe(anydf, selections = "", filename = "", hyper = "HYPERLINK",
                   xldiv = ";", smt = FALSE, sme = FALSE, div = "---",
                   keeplocusIDs = FALSE, keepNS = FALSE, kp = TRUE, quiet = TRUE,
-                  neigh = TRUE, showurl = FALSE, FlankingDistance=100000, suppressColCheck=FALSE)
+                  neigh = TRUE, showurl = FALSE, FlankingDistance=100000, 
+                  suppressColCheck=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -25,7 +25,8 @@ function(webget,LC=1,div=",")
             }
          LC<-LC+1
          }
-      joinedtags[Record]<-""
+      
+    joinedtags[Record]<-""
       for(singlelinechecker in 1:length(ThisRecord))
           joinedtags[Record]<-paste(joinedtags[Record],splitfirst(ThisRecord[singlelinechecker],">")[1])
       if(InteractionText[1]=="") {
@@ -37,7 +38,8 @@ function(webget,LC=1,div=",")
       GoAgain<-FALSE  
       for(simpleloop in LC:(LC+70)) 
          {
-         if(webget[simpleloop]=="<Gene-commentary_type value=&quot;generif&quot;>18</Gene-commentary_type>")
+         if(webget[simpleloop]=="<Gene-commentary_type value=&quot;generif&quot;>18</Gene-commentary_type>"
+        | webget[simpleloop]=="<Gene-commentary_type value=\"generif\">18</Gene-commentary_type>")
             {
             GoAgain<-TRUE
             LC<-simpleloop

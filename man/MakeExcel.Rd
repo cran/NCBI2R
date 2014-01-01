@@ -92,7 +92,9 @@ The number of characters in each cell of Microsoft Excel differs by version.
 Please see the following weblinks for 2003, 2007 and 2010 versions respectively.
 
 http://office.microsoft.com/en-us/excel/HP051992911033.aspx
+
 http://office.microsoft.com/en-us/excel/HP100738491033.aspx
+
 http://office.microsoft.com/en-us/excel/HP010342495.aspx
 
 }

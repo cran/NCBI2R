@@ -34,7 +34,8 @@ http://www.ncbi.nlm.nih.gov/sites/entrez?db=unists
 
 This function, like most of the NCBI tools uses the eutils feature of NCBI
 
-http://eutils.ncbi.nlm.nih.gov/entrez/query/static/eutils_help.html
+http://www.ncbi.nlm.nih.gov/books/NBK25500
+
 }
 \author{
 Scott Melville

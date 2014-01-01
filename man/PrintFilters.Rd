@@ -31,6 +31,6 @@ On that webpage there are two useful tables about Filters and Fields - These can
 Table 4 - Filter sets
 Table 5. - Filter sets
 
-These links were checked 24 September 2012. If they are not there, please let me know via the package website.
+These links were checked 5 January 2014. If the tables are not present at the above NCBI website please let me know via the contact form on the NCBI2R package website.
 http://ncbi2r.wordpress.com
 }

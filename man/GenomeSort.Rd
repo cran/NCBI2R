@@ -50,6 +50,7 @@ The chromosome column is sorted alphabetically (although with leading zeroes as 
 depending on the notation used for some species, the order in the output may not be what you expect.
 }
 \examples{
- a<-as.data.frame(cbind(chr=c("6","X","12"),chrpos=c(123,515,563),value=c("A","C","D"),data=c(19,-51,52.2)),stringsAsFactors=FALSE)
+ a<-as.data.frame(cbind(chr=c("6","X","12"),chrpos=c(123,515,563),value=c("A","C","D"),
+       data=c(19,-51,52.2)),stringsAsFactors=FALSE)
  GenomeSort(a)
 }

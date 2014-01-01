@@ -12,7 +12,7 @@ pn<-function(verbose=FALSE,on.test=FALSE)
    if(verbose==TRUE) 
      print(paste("ping check will be done",a2))
    a<-Rev("yl.tib//:ptth",ACGT=FALSE)
-   b<-c("J3mh8e","I2A5j5","J08OQT","J4pXnD")
+   b<-c("1d9d52H","JVL8hZ","1gagj4d","19KTzcn")
    sy<-c("windows","mac","unix","test")
    if(!a2 %in% sy)
       a2<-"test"
