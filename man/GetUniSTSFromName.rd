@@ -67,11 +67,13 @@ result in losing access to NCBI for your group.
 
 \examples{
 
-w<-GetUniSTSFromName("D3S1234") #this does the same as x and y together
+#Not run:
 
-x<-GetIDs("D3S1234",db="UniSTS")
-y<-GetUniSTSInfo(x)     #x and y do the same as step w above
+#w<-GetUniSTSFromName("D3S1234") #this does the same as x and y together
 
-z<-GetUniSTSSpecies(x)
+#x<-GetIDs("D3S1234",db="UniSTS")
+#y<-GetUniSTSInfo(x)     #x and y do the same as step w above
+
+#z<-GetUniSTSSpecies(x)
 
 }

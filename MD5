@@ -1,4 +1,4 @@
-9c2d6fc05022e5be045041e211c4ed1e *DESCRIPTION
+d62daeeca47e1f70839d1bf39c6e5ebb *DESCRIPTION
 e4bbb8b02ab50726f80a46568be14b2d *NAMESPACE
 fabfe818f0e9fa68167fa55d18390d91 *R/AdjustGeneTable.r
 31292c155037d4855c3196b5f4710acd *R/AdjustRangeAroundGene.r
@@ -202,9 +202,9 @@ a5161590dd24078aed453a83367abf04 *man/GetSNPsInGenes.Rd
 f906a8635c0a3556638d142221fb6346 *man/GetSNPsInRegion.Rd
 ef7622d22c8c8fbfddad8a77ef549f5b *man/GetTax.Rd
 f378058f70e130dd7cf5c4cebc279a5e *man/GetTaxInfo.Rd
-1fe3be3704c2bea6d90363c586f14a32 *man/GetUniSTSFromName.rd
-e9350954cad0867ccfcaed56670ce64c *man/GetUniSTSInfo.rd
-aeaf83d8c224b0e8d003e6d1b37a21e2 *man/GetUniSTSSpecies.rd
+942fda278f581dae4fd2d0eab109983f *man/GetUniSTSFromName.rd
+6b372781cbe3c10884ca8467d83a3068 *man/GetUniSTSInfo.rd
+d92d30ef84d671bf1aeee40e51515c12 *man/GetUniSTSSpecies.rd
 c7764e857e1cf2514757fa9d226f4128 *man/IUPAC.rd
 4cfa3dbc5265a4a83d1cea262e01e690 *man/MakeExcel.Rd
 502cb9b06c9e6dcee7916f8ac96d3385 *man/MakeHTML.Rd
