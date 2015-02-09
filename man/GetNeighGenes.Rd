@@ -95,7 +95,6 @@ result in losing access to NCBI for your group.
 \code{\link{GetClosestGeneInfo}, \link{GetRegion}, \link{DivideString}.}
 }
 \examples{
-
 \donttest{
 #Next cmd will looks at the genes within 100 kbp on either side of the location on chr 4
 a<-GetNeighGenes("4",123456789,100000)

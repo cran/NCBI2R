@@ -54,8 +54,9 @@ The position of any SNP on the HapMap website may not be the latest NCBI build -
 \code{\link{GetGeneInfo}}.
 }
 \examples{
+\donttest{
 a<-GetSNPPosHapMap("rs1234567")
 b<-GetSNPInfo("rs1234567")
-
+}
 }
 

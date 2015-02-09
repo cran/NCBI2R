@@ -60,7 +60,7 @@ Scott Melville
 \code{\link{AminoAcids}}
 }
 \examples{
-
+\donttest{
 ConvertProtein(c("A","R","T","K","R"),abbrev="aa3")  #aa1 -> aa3
 ConvertProtein(c("A","R","T","K","R"),abbrev="aa1")  #aa1 -> aa1 (no change)
 ConvertProtein(c("A","R","T","K","R"),abbrev="aalong")  #aa1 -> aalong
@@ -69,5 +69,5 @@ ConvertProtein(c("Arg","Ala","Lys"),abbrev="aa1")
 ConvertProtein(c("Arg","Ala","Lys"),abbrev="aalong")
 ConvertProtein(c("A>T","T>K","M>T"))
 ConvertProtein(c("Ala>Thr","Thr>Lys","Met>Thr"),abbrev="aalong")
-
+}
 }

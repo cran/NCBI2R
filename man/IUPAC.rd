@@ -42,7 +42,9 @@ Scott Melville
 
 
 \examples{
+\donttest{
 VariationChart<-IUPAC()
 ConvertIUPAC(c("T","K","R","W"))
 ConvertIUPAC(c("A/C","A/G","A/C/G/T"))
+}
 }

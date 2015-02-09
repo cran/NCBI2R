@@ -76,8 +76,9 @@ space of time.
 \code{\link{GetTax}}, \code{\link{GetTaxInfo}}.
 }
 \examples{
+\donttest{
 g1<-GetTax("puffinus")
 g2<-GetTaxInfo(g1)
 print(g2)
-
+}
 }

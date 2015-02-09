@@ -134,5 +134,7 @@ result in losing access to NCBI for your group.
 
 
 \examples{
+\donttest{
 a <- GetPubMed("CLN5","My references.tab")
+}
 }

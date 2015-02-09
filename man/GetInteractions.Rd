@@ -45,5 +45,7 @@ Violation of the terms described there, and the terms on the eutils website may
 result in losing access to NCBI for your group.
 }
 \examples{
+\donttest{
 GetInteractions(777)
+}
 }

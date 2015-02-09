@@ -45,9 +45,10 @@ the query (sme).
 }
 }
 \details{
-This is quite literal - it defines the edges of the genes from NCBI, and
-obtains all the SNPs from within that boundary. It does not obtain
-nearby SNPs.
+This function uses the edges of the genes from NCBI, and obtains all the SNPs
+from within those boundaries. It also includes nearby SNPs that NCBI considers
+upstream and downstream SNPs. I recommend using GetSNPInfo to check if your list
+of SNPs includes upstream and downstream SNPs. 
 
 If you wanted to include SNPs from outside the gene, you could use the function
 AdjustRangeAroundGene to find the new genome region and then supply that as
@@ -76,10 +77,12 @@ result in losing access to NCBI for your group.
 \code{\link{GetRegion}}, \code{\link{AdjustRangeAroundGene}}.
 }
 \examples{
+\donttest{
 SingleGene<-GetIDs("CLN5[sym]")    #returns a value of 1203
                                    #default of GetIDs is human
 listSNPs<-GetSNPsInGenes(SingleGene) #obtains the list
 SomeGenes<-GetIDs("CLN5")  #any gene (human as default species)
                            #that contains CLN5 within the gene report.
 LotsOfSNPs<-GetSNPsInGenes(SomeGenes) #obtains the list
+}
 }

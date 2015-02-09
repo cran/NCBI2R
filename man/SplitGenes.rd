@@ -50,7 +50,9 @@ fxn_class will not be divided properly. This is due to the way that NCBI encodes
 \code{\link{GetSNPInfo}}.
 }
 \examples{
+\donttest{
 snplist<-c("rs12345","rs333","rs1003483")
 mySNPs<-GetSNPInfo(snplist)
 splitSNPs<-SplitGenes(mySNPs)
+}
 }

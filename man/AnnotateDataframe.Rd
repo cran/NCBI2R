@@ -98,7 +98,6 @@ result in losing access to NCBI for your group.
 \code{\link{GetGeneInfo}}, \code{\link{GetSNPInfo}}
 }
 \examples{
-
 \donttest{
 data(gwas) #load in sample data
 MyResults<-gwas[gwas$chr==22 & gwas$chrpos>=2000000 & gwas$chrpos<=25001000,]

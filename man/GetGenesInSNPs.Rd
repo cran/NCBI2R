@@ -67,6 +67,8 @@ result in losing access to NCBI for your group.
 \code{\link{GetSNPsInGenes}}, \code{\link{GetSNPInfo}}.
 }
 \examples{
+\donttest{
 snplist<-c("rs1234567","rs61363","rs632163","rs7477823")
 genelist<-GetGenesInSNPs(snplist)
+}
 }

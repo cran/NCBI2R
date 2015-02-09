@@ -20,13 +20,14 @@ This data set of fictional GWAS results can demonstrate NCBI2R.
 }
 \details{
 Fictional data used to demonstrate the functions of the NCBI2R package.
-This data may be different in each release of the package.
+This data may be different in each release of the package. The positions shown
+in this data set may not be the latest build.
 }
 
 \examples{
 \donttest{
 data(gwas)
-GenomeSort(gwas)
+j<-GenomeSort(gwas)
 }
 }
 \author{

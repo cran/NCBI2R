@@ -32,5 +32,7 @@ Scott Melville
 
 
 \examples{
+\donttest{
 ma<-MedlineAbbreviations()
+}
 }

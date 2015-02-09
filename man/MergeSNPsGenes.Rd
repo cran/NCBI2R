@@ -41,12 +41,8 @@ A dataframe.
 Scott Melville.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-
 \examples{
-
- \donttest{
+\donttest{
 snplist<-c("rs71659622","rs333","rs624662")
 mySNPs<-GetSNPInfo(snplist)
 mySNPs<-SplitGenes(mySNPs) #if snp is in >1 genes, data will be split over multiple lines

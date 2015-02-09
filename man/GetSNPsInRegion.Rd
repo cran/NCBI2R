@@ -95,6 +95,8 @@ result in losing access to NCBI for your group.
 \code{\link{GetRegion}}, \code{\link{GetGenesInRegion}}.
 }
 \examples{
+\donttest{
 GetSNPsInRegion("13",123456789,167222333) #same as following line
 GetRegion(db="snp","13",123456789,167222333)#same as previous line
+}
 }

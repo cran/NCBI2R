@@ -91,8 +91,10 @@ result in losing access to NCBI for your group.
 \code{\link{GetRegion}}, \code{\link{GetSNPsInRegion}}.
 }
 \examples{
+\donttest{
 GetGenesInRegion("3",1,1000000) 
 
 GetGenesInRegion("mt",1,100000) #for the mitochondrial genome
 GetRegion(db="gene","mt",1,100000) #works the same as the above line
+}
 }

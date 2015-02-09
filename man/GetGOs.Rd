@@ -49,6 +49,7 @@ result in losing access to NCBI for your group.
 \code{\link{GetIDs}}.
 }
 \examples{
+\donttest{
 GetGOs(1203)
 
 w<-GetGOs(348)
@@ -58,4 +59,4 @@ y<-w[grep("Golgi",w$name),]
 d<-GetIDs("CLN5[sym] human")
 e<-GetGOs(d)
 }
-
+}

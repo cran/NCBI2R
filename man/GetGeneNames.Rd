@@ -50,7 +50,9 @@ result in losing access to NCBI for your group.
 \code{\link{GetGeneInfo}}, \code{\link{GetSNPInfo}}.
 }
 \examples{
+\donttest{
 GetGeneNames(1203)
 a<-GetGeneNames(348)
 a$genesymbol
+}
 }

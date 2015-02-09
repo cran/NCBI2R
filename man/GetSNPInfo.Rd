@@ -105,7 +105,9 @@ result in losing access to NCBI for your group.
 \code{\link{GetGeneInfo}}, \code{\link{GetRegion}}, \code{\link{GetNeighGenes}}, \code{\link{SplitGenes}}.
 }
 \examples{
+\donttest{
 snplist<-c("rs12345","rs333","rs624662")
 mySNPs<-GetSNPInfo(snplist)
 mySNPs<-SplitGenes(mySNPs)
+}
 }

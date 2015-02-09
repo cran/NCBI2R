@@ -34,5 +34,5 @@ This function does not use NCBI or require the internet. The reference table is 
 ref.data<-AminoAcids()
 stop.codons<-ref.data[ref.data$aa1=="*","codon"]
 lysine.abbreviation<-ref.data[ref.data$aalong=="Lysine","aa3"][1]
-
+writeLines(lysine.abbreviation)
 }

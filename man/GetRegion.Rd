@@ -106,6 +106,8 @@ result in losing access to NCBI for your group. But remember, the average light 
 \code{\link{GetGenesInRegion}}, \code{\link{GetSNPsInRegion}}.
 }
 \examples{
+\donttest{
 GetRegion(db="gene","mt",1,100000) #for the mitochondrial genome
-GetRegion(db="snp","13",123456789,200222333) #chromosome must be a character
+GetRegion(db="snp","7",123456789,200222333) 
+}
 }

@@ -1,46 +1,51 @@
-
-getAllCRANMirrors<-function()
-  {
-  allmirrors<-scan("http://cran.r-project.org/mirrors.html",what="character",sep="\n",quiet=TRUE)
-  allmirrors<-allmirrors[grep("http:",allmirrors)]
-  allmirrors<-unique(allmirrors[substr(allmirrors,1,4)=="http"])
-  return(allmirrors)
-  }
-
-checkAvailablePackageVersion<-function(mirror,package="NCBI2R")
+getAllCRANMirrors<-function ()
    {
-   if(missing(mirror))
-     stop("no mirror vector specified")
-   p<-scan(paste(mirror,"web/packages/",package,"/index.html",sep=""),what="character",sep="\n",quiet=TRUE)
-   PkgSrc<-gsub(paste("[[:print:]]*",package,"_([[:print:]]*)\\.tar.gz[[:print:]]*",sep=""),"\\1",p[grep("Package source",p)])
-   MacOS_X<-gsub(paste("[[:print:]]*",package,"_([[:print:]]*)\\.tgz[[:print:]]*",sep=""),"\\1",p[grep("MacOS X binary",p)])
-   Win<-gsub(paste("[[:print:]]*",package,"_([[:print:]]*)\\.zip[[:print:]]*",sep=""),"\\1",p[grep("Windows binary",p)])
-   return(as.data.frame(cbind(PkgSrc=PkgSrc,MacOS_X=MacOS_X,Win=Win),stringsAsFactors=FALSE))
+   allmirrors <- scan("http://cran.r-project.org/mirrors.html",
+        what = "character", sep = "\n", quiet = TRUE)
+   allmirrors <- gsub("[[:print:]]*(http[[:print:]]*)</a>","\\1",allmirrors[grep("http:", allmirrors)])
+   allmirrors <- unique(allmirrors[substr(allmirrors, 1, 4) ==
+        "http"])
+   return(allmirrors)
    }
 
-getPackageVersionsOnAllMirrors<-function(package="NCBI2R")
+checkAvailablePackageVersion<-function (mirror, package = "NCBI2R")
    {
-   t1<-getAllCRANMirrors()
-   mdf<-as.data.frame(cbind(mirror=t1,PkgSrc="NA",MacOS_X="NA",Win="NA"),stringsAsFactors=FALSE)
-   for(m in 1:length(t1))
-     {
-     cat(paste("\r",as.character(m),"of",length(t1)))
-     flush.console()
-     j<-try(checkAvailablePackageVersion(t1[m],package=package))
-     if(class(j)!="try-error")
-       mdf[m,2:4]<-j
-     }
-  versions<-sort(unique(c(mdf[,2],mdf[,3],mdf[,4]))) 
-  t234<-as.data.frame(matrix(0,ncol=length(versions),nrow=3))
-  row.names(t234)<-c("Src","Mac","Win")
-  names(t234)<-versions
-  for(k in 1:3)
-    {
-    for(l in 1:length(versions))
-      t234[k,l]<-nrow(mdf[mdf[,k+1]==versions[l],])
-    }
+    if (missing(mirror))
+        stop("no mirror vector specified")
+    p <- scan(paste(mirror, "web/packages/", package, "/index.html",
+        sep = ""), what = "character", sep = "\n", quiet = TRUE)
+    PkgSrc <- gsub(paste("[[:print:]]*", package, "_([[:print:]]*)\\.tar.gz[[:print:]]*",sep = ""), "\\1", p[grep("Package&nbsp;source", p)+1])
+    MacOS_X <- gsub(paste("[[:print:]]*", package, "_([[:print:]]*)\\.tgz[[:print:]]*", sep = ""), "\\1", p[grep("OS&nbsp;X&nbsp;Mavericks&nbsp;binaries", p)+1])
+    Win <- gsub(paste("[[:print:]]*", package, "_([[:print:]]*)\\.zip[[:print:]]*", sep = ""), "\\1", p[grep("Windows&nbsp;binaries", p)+1])
+    return(as.data.frame(cbind(PkgSrc = PkgSrc, MacOS_X = MacOS_X,
+        Win = Win), stringsAsFactors = FALSE))
+   }
+
+getPackageVersionsOnAllMirrors<-function (package = "NCBI2R")
+   {
+   t1 <- getAllCRANMirrors()
+   mdf <- as.data.frame(cbind(mirror = t1, PkgSrc = "NA", MacOS_X = "NA",
+        Win = "NA"), stringsAsFactors = FALSE)
+   for (m in 1:length(t1)) {
+        cat(paste("\r", as.character(m), "of", length(t1),t1[m],"                          "))
+        flush.console()
+        j <- try(checkAvailablePackageVersion(t1[m], package = package))
+        if (class(j) != "try-error")
+           {if(nrow(j)==1)
+            mdf[m, 2:4] <- j
+           }
+      }
+   versions <- sort(unique(c(mdf[, 2], mdf[, 3], mdf[, 4])))
+   t234 <- as.data.frame(matrix(0, ncol = length(versions),
+       nrow = 3))
+   row.names(t234) <- c("Src", "Mac", "Win")
+   names(t234) <- versions
+   for (k in 1:3) {
+        for (l in 1:length(versions)) t234[k, l] <- nrow(mdf[mdf[,
+            k + 1] == versions[l], ])
+      }
    print(t234)
-   return(list(bySite=mdf,summary=t234))
+   return(list(bySite = mdf, summary = t234))
    }
 
 

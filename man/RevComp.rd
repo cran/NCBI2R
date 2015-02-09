@@ -34,7 +34,9 @@ Scott Melville
 \code{\link{Comp}}, \code{\link{Rev}}.
 }
 \examples{
+\donttest{
 Comp("AAAAGGGGTTTTCCA")
 Rev("AAAAGGGGTTTTCCA")
 RevComp("AAAAGGGGTTTTCCA")
+}
 }

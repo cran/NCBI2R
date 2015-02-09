@@ -94,10 +94,8 @@ result in losing access to NCBI for your group. But remember, the average user s
 }
 
 \examples{
-
-s<-GetIDs("Cdc42[go]")
-
 \donttest{
+s<-GetIDs("Cdc42[go]")
 GetIDs("bone")  #Get all genes that have anything to do with bone (#def=?)
 GetIDs("bone[DIS]")  #Get all genes that have anything to do with bone disease
 GetIDs("CLN5[sym]", org="dog")
@@ -105,5 +103,4 @@ GetIDs("CLN5[SYM]|APOE[SYM]") #this performs queries for two genes at the same t
 s<-GetIDs("Cdc42 protein signal transduction[go]")
 t<-GetGeneInfo(s)
 }
-
 }

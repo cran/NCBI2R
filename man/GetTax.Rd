@@ -67,7 +67,9 @@ result in losing access to NCBI for your group.
 }
 
 \examples{
+\donttest{
 GetTax("dog")
 GetTax("Mus musculus")
 GetTax("dog | human")  #The symbol between the two species means OR
+}
 }

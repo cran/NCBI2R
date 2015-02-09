@@ -62,7 +62,6 @@ time today has already happened, it will not place any delay.
 }
 
 \examples{
-
 \donttest{
 ##   Delays until 1:05 AM of the current day - which may have already passed.
 DelayUntil(hours=1,minutes=05)
